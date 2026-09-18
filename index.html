@@ -1,0 +1,1401 @@
+:<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Automated Learning System</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#e8f1ff 0%,#f7f9fc 48%,#fff4e5 100%);
+    color:#172033;
+    min-height:100vh
+}
+
+.container{
+    max-width:960px;
+    margin:auto;
+    padding:32px 20px
+}
+
+.card{
+    background:white;
+    padding:32px;
+    border-radius:20px;
+    box-shadow:0 12px 40px #23406b18;
+    margin-top:30px
+}
+
+h1,h2{
+    text-align:center
+}
+
+h1{margin:0 0 10px;font-size:clamp(28px,5vw,42px)}
+h2{color:#34415a}
+
+input,button{
+    width:100%;
+    padding:13px;
+    margin:7px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:16px
+}
+
+button{
+    background:#222;
+    color:white;
+    border:0;
+    cursor:pointer
+}
+
+button:hover{
+    opacity:.85
+}
+
+.secondary-button{background:#e8eef9;color:#284875}
+
+.subject{
+    background:#f5f8ff;
+    border:1px solid #e0e8f7;
+    padding:20px;
+    margin:10px 0;
+    border-radius:14px;
+    cursor:pointer;
+    transition:transform .2s,box-shadow .2s
+}
+
+.subject:hover{
+    background:#edf3ff;
+    transform:translateY(-3px);
+    box-shadow:0 8px 18px #23406b18
+}
+
+.dashboard-header{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:26px}
+.dashboard-header h1{text-align:left}
+.eyebrow{color:#5471a6;font-size:13px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;margin:0 0 8px}
+.welcome-copy{color:#69758b;margin:0}
+.student-badge{background:#172033;color:white;border-radius:14px;padding:12px 16px;white-space:nowrap}
+.student-badge small{display:block;color:#b9c8e4;font-size:11px;margin-bottom:3px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.stat{padding:18px;border-radius:14px;background:#f7f9fc;border:1px solid #e7ebf3}
+.stat strong{display:block;font-size:28px;color:#172033;margin-bottom:4px}
+.stat span{color:#718097;font-size:13px}
+.section-heading{display:flex;justify-content:space-between;align-items:center;margin:24px 0 12px}
+.section-heading h2{text-align:left;margin:0;font-size:21px}
+.section-heading p{color:#718097;font-size:13px;margin:0}
+.subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.subject{margin:0;position:relative}
+.subject-top{display:flex;align-items:center;gap:12px}
+.subject-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;font-size:21px;background:#dceaff}
+.subject h3{margin:0;font-size:17px}
+.subject p{color:#718097;font-size:13px;margin:8px 0 12px}
+.progress{height:7px;background:#e5eaf3;border-radius:99px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:#4e7bd9;border-radius:inherit}
+.activity{border-top:1px solid #e7ebf3;padding-top:14px;color:#718097;font-size:14px}
+.activity strong{color:#172033}
+.teacher-link{background:transparent;color:#5471a6;margin-top:12px}
+.teacher-login{display:none;margin-top:18px;padding-top:18px;border-top:1px solid #e7ebf3}
+.teacher-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.student-report{padding:16px;border:1px solid #e1e7f1;border-radius:14px;background:#f9fbff}
+.student-report h3{margin:0 0 10px}
+.report-line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;color:#68758b;font-size:13px}
+.report-line strong{color:#172033}
+.report-progress{height:6px;background:#e1e7f1;border-radius:99px;overflow:hidden;margin-top:3px}
+.report-progress span{display:block;height:100%;background:#4e7bd9}
+.attempt-details{margin-top:14px;border-top:1px solid #e1e7f1;padding-top:10px}
+.attempt-details summary{cursor:pointer;color:#284875;font-weight:bold;font-size:13px}
+.answer-row{padding:10px 0;border-bottom:1px solid #e7ebf3;font-size:13px}
+.answer-row:last-child{border-bottom:0}
+.answer-row p{margin:4px 0;color:#68758b}
+.answer-row strong{color:#172033}
+.answer-row.wrong{background:#fff4f2;padding-left:8px;border-radius:6px}
+.wrong-label{color:#c34b3d!important}
+.builder{margin-top:24px;padding-top:20px;border-top:1px solid #e1e7f1}
+.builder-note{color:#68758b;font-size:13px;line-height:1.5}
+.draft-question{padding:14px;margin:10px 0;border:1px solid #e1e7f1;border-radius:10px;background:#f9fbff}
+.draft-question input{margin:4px 0;padding:9px;font-size:14px}
+.published-test{background:#eef8f2;border-color:#cce8d7}
+.test-management{margin-bottom:22px}
+.test-management-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid #e1e7f1;border-radius:10px;margin:8px 0;background:#f9fbff}
+.test-management-item button{width:auto;margin:0;padding:9px 14px}
+.strand-select{width:100%;padding:9px;margin:0 0 12px;border:1px solid #d7dfed;border-radius:8px;background:white;color:#172033}
+.strand-group{margin:18px 0 26px}
+.strand-heading{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #dce5f3;padding-bottom:8px;margin-bottom:12px;color:#284875}
+.strand-heading h3{margin:0}
+.strand-heading span{font-size:13px;color:#718097}
+.remote-panel{margin-top:24px;padding:20px;border:1px solid #d9e6f3;border-radius:14px;background:#f3f9ff}
+.remote-panel h2{margin:0 0 8px;text-align:left}
+.remote-panel p{color:#68758b;font-size:13px;line-height:1.5}
+.remote-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.remote-grid input,.remote-grid select{width:100%;padding:11px;border:1px solid #d7dfed;border-radius:8px;background:white;font-size:14px}
+.sync-status{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;padding:12px 14px;border-radius:10px;background:white;border:1px solid #e1e7f1;color:#68758b;font-size:13px}
+.sync-status strong{color:#172033}
+.sync-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#efad42;margin-right:6px}
+.sync-dot.online{background:#35a66b}
+.remote-queue{margin-top:12px}
+.remote-queue-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid #dce6f1;border-radius:10px;margin-top:8px;background:white;font-size:13px}
+.remote-queue-item button{width:auto;margin:0;padding:8px 12px}
+.ai-panel{margin-top:18px;padding:20px;border:1px solid #eadcc5;border-radius:14px;background:#fffaf1}
+.ai-panel h2{margin:0 0 8px;text-align:left}
+.ai-panel p{color:#756b5b;font-size:13px;line-height:1.5}
+.ai-panel input,.ai-panel select{width:100%;padding:11px;border:1px solid #ded4c3;border-radius:8px;background:white;font-size:14px;margin:6px 0}
+
+.choice{
+    display:block;
+    background:#f5f5f5;
+    padding:13px;
+    margin:8px 0;
+    border-radius:8px
+}
+
+.choice input{
+    width:auto
+}
+
+#home,#test,#result{
+    display:none
+}
+
+#teacher{display:none}
+
+#error{
+    color:red;
+    text-align:center;
+    display:none
+}
+
+.score{
+    font-size:35px;
+    text-align:center;
+    font-weight:bold
+}
+
+.center{
+    text-align:center
+}
+
+.nav{
+    display:flex;
+    gap:8px
+}
+
+.nav button{
+    flex:1
+}
+
+@media(max-width:650px){
+    .container{padding:16px 12px}
+    .card{padding:22px 18px;margin-top:14px}
+    .dashboard-header{align-items:flex-start;flex-direction:column}
+    .student-badge{width:100%}
+    .stats,.subjects{grid-template-columns:1fr}
+    .remote-grid{grid-template-columns:1fr}
+    .sync-status,.remote-queue-item{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LOGIN PAGE -->
+<div id="login" class="card">
+
+    <h1>Automated Learning System</h1>
+
+    <h2>Student Login</h2>
+
+    <input
+        id="user"
+        type="text"
+        placeholder="Username / Student Name"
+    >
+
+    <input
+        id="pass"
+        type="password"
+        placeholder="Password"
+    >
+
+    <select id="strand">
+        <option value="">Select strand when creating an account</option>
+        <option value="STEM">STEM</option>
+        <option value="HUMMS">HUMMS</option>
+        <option value="GAS">GAS</option>
+        <option value="ICT">ICT</option>
+        <option value="HE">HE</option>
+        <option value="ABM">ABM</option>
+    </select>
+
+    <button onclick="loginUser()">LOGIN</button>
+
+    <button class="secondary-button" onclick="createAccount()">CREATE ACCOUNT</button>
+
+    <button class="teacher-link" onclick="showTeacherLogin()">TEACHER VIEW</button>
+
+    <div class="teacher-login" id="teacherLogin">
+        <input id="teacherUser" type="text" placeholder="Teacher username">
+        <input id="teacherPass" type="password" placeholder="Teacher password">
+        <button onclick="loginTeacher()">OPEN TEACHER DASHBOARD</button>
+    </div>
+
+    <p id="error">
+        Please enter a username and password.
+    </p>
+
+</div>
+
+<!-- TEACHER DASHBOARD -->
+<div id="teacher" class="card">
+    <div class="dashboard-header">
+        <div>
+            <p class="eyebrow">Teacher view</p>
+            <h1>Student progress</h1>
+            <p class="welcome-copy">Review quiz completion and subject scores.</p>
+        </div>
+        <button class="secondary-button" onclick="backToLogin()">LOG OUT</button>
+    </div>
+    <div class="section-heading"><h2>Registered students</h2><p id="studentTotal"></p></div>
+    <div class="teacher-grid" id="studentReports"></div>
+
+    <div class="remote-panel">
+        <p class="eyebrow">Remote delivery</p>
+        <h2>Send a test to the ESP32</h2>
+        <p>Upload a JSON or text test package from home. The connected ESP32 can check the shared queue and save new tests to its microSD card.</p>
+        <div class="remote-grid">
+            <input id="remoteTestTitle" type="text" placeholder="Test title">
+            <select id="remoteTestSubject">
+                <option value="General">General subject</option>
+                <option value="Research">Practical Research II</option>
+                <option value="Mathematics">Basic Mathematics</option>
+                <option value="Science">Science</option>
+                <option value="English">English</option>
+            </select>
+        </div>
+        <input id="remoteTestFile" type="file" accept=".json,.txt">
+        <button onclick="uploadRemoteTest()">UPLOAD AND PUBLISH TEST</button>
+        <div class="sync-status"><span><span id="syncDot" class="sync-dot"></span><strong id="deviceStatus">ESP32 waiting for sync</strong></span><span id="lastSync">No sync recorded</span></div>
+        <div id="remoteQueue" class="remote-queue"></div>
+    </div>
+
+    <div class="ai-panel">
+        <p class="eyebrow">AI test maker</p>
+        <h2>Convert a lesson into a test</h2>
+        <p>Upload a PDF, Word document, or PowerPoint lesson. The server extracts the lesson text and prepares editable questions for teacher review.</p>
+        <input id="aiTestTitle" type="text" placeholder="Test title (optional)">
+        <select id="aiTestSubject">
+            <option value="General">General subject</option>
+            <option value="Research">Practical Research II</option>
+            <option value="Mathematics">Basic Mathematics</option>
+            <option value="Science">Science</option>
+            <option value="English">English</option>
+        </select>
+        <input id="aiLessonFile" type="file" accept=".pdf,.docx,.pptx">
+        <button onclick="convertLessonToTest()">CONVERT LESSON TO TEST</button>
+        <div id="aiStatus" class="activity"></div>
+    </div>
+
+    <div class="builder">
+        <div class="section-heading"><h2>Create or edit a test</h2></div>
+        <div class="test-management" id="testManagement"></div>
+        <p class="builder-note">Paste questions in this format: Question, A, B, C, D, Answer. Leave a blank line between questions, then review the draft before publishing.</p>
+        <textarea id="questionText" rows="10" placeholder="Question: What is photosynthesis?&#10;A: Plant respiration&#10;B: Food production in plants&#10;C: Digestion&#10;D: Circulation&#10;Answer: B"></textarea>
+        <button onclick="buildPastedTest()">BUILD TEST DRAFT</button>
+        <div id="builderStatus" class="activity"></div>
+        <div id="draftTest"></div>
+    </div>
+</div>
+
+
+<!-- HOME / LMS DASHBOARD -->
+<div id="home" class="card">
+
+    <div class="dashboard-header">
+        <div>
+            <p class="eyebrow">Student dashboard</p>
+            <h1>Welcome back!</h1>
+            <p class="welcome-copy">Keep learning and test what you know today.</p>
+        </div>
+        <div class="student-badge"><small>LOGGED IN AS</small><b id="name"></b></div>
+    </div>
+
+    <div class="stats">
+        <div class="stat"><strong id="availableCount">4</strong><span>Available subjects</span></div>
+        <div class="stat"><strong id="questionCount">20</strong><span>Total questions</span></div>
+        <div class="stat"><strong id="completedCount">0</strong><span>Tests completed</span></div>
+    </div>
+
+    <div class="section-heading">
+        <h2>Choose a subject</h2>
+        <p>5 questions each</p>
+    </div>
+
+    <div class="subjects">
+        <div class="subject" onclick="startTest('research')">
+            <div class="subject-top"><div class="subject-icon">R</div><h3>Practical Research II</h3></div>
+            <p>Research skills and academic integrity</p><div class="progress"><span data-progress="research"></span></div>
+        </div>
+        <div class="subject" onclick="startTest('math')">
+            <div class="subject-top"><div class="subject-icon">+</div><h3>Basic Mathematics</h3></div>
+            <p>Numbers, operations, and problem solving</p><div class="progress"><span data-progress="math"></span></div>
+        </div>
+        <div class="subject" onclick="startTest('science')">
+            <div class="subject-top"><div class="subject-icon">S</div><h3>Science</h3></div>
+            <p>Explore the world around you</p><div class="progress"><span data-progress="science"></span></div>
+        </div>
+        <div class="subject" onclick="startTest('english')">
+            <div class="subject-top"><div class="subject-icon">A</div><h3>English</h3></div>
+            <p>Grammar, vocabulary, and language</p><div class="progress"><span data-progress="english"></span></div>
+        </div>
+    </div>
+
+    <div id="publishedSubjects" class="subjects"></div>
+
+    <div class="section-heading"><h2>Recent activity</h2></div>
+    <div class="activity" id="activity">No tests completed yet. Choose a subject to get started.</div>
+
+</div>
+
+
+<!-- TEST PAGE -->
+<div id="test" class="card">
+
+    <h2 id="subjectTitle"></h2>
+
+    <p>
+        Question
+        <b id="number"></b>
+        of
+        <b id="total"></b>
+    </p>
+
+    <h3 id="question"></h3>
+
+    <div id="choices"></div>
+
+    <div class="nav">
+
+        <button onclick="previousQuestion()">
+            Previous
+        </button>
+
+        <button onclick="nextQuestion()">
+            Next
+        </button>
+
+    </div>
+
+    <button onclick="submitTest()">
+        SUBMIT TEST
+    </button>
+
+</div>
+
+
+<!-- RESULT PAGE -->
+<div id="result" class="card">
+
+    <h1>Test Result</h1>
+
+    <p class="center">
+        Student:
+        <b id="resultName"></b>
+    </p>
+
+    <p class="center">
+        Subject:
+        <b id="resultSubject"></b>
+    </p>
+
+    <div
+        class="score"
+        id="score"
+    ></div>
+
+    <h2 id="message"></h2>
+
+    <button onclick="goHome()">
+        BACK TO HOME
+    </button>
+
+</div>
+
+</div>
+
+
+<script>
+
+const tests = {
+
+research: [
+
+{
+q:"Copying another author's ideas or words without giving credit is called what?",
+c:[
+"Objectivity",
+"Plagiarism",
+"Citation",
+"Originality"
+],
+a:1
+},
+
+{
+q:"What is used to properly credit a source?",
+c:[
+"Fabrication",
+"Accuracy",
+"Citation",
+"Sampling"
+],
+a:2
+},
+
+{
+q:"Reporting facts and findings without bias demonstrates what?",
+c:[
+"Objectivity",
+"Plagiarism",
+"Fabrication",
+"Quota"
+],
+a:0
+},
+
+{
+q:"Rewriting another person's idea using your own words is called what?",
+c:[
+"Fabrication",
+"Paraphrasing",
+"Citation",
+"Acknowledgment"
+],
+a:1
+},
+
+{
+q:"Giving credit to authors or researchers is called what?",
+c:[
+"Accuracy",
+"Acknowledgment",
+"Originality",
+"Objectivity"
+],
+a:1
+}
+
+],
+
+
+math: [
+
+{
+q:"What is 15 × 4?",
+c:[
+"45",
+"50",
+"60",
+"65"
+],
+a:2
+},
+
+{
+q:"What is 100 ÷ 5?",
+c:[
+"10",
+"15",
+"20",
+"25"
+],
+a:2
+},
+
+{
+q:"What is 25 + 37?",
+c:[
+"52",
+"62",
+"72",
+"82"
+],
+a:1
+},
+
+{
+q:"What is 90 − 45?",
+c:[
+"35",
+"40",
+"45",
+"50"
+],
+a:2
+},
+
+{
+q:"What is 12²?",
+c:[
+"124",
+"144",
+"154",
+"164"
+],
+a:1
+}
+
+],
+
+
+science: [
+
+{
+q:"What is the basic unit of life?",
+c:[
+"Atom",
+"Cell",
+"Tissue",
+"Organ"
+],
+a:1
+},
+
+{
+q:"Which organ pumps blood throughout the body?",
+c:[
+"Lungs",
+"Brain",
+"Heart",
+"Kidney"
+],
+a:2
+},
+
+{
+q:"What gas do humans need to breathe?",
+c:[
+"Carbon dioxide",
+"Oxygen",
+"Nitrogen",
+"Hydrogen"
+],
+a:1
+},
+
+{
+q:"What force pulls objects toward Earth?",
+c:[
+"Friction",
+"Magnetism",
+"Gravity",
+"Pressure"
+],
+a:2
+},
+
+{
+q:"Which planet is known as the Red Planet?",
+c:[
+"Earth",
+"Mars",
+"Jupiter",
+"Venus"
+],
+a:1
+}
+
+],
+
+
+english: [
+
+{
+q:"Which sentence is grammatically correct?",
+c:[
+"She go to school.",
+"She goes to school.",
+"She going to school.",
+"She gone to school."
+],
+a:1
+},
+
+{
+q:"What is a synonym for 'happy'?",
+c:[
+"Sad",
+"Angry",
+"Joyful",
+"Tired"
+],
+a:2
+},
+
+{
+q:"What is the opposite of 'ancient'?",
+c:[
+"Old",
+"Modern",
+"Historic",
+"Past"
+],
+a:1
+},
+
+{
+q:"Which word is a noun?",
+c:[
+"Run",
+"Beautiful",
+"School",
+"Quickly"
+],
+a:2
+},
+
+{
+q:"Which word is a verb?",
+c:[
+"Jump",
+"Blue",
+"Table",
+"Happy"
+],
+a:0
+}
+
+]
+
+};
+
+
+let currentTest = [];
+let currentIndex = 0;
+let answers = [];
+let currentSubject = "";
+let currentUser = "";
+let currentTestTitle = "";
+let editingTestId = "";
+
+function getAccounts(){
+    try{
+        let request = new XMLHttpRequest();
+        request.open("GET","/api/accounts",false);
+        request.send();
+        if(request.status === 200){
+            return JSON.parse(request.responseText || "{}");
+        }
+    }catch(error){}
+    return JSON.parse(localStorage.getItem("learningAccounts") || "{}");
+}
+
+function saveAccounts(accounts){
+    let data = JSON.stringify(accounts);
+    try{
+        let request = new XMLHttpRequest();
+        request.open("POST","/api/accounts",false);
+        request.setRequestHeader("Content-Type","application/json");
+        request.send(data);
+        if(request.status === 200){return;}
+    }catch(error){}
+    localStorage.setItem("learningAccounts",data);
+}
+
+function showError(message){
+    document.getElementById("error").innerText = message;
+    document.getElementById("error").style.display = "block";
+}
+
+function showTeacherLogin(){
+    document.getElementById("teacherLogin").style.display = "block";
+    document.getElementById("error").style.display = "none";
+}
+
+function escapeHTML(value){
+    return String(value).replace(/[&<>'"]/g,function(character){
+        return {"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[character];
+    });
+}
+
+function loginTeacher(){
+    let username = document.getElementById("teacherUser").value.trim();
+    let password = document.getElementById("teacherPass").value;
+
+    if(username !== "teacher" || password !== "teacher123"){
+        showError("Teacher login is incorrect.");
+        return;
+    }
+
+    document.getElementById("login").style.display = "none";
+    document.getElementById("teacher").style.display = "block";
+    renderTeacherReports();
+    renderPublishedTests();
+    renderTestManagement();
+    renderRemoteQueue();
+}
+
+function getPublishedTests(){
+    try{
+        let request = new XMLHttpRequest();
+        request.open("GET","/api/tests",false);
+        request.send();
+        if(request.status === 200){
+            return JSON.parse(request.responseText || "[]");
+        }
+    }catch(error){}
+    return JSON.parse(localStorage.getItem("publishedTests") || "[]");
+}
+
+function savePublishedTests(testsToSave){
+    let data = JSON.stringify(testsToSave);
+    try{
+        let request = new XMLHttpRequest();
+        request.open("POST","/api/tests",false);
+        request.setRequestHeader("Content-Type","application/json");
+        request.send(data);
+        if(request.status === 200){return;}
+    }catch(error){}
+    localStorage.setItem("publishedTests",data);
+}
+
+function getRemoteQueue(){
+    return JSON.parse(localStorage.getItem("remoteTestQueue") || "[]");
+}
+
+function saveRemoteQueue(queue){
+    localStorage.setItem("remoteTestQueue",JSON.stringify(queue));
+}
+
+function renderRemoteQueue(){
+    let container = document.getElementById("remoteQueue");
+    if(!container){return;}
+    let queue = getRemoteQueue();
+    container.innerHTML = queue.length ? queue.slice().reverse().map(function(item){
+        let status = item.synced ? "Saved to microSD" : "Waiting for ESP32";
+        let action = item.synced ? "" : "<button class=\"secondary-button\" onclick=\"markDeviceSynced('" + item.id + "')\">SIMULATE DEVICE SYNC</button>";
+        return "<div class=\"remote-queue-item\"><span><strong>" + escapeHTML(item.title) + "</strong><br>" + escapeHTML(item.fileName) + " - " + status + "</span>" + action + "</div>";
+    }).join("") : "<p class=\"activity\">No tests in the remote queue yet.</p>";
+}
+
+function markDeviceSynced(testId){
+    let queue = getRemoteQueue();
+    let item = queue.find(function(entry){return entry.id === testId;});
+    if(!item){return;}
+    item.synced = true;
+    item.syncedAt = new Date().toLocaleString();
+    saveRemoteQueue(queue);
+    document.getElementById("syncDot").classList.add("online");
+    document.getElementById("deviceStatus").innerText = "ESP32 synced to microSD card";
+    document.getElementById("lastSync").innerText = item.syncedAt;
+    renderRemoteQueue();
+}
+
+function uploadRemoteTest(){
+    let fileInput = document.getElementById("remoteTestFile");
+    let titleInput = document.getElementById("remoteTestTitle");
+    let subject = document.getElementById("remoteTestSubject").value;
+    let file = fileInput.files[0];
+    let status = document.getElementById("builderStatus");
+
+    if(!file){
+        status.innerText = "Choose a JSON or text test file first.";
+        return;
+    }
+
+    let reader = new FileReader();
+    reader.onload = function(){
+        let questions = [];
+        try{
+            if(file.name.toLowerCase().endsWith(".json")){
+                let packageData = JSON.parse(reader.result);
+                questions = Array.isArray(packageData) ? packageData : packageData.questions;
+            }else{
+                questions = parseQuestions(reader.result);
+            }
+        }catch(error){
+            status.innerText = "The file is not valid JSON or test text.";
+            return;
+        }
+
+        if(!Array.isArray(questions) || !questions.length || questions.some(function(question){
+            return !question.q || !Array.isArray(question.c) || question.c.length !== 4 || question.c.some(function(choice){return !choice;}) || typeof question.a !== "number";
+        })){
+            status.innerText = "The upload needs complete questions with four choices and a correct answer index.";
+            return;
+        }
+
+        let title = titleInput.value.trim() || file.name.replace(/\.[^.]+$/," ").trim();
+        let test = {id:"remote-" + Date.now(),title:title,subject:subject,questions:questions};
+        let publishedTests = getPublishedTests();
+        publishedTests.push(test);
+        savePublishedTests(publishedTests);
+        let queue = getRemoteQueue();
+        queue.push({id:test.id,title:title,subject:subject,fileName:file.name,synced:false,uploadedAt:new Date().toLocaleString()});
+        saveRemoteQueue(queue);
+        titleInput.value = "";
+        fileInput.value = "";
+        status.innerText = "Test uploaded and published. It is waiting for the ESP32 to sync.";
+        renderPublishedTests();
+        renderTestManagement();
+        renderRemoteQueue();
+    };
+    reader.readAsText(file);
+}
+
+function convertLessonToTest(){
+    let file = document.getElementById("aiLessonFile").files[0];
+    let status = document.getElementById("aiStatus");
+    if(!file){
+        status.innerText = "Choose a PDF, DOCX, or PPTX lesson first.";
+        return;
+    }
+    status.innerText = "Reading the lesson and preparing questions...";
+    let reader = new FileReader();
+    reader.onload = function(){
+        let encoded = reader.result.split(",")[1];
+        fetch("/api/generate-test",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+            fileName:file.name,
+            data:encoded,
+            title:document.getElementById("aiTestTitle").value.trim(),
+            subject:document.getElementById("aiTestSubject").value
+        })}).then(function(response){
+            return response.json().then(function(payload){return {ok:response.ok,payload:payload};});
+        }).then(function(result){
+            if(!result.ok){throw new Error(result.payload.error || "Conversion failed.");}
+            if(!result.payload.questions || !result.payload.questions.length){throw new Error("No questions could be created from this lesson.");}
+            editingTestId = "";
+            renderDraftTest(result.payload.questions,result.payload.title);
+            status.innerText = result.payload.message + " Review the draft below, then publish it.";
+            document.getElementById("draftTest").scrollIntoView({behavior:"smooth",block:"start"});
+        }).catch(function(error){status.innerText = error.message;});
+    };
+    reader.readAsDataURL(file);
+}
+
+function renderPublishedTests(){
+    let container = document.getElementById("publishedSubjects");
+    let publishedTests = getPublishedTests();
+    let accounts = getAccounts();
+    let account = accounts[currentUser] || {};
+    let progress = account.progress || {};
+
+    document.getElementById("availableCount").innerText = 4 + publishedTests.length;
+    document.getElementById("questionCount").innerText = 20 + publishedTests.reduce(function(total,test){return total + test.questions.length;},0);
+
+    container.innerHTML = publishedTests.map(function(test){
+        return "<div class=\"subject published-test\" onclick=\"startTest('" + test.id + "')\"><div class=\"subject-top\"><div class=\"subject-icon\">T</div><h3>" +
+            escapeHTML(test.title) + "</h3></div><p>Teacher-created test - " + test.questions.length + " questions</p><div class=\"progress\"><span style=\"width:" + (progress[test.id] || 0) + "%\"></span></div></div>";
+    }).join("");
+}
+
+function renderTestManagement(){
+    let container = document.getElementById("testManagement");
+    let publishedTests = getPublishedTests();
+    container.innerHTML = publishedTests.length ? publishedTests.map(function(test){
+        return "<div class=\"test-management-item\"><strong>" + escapeHTML(test.title) +
+            "</strong><button class=\"secondary-button\" onclick=\"editPublishedTest('" + test.id + "')\">EDIT TEST</button></div>";
+    }).join("") : "<p class=\"activity\">No teacher-created tests published yet.</p>";
+}
+
+function editPublishedTest(testId){
+    let test = getPublishedTests().find(function(item){return item.id === testId;});
+    if(!test){return;}
+    editingTestId = testId;
+    renderDraftTest(test.questions,test.title);
+    document.getElementById("builderStatus").innerText = "Editing this published test. Save it when finished.";
+    document.getElementById("draftTest").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function parseQuestions(text){
+    let blocks = text.replace(/\r/g,"").split(/(?=^Question\s+\d+\s*:)/gim);
+    return blocks.map(function(block){
+        let lines = block.split("\n").map(function(line){return line.trim();}).filter(Boolean);
+        let questionLine = lines.find(function(line){return /^(question|q)(?:\s+\d+)?\s*:/i.test(line);});
+        let question = questionLine ? questionLine.replace(/^(question|q)(?:\s+\d+)?\s*:/i,"").trim() : "";
+        let choices = ["A","B","C","D"].map(function(letter){
+            let line = lines.find(function(value){return new RegExp("^" + letter + "\\s*[:.)]","i").test(value);});
+            return line ? line.replace(new RegExp("^" + letter + "\\s*[:.)]\\s*","i"),"").trim() : "";
+        });
+        let answerLine = lines.find(function(line){return /^(answer|correct)\s*:/i.test(line);});
+        let answerValue = answerLine ? answerLine.replace(/^(answer|correct)\s*:/i,"").trim().toUpperCase() : "";
+        let answer = "ABCD".indexOf(answerValue.charAt(0));
+        if(question && choices.every(Boolean) && answer >= 0){
+            return {q:question,c:choices,a:answer};
+        }
+
+        if(question && (/^TRUE$/i.test(answerValue) || /^FALSE$/i.test(answerValue))){
+            let correct = answerValue === "TRUE" ? 0 : 1;
+            return {q:question,c:["True","False","Not enough information","Both true and false"],a:correct};
+        }
+
+        if(question && answerLine && answerValue){
+            return {q:question,c:[answerValue,"Another possible answer","Not enough information","None of these"],a:0};
+        }
+
+        return null;
+    }).filter(Boolean);
+}
+
+function buildPastedTest(){
+    let text = document.getElementById("questionText").value;
+    let status = document.getElementById("builderStatus");
+    if(!text.trim()){
+        status.innerText = "Paste the questions first.";
+        return;
+    }
+    let questions = parseQuestions(text);
+    if(!questions.length){
+        status.innerText = "No complete questions found. Check the required format above.";
+        return;
+    }
+    renderDraftTest(questions,"New teacher test");
+    status.innerText = questions.length + " questions found. Review and publish them below.";
+}
+
+function renderDraftTest(questions,title){
+    let container = document.getElementById("draftTest");
+    container.innerHTML = "<input id=\"draftTitle\" value=\"" + escapeHTML(title) + "\" placeholder=\"Test title\"><div id=\"draftQuestions\"></div><button onclick=\"publishDraftTest()\">" + (editingTestId ? "SAVE TEST CHANGES" : "PUBLISH TEST") + "</button>";
+    document.getElementById("draftQuestions").innerHTML = questions.map(function(question,index){
+        return "<div class='draft-question'><strong>Question " + (index + 1) + "</strong>" +
+            "<input data-draft='q' value='" + escapeHTML(question.q) + "'>" +
+            "<input data-draft='a' value='" + escapeHTML(question.c[0]) + "'>" +
+            "<input data-draft='b' value='" + escapeHTML(question.c[1]) + "'>" +
+            "<input data-draft='c' value='" + escapeHTML(question.c[2]) + "'>" +
+            "<input data-draft='d' value='" + escapeHTML(question.c[3]) + "'>" +
+            "<select data-draft='answer'><option value='0' " + (question.a === 0 ? "selected" : "") + ">Correct answer: A</option>" +
+            "<option value='1' " + (question.a === 1 ? "selected" : "") + ">Correct answer: B</option>" +
+            "<option value='2' " + (question.a === 2 ? "selected" : "") + ">Correct answer: C</option>" +
+            "<option value='3' " + (question.a === 3 ? "selected" : "") + ">Correct answer: D</option></select></div>";
+    }).join("");
+}
+
+function publishDraftTest(){
+    let title = document.getElementById("draftTitle").value.trim();
+    let cards = document.querySelectorAll(".draft-question");
+    let questions = Array.from(cards).map(function(card){
+        let fields = card.querySelectorAll("[data-draft]");
+        return {q:fields[0].value.trim(),c:[fields[1].value.trim(),fields[2].value.trim(),fields[3].value.trim(),fields[4].value.trim()],a:Number(fields[5].value)};
+    });
+    if(!title || questions.some(function(question){return !question.q || question.c.some(function(choice){return !choice;});})){document.getElementById("builderStatus").innerText = "Complete the test title and every answer choice.";return;}
+    let publishedTests = getPublishedTests();
+    if(editingTestId){
+        let existing = publishedTests.find(function(test){return test.id === editingTestId;});
+        if(existing){
+            existing.title = title;
+            existing.questions = questions;
+        }
+    }else{
+        publishedTests.push({id:"custom-" + Date.now(),title:title,questions:questions});
+    }
+    savePublishedTests(publishedTests);
+    document.getElementById("builderStatus").innerText = editingTestId ? "Test changes saved." : "Test published for students.";
+    editingTestId = "";
+    document.getElementById("draftTest").innerHTML = "";
+    renderPublishedTests();
+    renderTestManagement();
+}
+
+function renderTeacherReports(){
+    let accounts = getAccounts();
+    let usernames = Object.keys(accounts);
+    let reports = document.getElementById("studentReports");
+    let strandOrder = ["STEM","HUMMS","GAS","ICT","HE","ABM","Unassigned"];
+
+    document.getElementById("studentTotal").innerText = usernames.length +
+        (usernames.length === 1 ? " student" : " students");
+
+    if(usernames.length === 0){
+        reports.innerHTML = "<p class=\"activity\">No student accounts have been registered yet.</p>";
+        return;
+    }
+
+    let grouped = strandOrder.map(function(strand){
+        let strandUsers = usernames.filter(function(username){
+            return (accounts[username].strand || "Unassigned") === strand;
+        });
+
+        if(strandUsers.length === 0){
+            return "";
+        }
+
+        let studentCards = strandUsers.map(function(username){
+            let account = accounts[username];
+        let progress = account.progress || {};
+        let subjects = ["research","math","science","english"];
+        let labels = {research:"Research",math:"Mathematics",science:"Science",english:"English"};
+        let subjectRows = subjects.map(function(subject){
+            let score = progress[subject] || 0;
+            return "<div class=\"report-line\"><span>" + labels[subject] +
+                "</span><strong>" + score + "%</strong></div><div class=\"report-progress\"><span style=\"width:" + score + "%\"></span></div>";
+        }).join("");
+        let customRows = getPublishedTests().map(function(test){
+            let score = progress[test.id] || 0;
+            return "<div class=\"report-line\"><span>" + escapeHTML(test.title) +
+                "</span><strong>" + score + "%</strong></div><div class=\"report-progress\"><span style=\"width:" + score + "%\"></span></div>";
+        }).join("");
+
+        return "<div class=\"student-report\"><h3>" + escapeHTML(username) + "</h3>" +
+            "<select class=\"strand-select\" onchange=\"changeStudentStrand('" + encodeURIComponent(username) + "',this.value)\"><option value=\"\">Select strand</option>" +
+            strandOrder.slice(0,6).map(function(option){return "<option value=\"" + option + "\" " + (account.strand === option ? "selected" : "") + ">" + option + "</option>";}).join("") +
+            "</select><div class=\"report-line\"><span>Tests completed</span><strong>" +
+            (account.completed || 0) + "</strong></div>" + subjectRows + customRows +
+            renderAttemptDetails(account) +
+            "<p class=\"activity\">" + (account.activity || "No tests completed yet.") +
+            "</p></div>";
+        }).join("");
+
+        return "<section class=\"strand-group\"><div class=\"strand-heading\"><h3>" + strand +
+            "</h3><span>" + strandUsers.length + (strandUsers.length === 1 ? " student" : " students") +
+            "</span></div><div class=\"teacher-grid\">" + studentCards + "</div></section>";
+    }).join("");
+
+    reports.innerHTML = grouped;
+}
+
+function changeStudentStrand(encodedUsername,strand){
+    let username = decodeURIComponent(encodedUsername);
+    let accounts = getAccounts();
+    if(!accounts[username]){return;}
+    accounts[username].strand = strand || "Unassigned";
+    saveAccounts(accounts);
+    renderTeacherReports();
+}
+
+function renderAttemptDetails(account){
+    let attempts = account.attempts || [];
+
+    if(attempts.length === 0){
+        return "";
+    }
+
+    return "<div class=\"attempt-details\"><details><summary>VIEW " + attempts.length +
+        " TEST " + (attempts.length === 1 ? "DETAIL" : "DETAILS") + "</summary>" +
+        attempts.slice().reverse().map(function(attempt){
+            let questions = attempt.questions.map(function(question,index){
+                let isWrong = question.answer !== question.correct;
+                return "<div class=\"answer-row" + (isWrong ? " wrong" : "") + "\"><strong>" +
+                    (index + 1) + ". " + escapeHTML(question.question) + "</strong><p>Your answer: " +
+                    escapeHTML(question.answer) + "</p><p class=\"" + (isWrong ? "wrong-label" : "") +
+                    "\">Correct answer: " + escapeHTML(question.correct) + "</p></div>";
+            }).join("");
+
+            return "<details><summary>" + escapeHTML(attempt.subject) + " - " +
+                escapeHTML(attempt.date) + " - " + attempt.score + "/" + attempt.total +
+                "</summary>" + questions + "</details>";
+        }).join("") + "</details></div>";
+}
+
+function backToLogin(){
+    document.getElementById("teacher").style.display = "none";
+    document.getElementById("login").style.display = "block";
+}
+
+function loadProgress(account){
+    document.getElementById("completedCount").innerText = account.completed || 0;
+    document.getElementById("activity").innerHTML = account.activity ||
+        "No tests completed yet. Choose a subject to get started.";
+
+    document.querySelectorAll("[data-progress]").forEach(function(bar){
+        let subject = bar.getAttribute("data-progress");
+        bar.style.width = (account.progress && account.progress[subject] || 0) + "%";
+    });
+
+    renderPublishedTests();
+}
+
+function createAccount(){
+    let username = document.getElementById("user").value.trim();
+    let password = document.getElementById("pass").value;
+    let strand = document.getElementById("strand").value;
+    let accounts = getAccounts();
+
+    if(username === "" || password.length < 4 || strand === ""){
+        showError("Use a username, a password with at least 4 characters, and select a strand.");
+        return;
+    }
+
+    if(accounts[username]){
+        showError("That account already exists. Please log in.");
+        return;
+    }
+
+    accounts[username] = {password:password,strand:strand,completed:0,activity:"",progress:{},attempts:[]};
+    saveAccounts(accounts);
+    loginUser();
+}
+
+
+function loginUser(){
+
+    let username =
+        document.getElementById("user").value.trim();
+
+    let password =
+        document.getElementById("pass").value;
+
+
+    let accounts = getAccounts();
+    let account = accounts[username];
+
+    if(account && account.password === password){
+
+        currentUser = username;
+
+        document.getElementById("login").style.display =
+            "none";
+
+        document.getElementById("home").style.display =
+            "block";
+
+        document.getElementById("name").innerText =
+            username;
+
+        loadProgress(account);
+
+        document.getElementById("error").style.display =
+            "none";
+
+    }
+
+    else{
+
+        showError("Account not found or password is incorrect. Create an account first if needed.");
+
+    }
+
+}
+
+
+function startTest(subject){
+
+    currentSubject = subject;
+
+    let publishedTest = getPublishedTests().find(function(test){return test.id === subject;});
+    currentTest = tests[subject] || (publishedTest ? publishedTest.questions : []);
+    currentTestTitle = publishedTest ? publishedTest.title : {
+        research:"Practical Research II",
+        math:"Basic Mathematics",
+        science:"Science",
+        english:"English"
+    }[subject];
+
+    currentIndex = 0;
+
+    answers =
+        new Array(currentTest.length).fill(null);
+
+
+    document.getElementById("home").style.display =
+        "none";
+
+    document.getElementById("test").style.display =
+        "block";
+
+
+    document.getElementById("subjectTitle").innerText =
+        currentTestTitle;
+
+
+    displayQuestion();
+
+}
+
+
+function displayQuestion(){
+
+    let q = currentTest[currentIndex];
+
+
+    document.getElementById("number").innerText =
+        currentIndex + 1;
+
+
+    document.getElementById("total").innerText =
+        currentTest.length;
+
+
+    document.getElementById("question").innerText =
+        q.q;
+
+
+    let html = "";
+
+
+    q.c.forEach((choice,i)=>{
+
+        let checked =
+            answers[currentIndex] === i
+            ? "checked"
+            : "";
+
+
+        html += "<label class=\"choice\"><input type=\"radio\" name=\"answer\" value=\"" +
+            i + "\" " + checked + " onchange=\"saveAnswer(" + i + ")\">" +
+            choice + "</label>";
+
+    });
+
+
+    document.getElementById("choices").innerHTML =
+        html;
+
+}
+
+
+function saveAnswer(answer){
+
+    answers[currentIndex] =
+        answer;
+
+}
+
+
+function nextQuestion(){
+
+    if(
+        currentIndex <
+        currentTest.length - 1
+    ){
+
+        currentIndex++;
+
+        displayQuestion();
+
+    }
+
+}
+
+
+function previousQuestion(){
+
+    if(currentIndex > 0){
+
+        currentIndex--;
+
+        displayQuestion();
+
+    }
+
+}
+
+
+function submitTest(){
+
+    let score = 0;
+
+
+    for(
+        let i = 0;
+        i < currentTest.length;
+        i++
+    ){
+
+        if(
+            answers[i] ===
+            currentTest[i].a
+        ){
+
+            score++;
+
+        }
+
+    }
+
+
+    let percent =
+        (score / currentTest.length) * 100;
+
+
+    let resultText;
+
+
+    if(percent >= 75){
+
+        resultText = "PASSED";
+
+    }
+
+    else{
+
+        resultText = "FAILED";
+
+    }
+
+
+    document.getElementById("test").style.display =
+        "none";
+
+    document.getElementById("result").style.display =
+        "block";
+
+
+    document.getElementById("resultName").innerText =
+        document.getElementById("name").innerText;
+
+
+    document.getElementById("resultSubject").innerText =
+        currentTestTitle;
+
+
+    document.getElementById("score").innerText =
+        score +
+        " / " +
+        currentTest.length +
+        " (" +
+        percent +
+        "%)";
+
+
+    document.getElementById("message").innerText =
+        resultText;
+
+    document.getElementById("completedCount").innerText =
+        Number(document.getElementById("completedCount").innerText) + 1;
+
+    document.getElementById("activity").innerHTML =
+        "<strong>" + currentTestTitle + "</strong> completed with a score of " +
+        score + " / " + currentTest.length + ".";
+
+    let accounts = getAccounts();
+    accounts[currentUser].completed = Number(document.getElementById("completedCount").innerText);
+    accounts[currentUser].activity = document.getElementById("activity").innerHTML;
+    accounts[currentUser].progress[currentSubject] = percent;
+    accounts[currentUser].attempts = accounts[currentUser].attempts || [];
+    accounts[currentUser].attempts.push({
+        subject:currentTestTitle,
+        date:new Date().toLocaleString(),
+        score:score,
+        total:currentTest.length,
+        questions:currentTest.map(function(question,index){
+            return {
+                question:question.q,
+                answer:answers[index] === null ? "No answer" : question.c[answers[index]],
+                correct:question.c[question.a]
+            };
+        })
+    });
+    saveAccounts(accounts);
+
+}
+
+
+function goHome(){
+
+    document.getElementById("result").style.display =
+        "none";
+
+    document.getElementById("home").style.display =
+        "block";
+
+}
+
+</script>
+
+</body>
+</html>
