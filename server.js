@@ -4,11 +4,14 @@
     const mammoth = require("mammoth");
     const pdfParse = require("pdf-parse");
     const JSZip = require("jszip");
+    const {Pool} = require("pg");
 
     const port = Number(process.env.PORT || 3000);
     const host = process.env.HOST || "0.0.0.0";
     const root = __dirname;
     const dataFile = path.join(root, "server-data.json");
+    const databaseUrl = process.env.DATABASE_URL;
+    const database = databaseUrl ? new Pool({connectionString:databaseUrl,ssl:{rejectUnauthorized:false}}) : null;
 
     function readData(){
         try{
@@ -20,6 +23,28 @@
 
     function writeData(data){
         fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+    }
+
+    async function initializeDatabase(){
+        if(!database){return;}
+        await database.query("CREATE TABLE IF NOT EXISTS app_state (key TEXT PRIMARY KEY, value JSONB NOT NULL)");
+        let seed = readData();
+        for(let key of ["accounts","tests"]){
+            await database.query("INSERT INTO app_state (key,value) VALUES ($1,$2) ON CONFLICT (key) DO NOTHING",[key,JSON.stringify(seed[key])]);
+        }
+    }
+
+    async function getData(){
+        if(!database){return readData();}
+        let result = await database.query("SELECT key,value FROM app_state WHERE key IN ('accounts','tests')");
+        let data = {accounts:{},tests:[]};
+        for(let row of result.rows){data[row.key] = row.value;}
+        return data;
+    }
+
+    async function saveData(data){
+        if(!database){writeData(data);return;}
+        await database.query("INSERT INTO app_state (key,value) VALUES ('accounts',$1),('tests',$2) ON CONFLICT (key) DO UPDATE SET value=EXCLUDED.value",[JSON.stringify(data.accounts),JSON.stringify(data.tests)]);
     }
 
     function sendJson(response,status,data){
@@ -120,12 +145,12 @@
 
         const requestUrl = new URL(request.url, "http://" + (request.headers.host || "localhost"));
         const pathname = requestUrl.pathname;
-        let data = readData();
+        let data = await getData();
 
         if(pathname === "/api/tests"){
             if(request.method === "GET"){sendJson(response,200,data.tests);return;}
             if(request.method === "POST"){
-                try{data.tests = JSON.parse(await readBody(request));writeData(data);sendJson(response,200,{saved:true});}
+                try{data.tests = JSON.parse(await readBody(request));await saveData(data);sendJson(response,200,{saved:true});}
                 catch(error){sendJson(response,400,{error:"Invalid tests data."});}
                 return;
             }
@@ -133,7 +158,7 @@
         if(pathname === "/api/accounts"){
             if(request.method === "GET"){sendJson(response,200,data.accounts);return;}
             if(request.method === "POST"){
-                try{data.accounts = JSON.parse(await readBody(request));writeData(data);sendJson(response,200,{saved:true});}
+                try{data.accounts = JSON.parse(await readBody(request));await saveData(data);sendJson(response,200,{saved:true});}
                 catch(error){sendJson(response,400,{error:"Invalid accounts data."});}
                 return;
             }
@@ -157,6 +182,11 @@
         sendJson(response,404,{error:"Not found"});
 });
 
-server.listen(port, host, function(){
-    console.log("Learning system server running at http://" + host + ":" + port);
-});
+    initializeDatabase().then(function(){
+        server.listen(port, host, function(){
+            console.log("Learning system server running at http://" + host + ":" + port + (database ? " with PostgreSQL storage" : " with local JSON storage"));
+        });
+    }).catch(function(error){
+        console.error("Could not initialize PostgreSQL storage:",error.message);
+        process.exit(1);
+    });
