@@ -145,9 +145,9 @@
 
         const requestUrl = new URL(request.url, "http://" + (request.headers.host || "localhost"));
         const pathname = requestUrl.pathname;
-        let data = await getData();
 
         if(pathname === "/api/tests"){
+            let data = await getData();
             if(request.method === "GET"){sendJson(response,200,data.tests);return;}
             if(request.method === "POST"){
                 try{data.tests = JSON.parse(await readBody(request));await saveData(data);sendJson(response,200,{saved:true});}
@@ -156,6 +156,7 @@
             }
         }
         if(pathname === "/api/accounts"){
+            let data = await getData();
             if(request.method === "GET"){sendJson(response,200,data.accounts);return;}
             if(request.method === "POST"){
                 try{data.accounts = JSON.parse(await readBody(request));await saveData(data);sendJson(response,200,{saved:true});}
