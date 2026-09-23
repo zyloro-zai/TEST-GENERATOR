@@ -7,3 +7,14 @@ services:
     startCommand: npm start
     region: oregon
     rootDir: .
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: automated-learning-db
+          property: connectionString
+
+databases:
+  - name: automated-learning-db
+    databaseName: learning_system
+    user: learning_system
+    plan: free
