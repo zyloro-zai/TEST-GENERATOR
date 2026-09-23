@@ -59,6 +59,30 @@ button:hover{
 
 .secondary-button{background:#e8eef9;color:#284875}
 
+.admin-shell{display:grid;grid-template-columns:260px 1fr;gap:18px;min-height:720px}
+.sidebar{background:#172033;color:#edf4ff;padding:18px;border-radius:16px;display:flex;flex-direction:column;gap:14px}
+.sidebar h3{margin:0 0 8px;font-size:18px}
+.sidebar-item{padding:12px 14px;border-radius:10px;background:rgba(255,255,255,.06);cursor:pointer;color:#edf4ff;border:1px solid rgba(255,255,255,.08)}
+.sidebar-item.active{background:#4e7bd9}
+.admin-panel{display:flex;flex-direction:column;gap:18px}
+.admin-card{background:#f9fbff;border:1px solid #e2ebf7;padding:18px;border-radius:14px}
+.admin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.admin-stat{padding:16px;border-radius:12px;background:white;border:1px solid #e2ebf7}
+.admin-stat strong{display:block;font-size:28px}
+.admin-stat span{color:#728097;font-size:13px}
+.test-activation{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border:1px solid #e1e7f1;border-radius:10px;background:white;margin:8px 0}
+.test-activation button{width:auto;padding:9px 12px;margin:0}
+.test-activation .open-tag{padding:6px 10px;border-radius:999px;background:#e9f8ee;color:#2d7a4b;font-size:12px;font-weight:bold}
+.test-activation .closed-tag{padding:6px 10px;border-radius:999px;background:#fff4f2;color:#b34138;font-size:12px;font-weight:bold}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding:12px 14px;border-radius:12px;background:#edf4ff;border:1px solid #dfe9fb}
+.topbar h3{margin:0;font-size:20px}
+.topbar span{color:#61728e;font-size:13px}
+.status-pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#eefaf3;color:#2a7a4f;font-size:12px;font-weight:bold}
+.mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.mini-card{padding:14px;border-radius:12px;background:white;border:1px solid #e4ebf7}
+.mini-card strong{display:block;font-size:22px}
+.mini-card span{color:#728097;font-size:12px}
+
 .subject{
     background:#f5f8ff;
     border:1px solid #e0e8f7;
@@ -124,10 +148,31 @@ button:hover{
 .test-management-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid #e1e7f1;border-radius:10px;margin:8px 0;background:#f9fbff}
 .test-management-item button{width:auto;margin:0;padding:9px 14px}
 .strand-select{width:100%;padding:9px;margin:0 0 12px;border:1px solid #d7dfed;border-radius:8px;background:white;color:#172033}
-.strand-group{margin:18px 0 26px}
-.strand-heading{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #dce5f3;padding-bottom:8px;margin-bottom:12px;color:#284875}
-.strand-heading h3{margin:0}
-.strand-heading span{font-size:13px;color:#718097}
+.strand-group{margin:18px 0 26px;background:linear-gradient(180deg,#f9fbff 0%,#eef5ff 100%);border:1px solid #dbe6f6;border-radius:18px;overflow:hidden;box-shadow:0 8px 18px rgba(41,76,125,0.06)}
+.strand-group.collapsed .student-folder-stack{display:none}
+.strand-heading{display:flex;justify-content:space-between;align-items:center;background:#eaf2ff;border-bottom:1px solid #d5e1f5;padding:14px 18px;color:#284875;cursor:pointer;user-select:none}
+.strand-label{display:flex;align-items:center;gap:10px}
+.folder-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:#dfeeff;color:#2a5d9e;font-size:16px;box-shadow:inset 0 0 0 1px rgba(42,93,158,0.08)}
+.toggle-indicator{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:#f5f9ff;border:1px solid #dfe9f7;color:#476995;font-size:14px;font-weight:bold}
+.strand-heading h3{margin:0;font-size:20px}
+.strand-heading span{font-size:13px;color:#718097;background:#f4f8ff;border:1px solid #dfe9f7;padding:4px 8px;border-radius:999px}
+.student-folder-stack{padding:14px 14px 18px;display:flex;flex-direction:column;gap:12px}
+.student-folder{border:1px solid #dfe9f8;border-radius:12px;background:#f9fbff;overflow:hidden;box-shadow:0 5px 12px rgba(44,79,130,0.05)}
+.student-folder.collapsed .student-folder-content{display:none}
+.student-folder-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;background:linear-gradient(180deg,#edf5ff,#eaf2ff);border-bottom:1px solid #dfe9f8;cursor:pointer;user-select:none}
+.student-folder-header .student-label{display:flex;align-items:center;gap:10px;color:#1d3557;font-weight:700}
+.student-folder-content{padding:10px}
+.student-report{padding:0;border:1px solid #dfe9f8;border-radius:12px;background:#fff;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(83,118,168,0.04)}
+.student-report h3{margin:0;padding:12px 14px;border-bottom:1px solid #e6edf9;background:linear-gradient(180deg,#f7faff,#edf4ff);color:#1d3557;font-size:16px}
+.student-report .strand-select{margin:12px 14px 10px}
+.student-report .report-line,.student-report .activity,.student-report .attempt-details{padding-left:14px;padding-right:14px}
+.student-report .report-progress{margin:0 14px 10px}
+.student-report .report-progress:last-of-type{margin-bottom:14px}
+.student-report .activity{padding-bottom:14px;font-size:13px}
+.student-report .attempt-details{padding-bottom:14px}
+.student-report .report-line{padding-top:6px;padding-bottom:4px}
+.student-report .report-line strong{color:#172033}
+.student-report .answer-row{margin:0 14px;padding:10px 0}
 .remote-panel{margin-top:24px;padding:20px;border:1px solid #d9e6f3;border-radius:14px;background:#f3f9ff}
 .remote-panel h2{margin:0 0 8px;text-align:left}
 .remote-panel p{color:#68758b;font-size:13px;line-height:1.5}
@@ -238,11 +283,20 @@ button:hover{
     <button class="secondary-button" onclick="createAccount()">CREATE ACCOUNT</button>
 
     <button class="teacher-link" onclick="showTeacherLogin()">TEACHER VIEW</button>
+    <button class="secondary-button" onclick="showAdminLogin()">ADMIN VIEW</button>
 
     <div class="teacher-login" id="teacherLogin">
         <input id="teacherUser" type="text" placeholder="Teacher username">
         <input id="teacherPass" type="password" placeholder="Teacher password">
-        <button onclick="loginTeacher()">OPEN TEACHER DASHBOARD</button>
+        <input id="teacherCode" type="text" placeholder="Teacher code">
+        <button onclick="loginTeacher()">LOGIN AS TEACHER</button>
+        <button class="secondary-button" onclick="createTeacherAccount()">CREATE TEACHER ACCOUNT</button>
+    </div>
+
+    <div class="teacher-login" id="adminLogin">
+        <input id="adminUser" type="text" placeholder="Administrator username">
+        <input id="adminPass" type="password" placeholder="Administrator password">
+        <button onclick="loginAdmin()">OPEN ADMIN DASHBOARD</button>
     </div>
 
     <p id="error">
@@ -263,26 +317,6 @@ button:hover{
     </div>
     <div class="section-heading"><h2>Registered students</h2><p id="studentTotal"></p></div>
     <div class="teacher-grid" id="studentReports"></div>
-
-    <div class="remote-panel">
-        <p class="eyebrow">Remote delivery</p>
-        <h2>Send a test to the ESP32</h2>
-        <p>Upload a JSON or text test package from home. The connected ESP32 can check the shared queue and save new tests to its microSD card.</p>
-        <div class="remote-grid">
-            <input id="remoteTestTitle" type="text" placeholder="Test title">
-            <select id="remoteTestSubject">
-                <option value="General">General subject</option>
-                <option value="Research">Practical Research II</option>
-                <option value="Mathematics">Basic Mathematics</option>
-                <option value="Science">Science</option>
-                <option value="English">English</option>
-            </select>
-        </div>
-        <input id="remoteTestFile" type="file" accept=".json,.txt">
-        <button onclick="uploadRemoteTest()">UPLOAD AND PUBLISH TEST</button>
-        <div class="sync-status"><span><span id="syncDot" class="sync-dot"></span><strong id="deviceStatus">ESP32 waiting for sync</strong></span><span id="lastSync">No sync recorded</span></div>
-        <div id="remoteQueue" class="remote-queue"></div>
-    </div>
 
     <div class="ai-panel">
         <p class="eyebrow">AI test maker</p>
@@ -312,6 +346,67 @@ button:hover{
     </div>
 </div>
 
+
+<!-- SCHOOL ADMIN DASHBOARD -->
+<div id="admin" class="card">
+    <div class="dashboard-header">
+        <div>
+            <p class="eyebrow">School administrator</p>
+            <h1>Campus operations</h1>
+            <p class="welcome-copy">Manage test access when the teacher is unavailable.</p>
+        </div>
+        <button class="secondary-button" onclick="backToLogin()">LOG OUT</button>
+    </div>
+
+    <div class="topbar">
+        <div>
+            <h3>School Control Center</h3>
+            <span>Today: <strong>September 23, 2026</strong></span>
+        </div>
+        <span class="status-pill">System online</span>
+    </div>
+
+    <div class="admin-shell">
+        <aside class="sidebar">
+            <h3>Controls</h3>
+            <div class="sidebar-item active" data-section="dashboard" onclick="showAdminSection('dashboard')">Dashboard</div>
+            <div class="sidebar-item" data-section="open-test" onclick="showAdminSection('open-test')">Open test</div>
+            <div class="sidebar-item" data-section="student-status" onclick="showAdminSection('student-status')">Student status</div>
+            <div class="sidebar-item" data-section="admin-notes" onclick="showAdminSection('admin-notes')">Admin notes</div>
+        </aside>
+
+        <div class="admin-panel">
+            <div class="admin-card" id="admin-dashboard-panel">
+                <div class="admin-grid">
+                    <div class="admin-stat"><strong id="adminStudentCount">0</strong><span>Active students</span></div>
+                    <div class="admin-stat"><strong id="adminTestCount">0</strong><span>Available tests</span></div>
+                    <div class="admin-stat"><strong id="adminOpenTestCount">0</strong><span>Open tests</span></div>
+                    <div class="admin-stat"><strong id="adminPendingCount">0</strong><span>Pending review</span></div>
+                </div>
+            </div>
+
+            <div class="admin-card" id="admin-open-test-panel">
+                <div class="section-heading"><h2>Manual test activation</h2></div>
+                <div id="adminTestList"></div>
+            </div>
+
+            <div class="admin-card" id="admin-student-status-panel">
+                <div class="section-heading"><h2>Classroom status</h2></div>
+                <div class="mini-grid">
+                    <div class="mini-card"><strong id="classroomAttendance">94%</strong><span>Attendance rate</span></div>
+                    <div class="mini-card"><strong id="classroomAlerts">2</strong><span>Alerts</span></div>
+                    <div class="mini-card"><strong id="classroomConnected">18</strong><span>Connected devices</span></div>
+                    <div class="mini-card"><strong id="classroomNetwork">Stable</strong><span>Network status</span></div>
+                </div>
+            </div>
+
+            <div class="admin-card" id="admin-notes-panel">
+                <div class="section-heading"><h2>Teacher absence workflow</h2></div>
+                <p class="builder-note">If the teacher is absent, the administrator can open a test manually, keep the exam active for students, and close it when the class ends. This preserves classroom continuity and keeps the LMS operational.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- HOME / LMS DASHBOARD -->
 <div id="home" class="card">
@@ -682,6 +777,39 @@ let currentSubject = "";
 let currentUser = "";
 let currentTestTitle = "";
 let editingTestId = "";
+let currentTeacher = "";
+
+function getTeacherAccounts(){
+    try{
+        let request = new XMLHttpRequest();
+        request.open("GET","/api/teachers",false);
+        request.send();
+        if(request.status === 200){
+            return JSON.parse(request.responseText || "{}");
+        }
+    }catch(error){}
+
+    let stored = localStorage.getItem("learningTeachers");
+    if(stored){
+        return JSON.parse(stored);
+    }
+
+    let defaults = {"teacher": {password:"teacher123"}};
+    localStorage.setItem("learningTeachers", JSON.stringify(defaults));
+    return defaults;
+}
+
+function saveTeacherAccounts(teachers){
+    let data = JSON.stringify(teachers);
+    try{
+        let request = new XMLHttpRequest();
+        request.open("POST","/api/teachers",false);
+        request.setRequestHeader("Content-Type","application/json");
+        request.send(data);
+        if(request.status === 200){return;}
+    }catch(error){}
+    localStorage.setItem("learningTeachers",data);
+}
 
 function getAccounts(){
     try{
@@ -710,10 +838,18 @@ function saveAccounts(accounts){
 function showError(message){
     document.getElementById("error").innerText = message;
     document.getElementById("error").style.display = "block";
+    document.getElementById("error").style.color = "#c34b3d";
 }
 
 function showTeacherLogin(){
     document.getElementById("teacherLogin").style.display = "block";
+    document.getElementById("adminLogin").style.display = "none";
+    document.getElementById("error").style.display = "none";
+}
+
+function showAdminLogin(){
+    document.getElementById("adminLogin").style.display = "block";
+    document.getElementById("teacherLogin").style.display = "none";
     document.getElementById("error").style.display = "none";
 }
 
@@ -726,11 +862,16 @@ function escapeHTML(value){
 function loginTeacher(){
     let username = document.getElementById("teacherUser").value.trim();
     let password = document.getElementById("teacherPass").value;
+    let teacherCode = document.getElementById("teacherCode").value.trim();
+    let teachers = getTeacherAccounts();
+    let teacher = teachers[username];
 
-    if(username !== "teacher" || password !== "teacher123"){
+    if(!teacher || teacher.password !== password || teacherCode !== "AUJRCteacher"){
         showError("Teacher login is incorrect.");
         return;
     }
+
+    currentTeacher = username;
 
     document.getElementById("login").style.display = "none";
     document.getElementById("teacher").style.display = "block";
@@ -738,6 +879,43 @@ function loginTeacher(){
     renderPublishedTests();
     renderTestManagement();
     renderRemoteQueue();
+}
+
+function createTeacherAccount(){
+    let username = document.getElementById("teacherUser").value.trim();
+    let password = document.getElementById("teacherPass").value;
+    let teacherCode = document.getElementById("teacherCode").value.trim();
+
+    if(username === "" || password.length < 4 || teacherCode !== "AUJRCteacher"){
+        showError("Use a teacher username, a password with at least 4 characters, and the correct teacher code.");
+        return;
+    }
+
+    let teachers = getTeacherAccounts();
+    if(teachers[username]){
+        showError("This teacher username already exists.");
+        return;
+    }
+
+    teachers[username] = {password: password};
+    saveTeacherAccounts(teachers);
+    showError("Teacher account created. You can now log in.");
+    document.getElementById("error").style.color = "#1d7f3f";
+}
+
+function loginAdmin(){
+    let username = document.getElementById("adminUser").value.trim();
+    let password = document.getElementById("adminPass").value;
+
+    if(username !== "admin" || password !== "admin123"){
+        showError("Administrator login is incorrect.");
+        return;
+    }
+
+    document.getElementById("login").style.display = "none";
+    document.getElementById("admin").style.display = "block";
+    showAdminSection("dashboard");
+    renderAdminDashboard();
 }
 
 function getPublishedTests(){
@@ -869,13 +1047,99 @@ function convertLessonToTest(){
         }).then(function(result){
             if(!result.ok){throw new Error(result.payload.error || "Conversion failed.");}
             if(!result.payload.questions || !result.payload.questions.length){throw new Error("No questions could be created from this lesson.");}
-            editingTestId = "";
-            renderDraftTest(result.payload.questions,result.payload.title);
-            status.innerText = result.payload.message + " Review the draft below, then publish it.";
-            document.getElementById("draftTest").scrollIntoView({behavior:"smooth",block:"start"});
+            autoPublishGeneratedTest(result.payload.questions, result.payload.title || document.getElementById("aiTestTitle").value.trim() || file.name.replace(/\.[^.]+$/,""));
+            status.innerText = result.payload.message + " The test was automatically published for students.";
         }).catch(function(error){status.innerText = error.message;});
     };
     reader.readAsDataURL(file);
+}
+
+function autoPublishGeneratedTest(questions, title){
+    let publishedTests = getPublishedTests();
+    let newTest = {
+        id: "ai-" + Date.now(),
+        title: title || "AI generated test",
+        questions: questions
+    };
+    publishedTests.push(newTest);
+    savePublishedTests(publishedTests);
+    let state = getActivationState();
+    state[newTest.id] = true;
+    setActivationState(state);
+    renderPublishedTests();
+    renderTestManagement();
+    renderAdminDashboard();
+    document.getElementById("draftTest").innerHTML = "";
+    document.getElementById("builderStatus").innerText = "AI-generated test published automatically.";
+}
+
+function getActivationState(){
+    try{
+        return JSON.parse(localStorage.getItem("schoolTestActivation") || "{}");
+    }catch(error){
+        return {};
+    }
+}
+
+function setActivationState(state){
+    localStorage.setItem("schoolTestActivation", JSON.stringify(state));
+}
+
+function showAdminSection(section){
+    let sections = {
+        "dashboard": document.getElementById("admin-dashboard-panel"),
+        "open-test": document.getElementById("admin-open-test-panel"),
+        "student-status": document.getElementById("admin-student-status-panel"),
+        "admin-notes": document.getElementById("admin-notes-panel")
+    };
+
+    Object.keys(sections).forEach(function(key){
+        if(sections[key]){
+            sections[key].style.display = key === section ? "block" : "none";
+        }
+    });
+
+    document.querySelectorAll(".sidebar-item").forEach(function(item){
+        item.classList.toggle("active", item.dataset.section === section);
+    });
+}
+
+function renderAdminDashboard(){
+    let accounts = getAccounts();
+    let publishedTests = getPublishedTests();
+    let state = getActivationState();
+    let openCount = publishedTests.filter(function(test){return state[test.id] === true;}).length;
+    let pendingCount = Math.max(0, publishedTests.length - openCount);
+
+    document.getElementById("adminStudentCount").innerText = Object.keys(accounts).length;
+    document.getElementById("adminTestCount").innerText = publishedTests.length;
+    document.getElementById("adminOpenTestCount").innerText = openCount;
+    document.getElementById("adminPendingCount").innerText = pendingCount;
+    document.getElementById("classroomAttendance").innerText = Object.keys(accounts).length ? "94%" : "0%";
+    document.getElementById("classroomAlerts").innerText = openCount > 0 ? "1" : "0";
+    document.getElementById("classroomConnected").innerText = Object.keys(accounts).length ? String(Math.min(18, Object.keys(accounts).length * 3 + 6)) : "0";
+    document.getElementById("classroomNetwork").innerText = openCount > 0 ? "Active" : "Standby";
+
+    let list = document.getElementById("adminTestList");
+    if(!publishedTests.length){
+        list.innerHTML = "<p class=\"activity\">No tests are available yet.</p>";
+        return;
+    }
+
+    list.innerHTML = publishedTests.map(function(test){
+        let isOpen = state[test.id] === true;
+        return "<div class=\"test-activation\"><div><strong>" + escapeHTML(test.title) + "</strong><br><small>" + test.questions.length + " questions</small></div><div>" +
+            (isOpen ? "<span class=\"open-tag\">OPEN</span>" : "<span class=\"closed-tag\">CLOSED</span>") + "</div><button class=\"secondary-button\" onclick=\"toggleTestActivation('" + test.id + "')\">" +
+            (isOpen ? "CLOSE TEST" : "OPEN TEST") + "</button></div>";
+    }).join("");
+}
+
+function toggleTestActivation(testId){
+    let state = getActivationState();
+    state[testId] = !(state[testId] === true);
+    setActivationState(state);
+    renderAdminDashboard();
+    renderPublishedTests();
 }
 
 function renderPublishedTests(){
@@ -884,14 +1148,21 @@ function renderPublishedTests(){
     let accounts = getAccounts();
     let account = accounts[currentUser] || {};
     let progress = account.progress || {};
+    let state = getActivationState();
 
     document.getElementById("availableCount").innerText = 4 + publishedTests.length;
     document.getElementById("questionCount").innerText = 20 + publishedTests.reduce(function(total,test){return total + test.questions.length;},0);
 
     container.innerHTML = publishedTests.map(function(test){
-        return "<div class=\"subject published-test\" onclick=\"startTest('" + test.id + "')\"><div class=\"subject-top\"><div class=\"subject-icon\">T</div><h3>" +
-            escapeHTML(test.title) + "</h3></div><p>Teacher-created test - " + test.questions.length + " questions</p><div class=\"progress\"><span style=\"width:" + (progress[test.id] || 0) + "%\"></span></div></div>";
+        let isOpen = state[test.id] === true;
+        let label = isOpen ? "Available now" : "Closed by admin";
+        return "<div class=\"subject published-test\" onclick=\"if(window.__testOpenForStudent===true) startTest('" + test.id + "');\"><div class=\"subject-top\"><div class=\"subject-icon\">T</div><h3>" +
+            escapeHTML(test.title) + "</h3></div><p>" + label + " - " + test.questions.length + " questions</p><div class=\"progress\"><span style=\"width:" + (progress[test.id] || 0) + "%\"></span></div></div>";
     }).join("");
+
+    if(currentUser){
+        window.__testOpenForStudent = publishedTests.some(function(test){return getActivationState()[test.id] === true;});
+    }
 }
 
 function renderTestManagement(){
@@ -1026,36 +1297,61 @@ function renderTeacherReports(){
 
         let studentCards = strandUsers.map(function(username){
             let account = accounts[username];
-        let progress = account.progress || {};
-        let subjects = ["research","math","science","english"];
-        let labels = {research:"Research",math:"Mathematics",science:"Science",english:"English"};
-        let subjectRows = subjects.map(function(subject){
-            let score = progress[subject] || 0;
-            return "<div class=\"report-line\"><span>" + labels[subject] +
-                "</span><strong>" + score + "%</strong></div><div class=\"report-progress\"><span style=\"width:" + score + "%\"></span></div>";
-        }).join("");
-        let customRows = getPublishedTests().map(function(test){
-            let score = progress[test.id] || 0;
-            return "<div class=\"report-line\"><span>" + escapeHTML(test.title) +
-                "</span><strong>" + score + "%</strong></div><div class=\"report-progress\"><span style=\"width:" + score + "%\"></span></div>";
+            let progress = account.progress || {};
+            let subjects = ["research","math","science","english"];
+            let labels = {research:"Research",math:"Mathematics",science:"Science",english:"English"};
+            let subjectRows = subjects.map(function(subject){
+                let score = progress[subject] || 0;
+                return "<div class=\"report-line\"><span>" + labels[subject] +
+                    "</span><strong>" + score + "%</strong></div><div class=\"report-progress\"><span style=\"width:" + score + "%\"></span></div>";
+            }).join("");
+            let customRows = getPublishedTests().map(function(test){
+                let score = progress[test.id] || 0;
+                return "<div class=\"report-line\"><span>" + escapeHTML(test.title) +
+                    "</span><strong>" + score + "%</strong></div><div class=\"report-progress\"><span style=\"width:" + score + "%\"></span></div>";
+            }).join("");
+
+            return "<div class=\"student-folder\"><div class=\"student-folder-header\"><div class=\"student-label\"><span class=\"folder-icon\">📁</span><span>" + escapeHTML(username) + "</span></div><span class=\"toggle-indicator\">▾</span></div><div class=\"student-folder-content\"><div class=\"student-report\"><h3>" + escapeHTML(username) + "</h3>" +
+                "<select class=\"strand-select\" onchange=\"changeStudentStrand('" + encodeURIComponent(username) + "',this.value)\"><option value=\"\">Select strand</option>" +
+                strandOrder.slice(0,6).map(function(option){return "<option value=\"" + option + "\" " + (account.strand === option ? "selected" : "") + ">" + option + "</option>";}).join("") +
+                "</select><div class=\"report-line\"><span>Tests completed</span><strong>" +
+                (account.completed || 0) + "</strong></div>" + subjectRows + customRows +
+                renderAttemptDetails(account) +
+                "<p class=\"activity\">" + (account.activity || "No tests completed yet.") +
+                "</p></div></div></div>";
         }).join("");
 
-        return "<div class=\"student-report\"><h3>" + escapeHTML(username) + "</h3>" +
-            "<select class=\"strand-select\" onchange=\"changeStudentStrand('" + encodeURIComponent(username) + "',this.value)\"><option value=\"\">Select strand</option>" +
-            strandOrder.slice(0,6).map(function(option){return "<option value=\"" + option + "\" " + (account.strand === option ? "selected" : "") + ">" + option + "</option>";}).join("") +
-            "</select><div class=\"report-line\"><span>Tests completed</span><strong>" +
-            (account.completed || 0) + "</strong></div>" + subjectRows + customRows +
-            renderAttemptDetails(account) +
-            "<p class=\"activity\">" + (account.activity || "No tests completed yet.") +
-            "</p></div>";
-        }).join("");
-
-        return "<section class=\"strand-group\"><div class=\"strand-heading\"><h3>" + strand +
-            "</h3><span>" + strandUsers.length + (strandUsers.length === 1 ? " student" : " students") +
-            "</span></div><div class=\"teacher-grid\">" + studentCards + "</div></section>";
+        return "<section class=\"strand-group\"><div class=\"strand-heading\"><div class=\"strand-label\"><span class=\"folder-icon\">📁</span><h3>" + strand +
+            "</h3></div><span>" + strandUsers.length + (strandUsers.length === 1 ? " student" : " students") +
+            "</span><span class=\"toggle-indicator\">▾</span></div><div class=\"student-folder-stack\">" + studentCards + "</div></section>";
     }).join("");
 
     reports.innerHTML = grouped;
+    bindFolderToggles();
+}
+
+function bindFolderToggles(){
+    document.querySelectorAll(".strand-heading").forEach(function(toggle){
+        toggle.onclick = function(){
+            var group = toggle.closest(".strand-group");
+            group.classList.toggle("collapsed");
+            var indicator = toggle.querySelector(".toggle-indicator");
+            if(indicator){
+                indicator.textContent = group.classList.contains("collapsed") ? "▸" : "▾";
+            }
+        };
+    });
+
+    document.querySelectorAll(".student-folder-header").forEach(function(toggle){
+        toggle.onclick = function(){
+            var folder = toggle.closest(".student-folder");
+            folder.classList.toggle("collapsed");
+            var indicator = toggle.querySelector(".toggle-indicator");
+            if(indicator){
+                indicator.textContent = folder.classList.contains("collapsed") ? "▸" : "▾";
+            }
+        };
+    });
 }
 
 function changeStudentStrand(encodedUsername,strand){
@@ -1093,6 +1389,10 @@ function renderAttemptDetails(account){
 
 function backToLogin(){
     document.getElementById("teacher").style.display = "none";
+    document.getElementById("admin").style.display = "none";
+    document.getElementById("home").style.display = "none";
+    document.getElementById("test").style.display = "none";
+    document.getElementById("result").style.display = "none";
     document.getElementById("login").style.display = "block";
 }
 
@@ -1173,10 +1473,16 @@ function loginUser(){
 
 
 function startTest(subject){
+    let state = getActivationState();
+    let publishedTest = getPublishedTests().find(function(test){return test.id === subject;});
+
+    if(publishedTest && state[subject] !== true){
+        showError("This test is currently closed by the administrator.");
+        return;
+    }
 
     currentSubject = subject;
 
-    let publishedTest = getPublishedTests().find(function(test){return test.id === subject;});
     currentTest = tests[subject] || (publishedTest ? publishedTest.questions : []);
     currentTestTitle = publishedTest ? publishedTest.title : {
         research:"Practical Research II",
