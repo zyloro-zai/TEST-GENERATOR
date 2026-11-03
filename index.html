@@ -8,67 +8,144 @@
 <style>
 *{box-sizing:border-box}
 
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:linear-gradient(135deg,#e8f1ff 0%,#f7f9fc 48%,#fff4e5 100%);
-    color:#172033;
-    min-height:100vh
+:root{
+    color-scheme:light;
+    --ink:#182338;
+    --muted:#68758b;
+    --blue:#3969c6;
+    --blue-dark:#2853a4;
+    --line:#e1e8f2;
+    --surface:#fff;
+    --soft:#f5f8fd;
+    --shadow:0 18px 50px rgba(31,55,91,.10);
 }
 
+body{
+    margin:0;
+    font-family:Inter,"Segoe UI",Arial,sans-serif;
+    background:
+        radial-gradient(ellipse at 8% 0%,rgba(111,159,239,.18),transparent 36rem),
+        radial-gradient(ellipse at 95% 15%,rgba(255,206,139,.15),transparent 30rem),
+        #f4f7fc;
+    color:var(--ink);
+    min-height:100vh;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased
+}
+
+body[data-theme="dark"]{
+    color-scheme:dark;
+    --ink:#e7edf7;
+    --muted:#a2aec2;
+    --line:#334157;
+    --surface:#182335;
+    --soft:#202d42;
+    --shadow:0 18px 50px rgba(0,0,0,.28);
+    background:
+        radial-gradient(ellipse at 8% 0%,rgba(57,105,198,.16),transparent 36rem),
+        radial-gradient(ellipse at 95% 15%,rgba(198,132,62,.08),transparent 30rem),
+        #0d1421
+}
+body[data-font-size="large"]{font-size:18px}
+body[data-font-size="large"] input,
+body[data-font-size="large"] button,
+body[data-font-size="large"] select,
+body[data-font-size="large"] textarea{font-size:1em}
+body[data-reduce-motion="true"] *,
+body[data-reduce-motion="true"] *::before,
+body[data-reduce-motion="true"] *::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+
 .container{
-    max-width:960px;
+    max-width:1120px;
     margin:auto;
-    padding:32px 20px
+    padding:36px 22px 56px
 }
 
 .card{
-    background:white;
-    padding:32px;
-    border-radius:20px;
-    box-shadow:0 12px 40px #23406b18;
-    margin-top:30px
+    position:relative;
+    background:var(--surface);
+    padding:clamp(22px,4vw,38px);
+    border:1px solid rgba(221,230,243,.9);
+    border-radius:22px;
+    box-shadow:var(--shadow);
+    margin-top:22px
 }
 
 h1,h2{
     text-align:center
 }
 
-h1{margin:0 0 10px;font-size:clamp(28px,5vw,42px)}
-h2{color:#34415a}
+h1{margin:0 0 10px;font-size:clamp(28px,5vw,40px);letter-spacing:-.035em;line-height:1.15}
+h2{color:#293852;letter-spacing:-.02em}
 
-input,button{
+input,button,select,textarea{
     width:100%;
-    padding:13px;
-    margin:7px 0;
-    border-radius:8px;
-    border:1px solid #ccc;
-    font-size:16px
+    padding:12px 14px;
+    margin:6px 0;
+    border-radius:10px;
+    border:1px solid #d6dfec;
+    font:inherit;
+    font-size:15px
 }
 
+input,select,textarea{
+    background:#fff;
+    color:var(--ink);
+    transition:border-color .18s,box-shadow .18s,background .18s
+}
+
+input::placeholder,textarea::placeholder{color:#98a4b7}
+input:focus,select:focus,textarea:focus{
+    outline:none;
+    border-color:#6d91d6;
+    box-shadow:0 0 0 4px rgba(80,123,205,.14)
+}
+
+textarea{resize:vertical;line-height:1.55}
+
 button{
-    background:#222;
+    min-height:44px;
+    background:linear-gradient(135deg,var(--blue),var(--blue-dark));
     color:white;
-    border:0;
-    cursor:pointer
+    border:1px solid transparent;
+    cursor:pointer;
+    font-weight:700;
+    letter-spacing:.015em;
+    box-shadow:0 5px 12px rgba(47,91,174,.16);
+    transition:transform .18s,box-shadow .18s,filter .18s
 }
 
 button:hover{
-    opacity:.85
+    filter:brightness(1.04);
+    transform:translateY(-1px);
+    box-shadow:0 8px 18px rgba(47,91,174,.22)
 }
 
-.secondary-button{background:#e8eef9;color:#284875}
+button:active{transform:translateY(0);box-shadow:0 3px 8px rgba(47,91,174,.16)}
+button:focus-visible,.sidebar-item:focus-visible,.subject:focus-visible{
+    outline:3px solid rgba(57,105,198,.4);
+    outline-offset:2px
+}
 
-.admin-shell{display:grid;grid-template-columns:260px 1fr;gap:18px;min-height:720px}
-.sidebar{background:#172033;color:#edf4ff;padding:18px;border-radius:16px;display:flex;flex-direction:column;gap:14px}
+.secondary-button{
+    background:#edf2fa;
+    color:#31517f;
+    border-color:#e1e8f2;
+    box-shadow:none
+}
+.secondary-button:hover{background:#e5edf9;box-shadow:0 5px 12px rgba(47,91,174,.10)}
+
+.admin-shell{display:grid;grid-template-columns:240px 1fr;gap:18px;min-height:600px}
+.sidebar{background:linear-gradient(160deg,#1d2b45,#152039);color:#edf4ff;padding:18px;border-radius:16px;display:flex;flex-direction:column;gap:10px}
 .sidebar h3{margin:0 0 8px;font-size:18px}
-.sidebar-item{padding:12px 14px;border-radius:10px;background:rgba(255,255,255,.06);cursor:pointer;color:#edf4ff;border:1px solid rgba(255,255,255,.08)}
-.sidebar-item.active{background:#4e7bd9}
+.sidebar-item{padding:12px 14px;border-radius:10px;background:rgba(255,255,255,.045);cursor:pointer;color:#edf4ff;border:1px solid rgba(255,255,255,.08);transition:background .18s,transform .18s}
+.sidebar-item:hover{background:rgba(255,255,255,.12);transform:translateX(2px)}
+.sidebar-item.active{background:#4775cf;border-color:rgba(255,255,255,.14)}
 .admin-panel{display:flex;flex-direction:column;gap:18px}
-.admin-card{background:#f9fbff;border:1px solid #e2ebf7;padding:18px;border-radius:14px}
+.admin-card{background:#f8faff;border:1px solid #e2eaf5;padding:18px;border-radius:15px}
 .admin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.admin-stat{padding:16px;border-radius:12px;background:white;border:1px solid #e2ebf7}
-.admin-stat strong{display:block;font-size:28px}
+.admin-stat{padding:16px;border-radius:12px;background:white;border:1px solid #e2eaf5;box-shadow:0 4px 12px rgba(36,64,105,.035)}
+.admin-stat strong{display:block;font-size:28px;letter-spacing:-.03em}
 .admin-stat span{color:#728097;font-size:13px}
 .test-activation{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border:1px solid #e1e7f1;border-radius:10px;background:white;margin:8px 0}
 .test-activation button{width:auto;padding:9px 12px;margin:0}
@@ -84,47 +161,55 @@ button:hover{
 .mini-card span{color:#728097;font-size:12px}
 
 .subject{
-    background:#f5f8ff;
+    background:linear-gradient(145deg,#fff,#f5f8ff);
     border:1px solid #e0e8f7;
-    padding:20px;
+    padding:22px;
     margin:10px 0;
-    border-radius:14px;
+    border-radius:16px;
     cursor:pointer;
-    transition:transform .2s,box-shadow .2s
+    transition:transform .2s,border-color .2s,box-shadow .2s
 }
 
 .subject:hover{
-    background:#edf3ff;
+    background:#f4f8ff;
+    border-color:#c7d8f3;
     transform:translateY(-3px);
-    box-shadow:0 8px 18px #23406b18
+    box-shadow:0 12px 24px rgba(35,64,107,.10)
 }
 
-.dashboard-header{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:26px}
+.dashboard-header{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:30px;padding-bottom:22px;border-bottom:1px solid #edf0f5}
 .dashboard-header h1{text-align:left}
 .eyebrow{color:#5471a6;font-size:13px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;margin:0 0 8px}
-.welcome-copy{color:#69758b;margin:0}
-.student-badge{background:#172033;color:white;border-radius:14px;padding:12px 16px;white-space:nowrap}
+.login-eyebrow{text-align:center;margin:0 0 10px}
+.login-copy{text-align:center;color:var(--muted);margin:0 auto 22px;max-width:460px}
+#login{max-width:760px;margin:32px auto 0}
+#login h2{margin:22px 0 14px;font-size:20px}
+#login input{margin:7px 0}
+#login .teacher-link{box-shadow:none}
+.welcome-copy{color:var(--muted);margin:0}
+.dashboard-header>button{width:auto;flex:0 0 auto;min-width:120px}
+.student-badge{background:linear-gradient(145deg,#1e2e4b,#17243b);color:white;border-radius:14px;padding:12px 16px;white-space:nowrap;box-shadow:0 6px 16px rgba(25,43,72,.14)}
 .student-badge small{display:block;color:#b9c8e4;font-size:11px;margin-bottom:3px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
-.stat{padding:18px;border-radius:14px;background:#f7f9fc;border:1px solid #e7ebf3}
-.stat strong{display:block;font-size:28px;color:#172033;margin-bottom:4px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:30px}
+.stat{padding:19px;border-radius:15px;background:linear-gradient(145deg,#f8faff,#f2f6fc);border:1px solid #e5ebf4}
+.stat strong{display:block;font-size:30px;line-height:1.1;color:#172033;margin-bottom:7px}
 .stat span{color:#718097;font-size:13px}
-.section-heading{display:flex;justify-content:space-between;align-items:center;margin:24px 0 12px}
+.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 14px}
 .section-heading h2{text-align:left;margin:0;font-size:21px}
 .section-heading p{color:#718097;font-size:13px;margin:0}
 .subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .subject{margin:0;position:relative}
 .subject-top{display:flex;align-items:center;gap:12px}
-.subject-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;font-size:21px;background:#dceaff}
+.subject-icon{width:44px;height:44px;display:grid;place-items:center;border-radius:13px;font-size:21px;font-weight:700;color:#315b9d;background:linear-gradient(145deg,#e4efff,#d6e6ff)}
 .subject h3{margin:0;font-size:17px}
 .subject p{color:#718097;font-size:13px;margin:8px 0 12px}
 .progress{height:7px;background:#e5eaf3;border-radius:99px;overflow:hidden}
 .progress span{display:block;height:100%;width:0;background:#4e7bd9;border-radius:inherit}
-.activity{border-top:1px solid #e7ebf3;padding-top:14px;color:#718097;font-size:14px}
+.activity{border-top:1px solid #e7ebf3;padding-top:14px;color:#718097;font-size:14px;line-height:1.55}
 .activity strong{color:#172033}
 .teacher-link{background:transparent;color:#5471a6;margin-top:12px}
 .teacher-login{display:none;margin-top:18px;padding-top:18px;border-top:1px solid #e7ebf3}
-.teacher-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.teacher-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .student-report{padding:16px;border:1px solid #e1e7f1;border-radius:14px;background:#f9fbff}
 .student-report h3{margin:0 0 10px}
 .report-line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;color:#68758b;font-size:13px}
@@ -192,12 +277,15 @@ button:hover{
 
 .choice{
     display:block;
-    background:#f5f5f5;
+    background:#f7f9fc;
     padding:13px;
     margin:8px 0;
-    border-radius:8px
+    border:1px solid #e5eaf2;
+    border-radius:10px;
+    transition:background .16s,border-color .16s
 }
 
+.choice:hover{background:#edf4ff;border-color:#cddcf4}
 .choice input{
     width:auto
 }
@@ -233,26 +321,420 @@ button:hover{
     flex:1
 }
 
+.ai-panel,.builder,.admin-card,.student-report,.strand-group,.test-management-item,.test-activation{
+    box-shadow:0 5px 16px rgba(31,55,91,.045)
+}
+
+.role-page{display:none}
+.role-page.active{display:block}
+.calendar-header{display:flex;justify-content:space-between;align-items:flex-end;gap:14px}
+.calendar-header h1{text-align:left}
+.calendar-header .calendar-today{width:auto;margin:0 0 10px}
+.calendar-shell,.calendar-personal-editor,.calendar-editor{
+    margin-top:18px;
+    padding:clamp(14px,3vw,24px);
+    border:1px solid #dfe8f4;
+    border-radius:18px;
+    background:rgba(255,255,255,.92);
+    box-shadow:0 8px 22px rgba(31,55,91,.06)
+}
+.calendar-toolbar,.calendar-date-navigation,.calendar-view-switcher,.calendar-legend,.calendar-editor-heading,.calendar-form-actions{
+    display:flex;
+    align-items:center;
+    gap:10px
+}
+.calendar-toolbar{justify-content:space-between;flex-wrap:wrap}
+.calendar-date-navigation h2{min-width:170px;margin:0;text-align:center;font-size:19px}
+.calendar-arrow{width:38px;min-height:38px;margin:0;padding:4px;background:#edf3fc;color:#365582;box-shadow:none;font-size:24px}
+.calendar-view-switcher{padding:4px;border:1px solid #e4eaf3;border-radius:12px;background:#f6f8fc}
+.calendar-view-switcher button{width:auto;min-height:35px;margin:0;padding:6px 12px;border:0;background:transparent;color:#607089;box-shadow:none;font-size:13px}
+.calendar-view-switcher button.active{background:#fff;color:#2d59a2;box-shadow:0 2px 7px rgba(45,73,112,.12)}
+.calendar-legend{justify-content:flex-end;margin:12px 0;color:#6b7890;font-size:12px}
+.calendar-legend span{display:flex;align-items:center;gap:6px}
+.calendar-dot,.calendar-event-mark{display:inline-block;width:8px;height:8px;border-radius:50%;background:#6086d1}
+.calendar-dot.personal,.calendar-event-mark.personal{background:#e2a04b}
+.calendar-view-container{overflow:auto}
+.month-calendar{min-width:600px;display:grid;grid-template-columns:repeat(7,minmax(70px,1fr));border-top:1px solid #e5ebf4;border-left:1px solid #e5ebf4}
+.month-weekday,.month-day{border-right:1px solid #e5ebf4;border-bottom:1px solid #e5ebf4}
+.month-weekday{padding:8px 5px;text-align:center;color:#728097;font-size:11px;font-weight:700}
+.month-day{min-height:95px;padding:5px;background:#fff;cursor:pointer}
+.month-day.outside-month{background:#f8f9fc;color:#aab3c1}
+.month-day.selected-day{box-shadow:inset 0 0 0 2px #6b8fd0;background:#f5f8ff}
+.month-day.today-day .month-day-number{background:#3969c6;color:#fff}
+.month-day-number{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;font-size:12px}
+.month-event{display:block;overflow:hidden;margin-top:3px;padding:3px 5px;border-radius:5px;background:#eaf1ff;color:#35578f;font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.month-event.personal{background:#fff2df;color:#8b5a1d}
+.calendar-list{display:flex;flex-direction:column;gap:8px}
+.calendar-event-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:12px 14px;border:1px solid #e3eaf3;border-radius:11px;background:#fff}
+.calendar-event-main{display:flex;gap:10px;align-items:flex-start;min-width:0}
+.calendar-event-main>div{min-width:0;overflow-wrap:anywhere}
+.calendar-event-main .calendar-dot{flex:none;margin-top:7px}
+.calendar-event-title{font-weight:700;color:#273852}
+.calendar-event-meta,.calendar-event-notes{color:#718097;font-size:12px}
+.calendar-event-actions{display:flex;gap:6px;flex:none}
+.calendar-event-actions button{width:auto;min-height:32px;margin:0;padding:5px 9px;font-size:11px}
+.calendar-week,.calendar-day{min-width:630px;display:grid;grid-template-columns:repeat(7,minmax(84px,1fr));gap:7px}
+.calendar-week-column{min-height:160px;padding:9px;border:1px solid #e4eaf3;border-radius:10px;background:#fbfcff}
+.calendar-week-column.selected-day{border-color:#7292cf;background:#f4f7ff}
+.calendar-week-heading{margin-bottom:8px;text-align:center;color:#64738a;font-size:12px;font-weight:700}
+.calendar-editor h2,.calendar-personal-editor h2{margin:0;text-align:left;font-size:20px}
+.calendar-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.calendar-form input,.calendar-form select,.calendar-form textarea{width:100%;margin:0}
+.calendar-form textarea,.calendar-form-actions,.calendar-form>button,.calendar-form>.activity{grid-column:1/-1}
+.calendar-form button{margin:0}
+.calendar-form-actions button{width:auto}
+.calendar-editor>h2{margin:22px 0 10px}
+.calendar-editor .calendar-form{max-width:760px;margin:12px 0 18px}
+.calendar-empty{padding:24px 12px;text-align:center;color:#8290a5}
+.lesson-plan-panel{margin-top:20px;padding:18px;border:1px solid #dfe8f4;border-radius:16px;background:#fff}
+.lesson-plan-panel h2{margin:0 0 6px;text-align:left}
+.lesson-plan-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0 20px}
+.lesson-plan-form input,.lesson-plan-form select,.lesson-plan-form textarea{width:100%;margin:0}
+.lesson-plan-form textarea,.lesson-plan-form button,.lesson-plan-form .activity{grid-column:1/-1}
+.lesson-plan-list{display:flex;flex-direction:column;gap:10px}
+.lesson-plan-item{padding:14px;border:1px solid #e3eaf3;border-radius:12px;background:#fbfcff}
+.lesson-plan-item-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.lesson-plan-item h3{margin:0;color:#273852;font-size:16px}
+.lesson-plan-meta{margin-top:4px;color:#718097;font-size:12px}
+.lesson-plan-assessment{margin-top:10px;padding:9px 11px;border-radius:9px;background:#eef4ff;color:#304d7d;font-size:13px}
+.lesson-plan-item-notes{margin:8px 0 0;color:#64738a;font-size:13px;overflow-wrap:anywhere}
+.lesson-plan-actions{display:flex;gap:6px;flex:none}
+.lesson-plan-actions button{width:auto;min-height:34px;margin:0;padding:5px 9px;font-size:11px}
+.lesson-plan-empty{padding:20px 10px;text-align:center;color:#8290a5}
+.admin-lesson-plan{margin-top:20px;padding-top:18px;border-top:1px solid #e5ebf4}
+.settings-intro{margin:0 0 18px;color:var(--muted)}
+.settings-group{margin:14px 0;padding:16px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}
+.settings-group h2{margin:0 0 5px;text-align:left;font-size:18px}
+.settings-group p{margin:0;color:var(--muted);font-size:13px}
+.settings-choice-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.settings-choice{width:auto;min-width:94px;min-height:42px;margin:0;padding:8px 14px;background:#edf2fa;color:#31517f;border:1px solid #dfe7f3;box-shadow:none}
+.settings-choice[aria-pressed="true"]{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 5px 14px rgba(47,91,174,.22)}
+.settings-accent{display:flex;align-items:center;gap:9px}
+.settings-swatch{width:24px;height:24px;min-height:24px;min-width:24px;padding:0;border:3px solid rgba(255,255,255,.85);border-radius:50%;box-shadow:0 0 0 1px rgba(40,55,80,.18)}
+.settings-swatch[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:2px}
+.settings-font-select{max-width:250px;margin:12px 0 0}
+.settings-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:12px}
+.settings-toggle-row input{width:22px;height:22px;accent-color:var(--blue)}
+.settings-account-action{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.settings-account-action button{width:auto;min-width:150px;margin:0;background:#fff0ee;color:#a33d36;border-color:#f0d7d2;box-shadow:none}
+.settings-account-action button:hover{background:#ffe5e1;box-shadow:0 5px 12px rgba(163,61,54,.12)}
+.settings-reset{width:auto;margin-top:14px;padding:8px 12px;background:transparent;color:var(--muted);border-color:var(--line);box-shadow:none}
+
+body[data-theme="dark"] .card,
+body[data-theme="dark"] .admin-card,
+body[data-theme="dark"] .settings-group,
+body[data-theme="dark"] .calendar-shell,
+body[data-theme="dark"] .calendar-personal-editor,
+body[data-theme="dark"] .calendar-editor,
+body[data-theme="dark"] .lesson-plan-panel,
+body[data-theme="dark"] .lesson-plan-item,
+body[data-theme="dark"] .calendar-event-row,
+body[data-theme="dark"] .calendar-week-column,
+body[data-theme="dark"] .student-report,
+body[data-theme="dark"] .student-folder,
+body[data-theme="dark"] .test-management-item,
+body[data-theme="dark"] .test-activation,
+body[data-theme="dark"] .remote-panel,
+body[data-theme="dark"] .remote-queue-item,
+body[data-theme="dark"] .student-home-panel,
+body[data-theme="dark"] .subject,
+body[data-theme="dark"] .stat,
+body[data-theme="dark"] .mini-card,
+body[data-theme="dark"] .admin-stat,
+body[data-theme="dark"] .builder,
+body[data-theme="dark"] .choice,
+body[data-theme="dark"] .sync-status,
+body[data-theme="dark"] .topbar,
+body[data-theme="dark"] .draft-question{
+    color:var(--ink);
+    background:#182335;
+    border-color:#334157
+}
+body[data-theme="dark"] h1,
+body[data-theme="dark"] h2,
+body[data-theme="dark"] h3,
+body[data-theme="dark"] .calendar-event-title,
+body[data-theme="dark"] .lesson-plan-item h3,
+body[data-theme="dark"] .student-report .report-line strong{color:#e7edf7}
+body[data-theme="dark"] p,
+body[data-theme="dark"] .activity,
+body[data-theme="dark"] .calendar-event-meta,
+body[data-theme="dark"] .calendar-event-notes,
+body[data-theme="dark"] .lesson-plan-meta,
+body[data-theme="dark"] .lesson-plan-item-notes,
+body[data-theme="dark"] .welcome-copy,
+body[data-theme="dark"] .builder-note{color:#a2aec2}
+body[data-theme="dark"] input,
+body[data-theme="dark"] select,
+body[data-theme="dark"] textarea,
+body[data-theme="dark"] .strand-select{
+    color:#e7edf7;
+    background:#101a2a;
+    border-color:#3a4b64
+}
+body[data-theme="dark"] input::placeholder,
+body[data-theme="dark"] textarea::placeholder{color:#8290a5}
+body[data-theme="dark"] .teacher-login{border-color:#334157}
+body[data-theme="dark"] .teacher-link{color:#9ab8f0}
+body[data-theme="dark"] .secondary-button,
+body[data-theme="dark"] .calendar-arrow,
+body[data-theme="dark"] .settings-choice{
+    color:#d5e0f2;
+    background:#25344b;
+    border-color:#3a4b64
+}
+body[data-theme="dark"] .settings-choice[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+body[data-theme="dark"] .calendar-view-switcher,
+body[data-theme="dark"] .calendar-day,
+body[data-theme="dark"] .calendar-week-column,
+body[data-theme="dark"] .month-day,
+body[data-theme="dark"] .month-weekday{background:#131e30;border-color:#334157}
+body[data-theme="dark"] .month-day.outside-month{background:#101827;color:#68768c}
+body[data-theme="dark"] .month-day.selected-day,
+body[data-theme="dark"] .calendar-week-column.selected-day{background:#1b2b45}
+body[data-theme="dark"] .calendar-view-switcher button{color:#aebbd0}
+body[data-theme="dark"] .calendar-view-switcher button.active{background:#344968;color:#fff}
+body[data-theme="dark"] .month-event{background:#263b5d;color:#d4e4ff}
+body[data-theme="dark"] .month-event.personal{background:#563e23;color:#ffe1b7}
+body[data-theme="dark"] .lesson-plan-assessment{background:#223553;color:#d6e5ff}
+body[data-theme="dark"] .calendar-empty{color:#a2aec2}
+body[data-theme="dark"] .settings-account-action button{background:#442a2c;color:#ffd9d5;border-color:#684044}
+body[data-theme="dark"] .student-home-panel,
+body[data-theme="dark"] .ai-panel{background:linear-gradient(145deg,#182335,#1e2c42);border-color:#334157}
+body[data-theme="dark"] .strand-group,
+body[data-theme="dark"] .strand-heading,
+body[data-theme="dark"] .student-folder-header,
+body[data-theme="dark"] .student-report h3{background:#1b2a40;border-color:#334157;color:#e7edf7}
+body[data-theme="dark"] .folder-icon,
+body[data-theme="dark"] .toggle-indicator,
+body[data-theme="dark"] .report-progress{background:#263850;border-color:#3a4b64;color:#d5e0f2}
+body[data-theme="dark"] .lesson-plan-item{background:#131e30}
+body[data-theme="dark"] .calendar-event-row{background:#131e30}
+
+.student-home-panel{
+    min-height:250px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:center;
+    padding:clamp(22px,5vw,44px);
+    border:1px solid #dfe9f8;
+    border-radius:18px;
+    background:radial-gradient(ellipse at 90% 15%,rgba(131,171,234,.22),transparent 42%),linear-gradient(145deg,#f9fbff,#edf4ff)
+}
+.student-home-panel .eyebrow{text-align:left}
+.student-home-panel h2{text-align:left;margin:0 0 8px;font-size:clamp(22px,4vw,30px)}
+.student-home-panel p:not(.eyebrow){max-width:520px;color:var(--muted);margin:0 0 18px}
+.student-home-panel button{width:auto;min-width:190px}
+.role-page>.dashboard-header{margin-bottom:20px}
+.ai-panel{border-radius:16px}
+.builder{margin-top:30px}
+.test-management-item,.test-activation{border-radius:12px}
+.strand-heading{transition:background .18s}
+.strand-heading:hover{background:#e2edff}
+.error,.status-pill{line-height:1.4}
+
 @media(max-width:650px){
-    .container{padding:16px 12px}
-    .card{padding:22px 18px;margin-top:14px}
+    .container{padding:14px 10px 32px}
+    .card{padding:22px 16px;margin-top:10px;border-radius:18px}
+    #login{margin-top:12px}
     .dashboard-header{align-items:flex-start;flex-direction:column}
     .student-badge{width:100%}
     .stats,.subjects{grid-template-columns:1fr}
+    .teacher-grid{grid-template-columns:1fr}
     .remote-grid{grid-template-columns:1fr}
     .sync-status,.remote-queue-item{align-items:flex-start;flex-direction:column}
+    .admin-shell{grid-template-columns:1fr;min-height:0}
+    .sidebar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px}
+    .sidebar h3{grid-column:1/-1;margin:0}
+    .sidebar-item{padding:10px;font-size:13px}
+    .admin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .admin-card{padding:14px}
+    .section-heading{align-items:flex-start}
+    .test-activation,.test-management-item{align-items:flex-start}
+    .test-activation button,.test-management-item button{flex-shrink:0}
+    .nav{gap:10px}
+    .calendar-header{align-items:flex-start;flex-direction:row}
+    .calendar-toolbar{align-items:flex-start;flex-direction:column}
+    .calendar-view-switcher{width:100%;justify-content:space-between}
+    .calendar-view-switcher button{flex:1;padding:6px 4px;font-size:12px}
+    .calendar-date-navigation{width:100%;justify-content:center}
+    .calendar-date-navigation h2{min-width:0;flex:1;font-size:16px}
+    .calendar-legend{justify-content:flex-start}
+    .calendar-form,.lesson-plan-form{grid-template-columns:1fr}
+    .calendar-form textarea,.calendar-form-actions,.calendar-form>button,.calendar-form>.activity{grid-column:auto}
+    .lesson-plan-form textarea,.lesson-plan-form button,.lesson-plan-form .activity{grid-column:auto}
+    .calendar-view-container{overflow:visible}
+    .month-calendar{min-width:0;grid-template-columns:repeat(7,minmax(0,1fr))}
+    .month-weekday{padding:6px 1px;font-size:10px}
+    .month-day{min-width:0;min-height:58px;padding:3px 2px}
+    .month-day-number{width:22px;height:22px;font-size:11px}
+    .month-event{display:inline-block;width:6px;height:6px;margin:3px 2px 0;padding:0;border-radius:50%;font-size:0;vertical-align:middle}
+    .month-event.personal{background:#e2a04b}
+    .month-event.month-event-more{width:auto;height:auto;margin:2px 0 0;padding:0 3px;border-radius:5px;background:#edf1f7;color:#52637c;font-size:9px;text-indent:0}
+    .calendar-week{min-width:0;grid-template-columns:minmax(0,1fr);gap:6px}
+    .calendar-week-column{min-height:0;padding:9px}
+    .calendar-week-heading{text-align:left}
+    .calendar-event-row{align-items:stretch;flex-direction:column;padding:10px}
+    .calendar-event-actions{align-self:flex-end;flex-direction:row}
+    .calendar-event-actions button{min-height:38px}
 }
+
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
+
+.app-nav{
+    position:fixed;
+    z-index:1000;
+    left:18px;
+    top:50%;
+    transform:translateY(-50%);
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    width:82px;
+    padding:12px 9px;
+    border:1px solid rgba(255,255,255,.48);
+    border-radius:28px;
+    background:linear-gradient(148deg,rgba(255,255,255,.42),rgba(233,242,255,.34) 48%,rgba(250,252,255,.40));
+    box-shadow:0 16px 38px rgba(24,43,76,.15),0 3px 9px rgba(31,55,91,.05),inset 0 1px 0 rgba(255,255,255,.62),inset 0 -1px 0 rgba(255,255,255,.20);
+    -webkit-backdrop-filter:blur(22px) saturate(170%);
+    backdrop-filter:blur(22px) saturate(170%);
+    isolation:isolate;
+    overflow:hidden
+}
+.app-nav::before{content:"";position:absolute;inset:1px;border-radius:27px;background:linear-gradient(145deg,rgba(255,255,255,.16),transparent 34%,rgba(255,255,255,.04));pointer-events:none;z-index:-1}
+.app-nav::after{content:"";position:absolute;left:8px;top:14px;bottom:14px;width:1px;background:linear-gradient(transparent,rgba(255,255,255,.9),transparent);pointer-events:none}
+.app-nav.visible{display:flex}
+.app-nav>*{position:relative}
+.app-nav-edge{display:none}
+.app-nav-brand{
+    display:grid;
+    place-items:center;
+    width:42px;
+    height:42px;
+    margin:1px 0 6px;
+    border-radius:15px;
+    background:linear-gradient(145deg,#4778d1,#284f9b);
+    color:white;
+    font-weight:800;
+    box-shadow:0 5px 12px rgba(44,82,151,.24)
+}
+.app-nav-list{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+.app-nav-item{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    width:62px;
+    min-height:58px;
+    margin:0;
+    padding:7px 3px;
+    border:1px solid transparent;
+    border-radius:19px;
+    background:transparent;
+    color:#64728a;
+    box-shadow:none;
+    font-size:10px;
+    font-weight:650;
+    letter-spacing:0;
+    line-height:1.1;
+    transition:background .18s,color .18s,transform .18s,box-shadow .18s
+}
+.app-nav-item:hover{background:rgba(255,255,255,.34);color:#315b9d;box-shadow:0 4px 12px rgba(47,77,125,.07),inset 0 1px 0 rgba(255,255,255,.48);transform:translateY(-1px)}
+.app-nav-item.active{
+    border-color:rgba(255,255,255,.62);
+    background:linear-gradient(145deg,rgba(255,255,255,.54),rgba(236,244,255,.40));
+    color:var(--blue);
+    box-shadow:0 5px 13px rgba(38,66,111,.10),inset 0 1px 0 rgba(255,255,255,.66),inset 0 -1px 0 rgba(70,103,158,.06)
+}
+.app-nav-item svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.app-nav-separator{width:35px;height:1px;margin:3px 0;background:rgba(87,106,135,.16)}
+body.app-nav-active #admin .admin-shell{grid-template-columns:1fr}
+body.app-nav-active #admin .sidebar{display:none}
+body[data-theme="dark"] .app-nav{
+    border-color:rgba(194,213,244,.30);
+    background:linear-gradient(148deg,rgba(49,67,92,.42),rgba(31,46,68,.34) 48%,rgba(24,37,57,.40));
+    box-shadow:0 16px 38px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.18),inset 0 -1px 0 rgba(255,255,255,.04)
+}
+body[data-theme="dark"] .app-nav-item{color:#c0ccdf}
+body[data-theme="dark"] .app-nav-item:hover{background:rgba(255,255,255,.16);color:#fff}
+body[data-theme="dark"] .app-nav-item.active{color:#fff;background:linear-gradient(145deg,rgba(103,139,199,.40),rgba(63,93,145,.32));border-color:rgba(220,233,255,.24);box-shadow:0 5px 13px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.18)}
+
+@media(min-width:651px){
+    .app-nav{
+        left:12px;
+        transform:translate(calc(-100% - 20px),-50%);
+        transition:transform .24s ease
+    }
+    .app-nav.visible.app-nav-revealed,
+    .app-nav.visible:focus-within{transform:translateY(-50%)}
+    body.app-nav-active .app-nav-edge{
+        position:fixed;
+        z-index:999;
+        top:0;
+        bottom:0;
+        left:0;
+        display:block;
+        width:16px
+    }
+}
+
+@media(max-width:650px){
+    body.app-nav-active .container{
+        max-width:100%;
+        margin:0;
+        padding:10px 10px calc(100px + env(safe-area-inset-bottom))
+    }
+    .app-nav{
+        top:auto;
+        left:50%;
+        bottom:calc(10px + env(safe-area-inset-bottom));
+        transform:translateX(-50%);
+        flex-direction:row;
+        justify-content:center;
+        gap:5px;
+        width:max-content;
+        max-width:calc(100vw - 24px);
+        padding:7px;
+        border-radius:25px
+    }
+    .app-nav-edge{display:none!important}
+    .app-nav-brand,.app-nav-separator{display:none}
+    .app-nav::after{left:10px;right:10px;top:1px;bottom:auto;width:auto;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.62),transparent)}
+    .app-nav-list{flex-direction:row;justify-content:center;gap:3px;width:auto}
+    .app-nav-item{width:clamp(44px,calc((100vw - 54px)/6),56px);min-height:54px;border-radius:18px;font-size:9px}
+}
+
+@media(max-width:380px){
+    .app-nav{gap:1px;padding:6px;max-width:calc(100vw - 16px)}
+    .app-nav-list{gap:1px}
+    .app-nav-item{width:clamp(44px,calc((100vw - 38px)/6),47px);min-height:50px;font-size:8px}
+}
+
 </style>
 </head>
 
-<body>
+<body data-theme="dark">
+
+<nav class="app-nav" id="appNavigation" aria-label="Main navigation">
+    <div class="app-nav-brand" aria-hidden="true">L</div>
+    <div class="app-nav-list" id="appNavigationItems"></div>
+</nav>
+<div class="app-nav-edge" id="appNavigationEdge" aria-hidden="true"></div>
 
 <div class="container">
 
 <!-- LOGIN PAGE -->
 <div id="login" class="card">
 
+    <p class="eyebrow login-eyebrow">Learn, practice, grow</p>
     <h1>Automated Learning System</h1>
+    <p class="login-copy">A simple place for students to learn and teachers to track progress.</p>
 
     <h2>Student Login</h2>
 
@@ -288,7 +770,6 @@ button:hover{
     <div class="teacher-login" id="teacherLogin">
         <input id="teacherUser" type="text" placeholder="Teacher username">
         <input id="teacherPass" type="password" placeholder="Teacher password">
-        <input id="teacherCode" type="text" placeholder="Teacher code">
         <button onclick="loginTeacher()">LOGIN AS TEACHER</button>
         <button class="secondary-button" onclick="createTeacherAccount()">CREATE TEACHER ACCOUNT</button>
     </div>
@@ -307,43 +788,127 @@ button:hover{
 
 <!-- TEACHER DASHBOARD -->
 <div id="teacher" class="card">
-    <div class="dashboard-header">
-        <div>
-            <p class="eyebrow">Teacher view</p>
-            <h1>Student progress</h1>
-            <p class="welcome-copy">Review quiz completion and subject scores.</p>
+    <section class="role-page active" id="teacherStudentsPage">
+        <div class="dashboard-header">
+            <div>
+                <p class="eyebrow">Teacher view</p>
+                <h1>Student progress</h1>
+                <p class="welcome-copy">Review quiz completion and subject scores.</p>
+            </div>
         </div>
-        <button class="secondary-button" onclick="backToLogin()">LOG OUT</button>
-    </div>
-    <div class="section-heading"><h2>Registered students</h2><p id="studentTotal"></p></div>
-    <div class="teacher-grid" id="studentReports"></div>
+        <div class="section-heading" id="teacherStudentsHeading"><h2>Registered students</h2><p id="studentTotal"></p></div>
+        <div class="teacher-grid" id="studentReports"></div>
+    </section>
 
-    <div class="ai-panel">
-        <p class="eyebrow">AI test maker</p>
-        <h2>Convert a lesson into a test</h2>
-        <p>Upload a PDF, Word document, or PowerPoint lesson. The server extracts the lesson text and prepares editable questions for teacher review.</p>
-        <input id="aiTestTitle" type="text" placeholder="Test title (optional)">
-        <select id="aiTestSubject">
-            <option value="General">General subject</option>
-            <option value="Research">Practical Research II</option>
-            <option value="Mathematics">Basic Mathematics</option>
-            <option value="Science">Science</option>
-            <option value="English">English</option>
-        </select>
-        <input id="aiLessonFile" type="file" accept=".pdf,.docx,.pptx">
-        <button onclick="convertLessonToTest()">CONVERT LESSON TO TEST</button>
-        <div id="aiStatus" class="activity"></div>
-    </div>
-
-    <div class="builder">
-        <div class="section-heading"><h2>Create or edit a test</h2></div>
+    <section class="role-page" id="teacherTestsPage">
+        <div class="dashboard-header">
+            <div>
+                <p class="eyebrow">Teacher workspace</p>
+                <h1>Published tests</h1>
+                <p class="welcome-copy">Review and edit tests shared with students.</p>
+            </div>
+        </div>
         <div class="test-management" id="testManagement"></div>
-        <p class="builder-note">Paste questions in this format: Question, A, B, C, D, Answer. Leave a blank line between questions, then review the draft before publishing.</p>
-        <textarea id="questionText" rows="10" placeholder="Question: What is photosynthesis?&#10;A: Plant respiration&#10;B: Food production in plants&#10;C: Digestion&#10;D: Circulation&#10;Answer: B"></textarea>
-        <button onclick="buildPastedTest()">BUILD TEST DRAFT</button>
-        <div id="builderStatus" class="activity"></div>
-        <div id="draftTest"></div>
-    </div>
+    </section>
+
+    <section class="role-page" id="teacherLessonsPage">
+        <div class="dashboard-header">
+            <div>
+                <p class="eyebrow">Year-long teaching plan</p>
+                <h1>Lessons & assessments</h1>
+                <p class="welcome-copy">Plan the topics you’ll teach and the assessment students should take for each one.</p>
+            </div>
+        </div>
+        <div class="lesson-plan-panel">
+            <h2 id="lessonPlanFormHeading">Add a lesson plan</h2>
+            <p class="builder-note">This plan is shared with the administrator so they can continue the class if you are away.</p>
+            <div class="lesson-plan-form">
+                <input id="lessonPlanYear" type="text" maxlength="20" placeholder="School year (e.g. 2026–2027)">
+                <select id="lessonPlanTerm">
+                    <option value="Quarter 1">Quarter 1</option>
+                    <option value="Quarter 2">Quarter 2</option>
+                    <option value="Quarter 3">Quarter 3</option>
+                    <option value="Quarter 4">Quarter 4</option>
+                    <option value="Year-round">Year-round</option>
+                </select>
+                <input id="lessonPlanSubject" type="text" maxlength="60" placeholder="Subject">
+                <input id="lessonPlanDate" type="date" aria-label="Planned lesson date">
+                <input id="lessonPlanTopic" type="text" maxlength="120" placeholder="Topic or lesson">
+                <input id="lessonPlanAssessment" type="text" maxlength="120" placeholder="Assessment students should take">
+                <textarea id="lessonPlanNotes" rows="2" maxlength="300" placeholder="Instructions or notes for the substitute (optional)"></textarea>
+                <button type="button" onclick="saveLessonPlanItem()">SAVE LESSON PLAN</button>
+                <button class="secondary-button" id="lessonPlanCancel" type="button" onclick="cancelLessonPlanEdit()" hidden>CANCEL EDIT</button>
+                <p class="activity" id="lessonPlanStatus" role="status"></p>
+            </div>
+            <h2>Planned lessons</h2>
+            <div id="teacherLessonPlanList"></div>
+        </div>
+    </section>
+
+    <section class="role-page" id="teacherCalendarPage">
+        <div class="dashboard-header">
+            <div>
+                <p class="eyebrow">School calendar</p>
+                <h1>Schedule an event</h1>
+                <p class="welcome-copy">Publish important dates for students to see in their calendar.</p>
+            </div>
+        </div>
+        <div class="calendar-editor">
+            <div class="calendar-form">
+                <input id="teacherEventTitle" type="text" maxlength="80" placeholder="Event title">
+                <select id="teacherEventType">
+                    <option value="School event">School event</option>
+                    <option value="Exam">Exam</option>
+                    <option value="Test">Test</option>
+                    <option value="Deadline">Deadline</option>
+                    <option value="Reminder">Reminder</option>
+                </select>
+                <input id="teacherEventDate" type="date">
+                <input id="teacherEventTime" type="time">
+                <textarea id="teacherEventNotes" rows="2" maxlength="240" placeholder="Notes (optional)"></textarea>
+                <button type="button" onclick="saveSchoolEvent('teacher')">PUBLISH EVENT</button>
+                <button class="secondary-button" id="teacherEventCancel" type="button" onclick="cancelSchoolEventEdit('teacher')" hidden>CANCEL EDIT</button>
+                <p class="activity" id="teacherCalendarStatus" role="status"></p>
+            </div>
+            <h2>Published school dates</h2>
+            <div id="teacherCalendarEventList"></div>
+        </div>
+    </section>
+
+    <section class="role-page" id="teacherCreatePage">
+        <div class="dashboard-header">
+            <div>
+                <p class="eyebrow">Teacher workspace</p>
+                <h1>Create a test</h1>
+                <p class="welcome-copy">Build a test from your own questions.</p>
+            </div>
+        </div>
+        <div class="ai-panel">
+            <p class="eyebrow">AI test maker</p>
+            <h2>Create a test with AI</h2>
+            <p>Upload a PDF, Word document, or PowerPoint lesson, enter a prompt, or use both. AI-generated questions will be published for students.</p>
+            <input id="aiTestTitle" type="text" placeholder="Test title (optional)">
+            <select id="aiTestSubject">
+                <option value="General">General subject</option>
+                <option value="Research">Practical Research II</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Science">Science</option>
+                <option value="English">English</option>
+            </select>
+            <textarea id="aiTestPrompt" rows="4" placeholder="Or enter a prompt, such as: Create 10 multiple-choice questions about photosynthesis for Grade 10 students."></textarea>
+            <input id="aiLessonFile" type="file" accept=".pdf,.docx,.pptx">
+            <button onclick="convertLessonToTest()">GENERATE TEST</button>
+            <div id="aiStatus" class="activity"></div>
+        </div>
+        <div class="builder" id="teacherBuilder">
+            <div class="section-heading"><h2>Question builder</h2></div>
+            <p class="builder-note">Paste questions in this format: Question, A, B, C, D, Answer. Leave a blank line between questions, then review the draft before publishing.</p>
+            <textarea id="questionText" rows="10" placeholder="Question: What is photosynthesis?&#10;A: Plant respiration&#10;B: Food production in plants&#10;C: Digestion&#10;D: Circulation&#10;Answer: B"></textarea>
+            <button onclick="buildPastedTest()">BUILD TEST DRAFT</button>
+            <div id="builderStatus" class="activity"></div>
+            <div id="draftTest"></div>
+        </div>
+    </section>
 </div>
 
 
@@ -355,7 +920,6 @@ button:hover{
             <h1>Campus operations</h1>
             <p class="welcome-copy">Manage test access when the teacher is unavailable.</p>
         </div>
-        <button class="secondary-button" onclick="backToLogin()">LOG OUT</button>
     </div>
 
     <div class="topbar">
@@ -383,11 +947,43 @@ button:hover{
                     <div class="admin-stat"><strong id="adminOpenTestCount">0</strong><span>Open tests</span></div>
                     <div class="admin-stat"><strong id="adminPendingCount">0</strong><span>Pending review</span></div>
                 </div>
+                <div class="admin-lesson-plan">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Yearly lessons & planned assessments</h2>
+                            <p>Teacher's class plan for use when arranging cover.</p>
+                        </div>
+                    </div>
+                    <div id="adminLessonPlanList"></div>
+                </div>
             </div>
 
             <div class="admin-card" id="admin-open-test-panel">
                 <div class="section-heading"><h2>Manual test activation</h2></div>
                 <div id="adminTestList"></div>
+            </div>
+
+            <div class="admin-card" id="admin-calendar-panel">
+                <div class="section-heading"><h2>School calendar</h2></div>
+                <p class="builder-note">Publish school events, exams, tests, and deadlines to student calendars.</p>
+                <div class="calendar-form">
+                    <input id="adminEventTitle" type="text" maxlength="80" placeholder="Event title">
+                    <select id="adminEventType">
+                        <option value="School event">School event</option>
+                        <option value="Exam">Exam</option>
+                        <option value="Test">Test</option>
+                        <option value="Deadline">Deadline</option>
+                        <option value="Reminder">Reminder</option>
+                    </select>
+                    <input id="adminEventDate" type="date">
+                    <input id="adminEventTime" type="time">
+                    <textarea id="adminEventNotes" rows="2" maxlength="240" placeholder="Notes (optional)"></textarea>
+                    <button type="button" onclick="saveSchoolEvent('admin')">PUBLISH EVENT</button>
+                    <button class="secondary-button" id="adminEventCancel" type="button" onclick="cancelSchoolEventEdit('admin')" hidden>CANCEL EDIT</button>
+                    <p class="activity" id="adminCalendarStatus" role="status"></p>
+                </div>
+                <h2>Published school dates</h2>
+                <div id="adminCalendarEventList"></div>
             </div>
 
             <div class="admin-card" id="admin-student-status-panel">
@@ -420,40 +1016,104 @@ button:hover{
         <div class="student-badge"><small>LOGGED IN AS</small><b id="name"></b></div>
     </div>
 
-    <div class="stats">
-        <div class="stat"><strong id="availableCount">4</strong><span>Available subjects</span></div>
-        <div class="stat"><strong id="questionCount">20</strong><span>Total questions</span></div>
-        <div class="stat"><strong id="completedCount">0</strong><span>Tests completed</span></div>
-    </div>
-
-    <div class="section-heading">
-        <h2>Choose a subject</h2>
-        <p>5 questions each</p>
-    </div>
-
-    <div class="subjects">
-        <div class="subject" onclick="startTest('research')">
-            <div class="subject-top"><div class="subject-icon">R</div><h3>Practical Research II</h3></div>
-            <p>Research skills and academic integrity</p><div class="progress"><span data-progress="research"></span></div>
+    <section class="role-page active" id="studentHomePage">
+        <div class="student-home-panel">
+            <p class="eyebrow">Your learning space</p>
+            <h2>Ready to learn something new?</h2>
+            <p>Choose a subject, take a quiz, and keep track of your progress here.</p>
+            <button type="button" onclick="navigateApp('subjects')">BROWSE SUBJECTS</button>
         </div>
-        <div class="subject" onclick="startTest('math')">
-            <div class="subject-top"><div class="subject-icon">+</div><h3>Basic Mathematics</h3></div>
-            <p>Numbers, operations, and problem solving</p><div class="progress"><span data-progress="math"></span></div>
-        </div>
-        <div class="subject" onclick="startTest('science')">
-            <div class="subject-top"><div class="subject-icon">S</div><h3>Science</h3></div>
-            <p>Explore the world around you</p><div class="progress"><span data-progress="science"></span></div>
-        </div>
-        <div class="subject" onclick="startTest('english')">
-            <div class="subject-top"><div class="subject-icon">A</div><h3>English</h3></div>
-            <p>Grammar, vocabulary, and language</p><div class="progress"><span data-progress="english"></span></div>
-        </div>
-    </div>
+    </section>
 
-    <div id="publishedSubjects" class="subjects"></div>
+    <section class="role-page" id="studentSubjectsPage">
+        <div class="section-heading" id="studentSubjectsHeading">
+            <h2>Choose a subject</h2>
+            <p>5 questions each</p>
+        </div>
 
-    <div class="section-heading"><h2>Recent activity</h2></div>
-    <div class="activity" id="activity">No tests completed yet. Choose a subject to get started.</div>
+        <div class="subjects">
+            <div class="subject" onclick="startTest('research')">
+                <div class="subject-top"><div class="subject-icon">R</div><h3>Practical Research II</h3></div>
+                <p>Research skills and academic integrity</p><div class="progress"><span data-progress="research"></span></div>
+            </div>
+            <div class="subject" onclick="startTest('math')">
+                <div class="subject-top"><div class="subject-icon">+</div><h3>Basic Mathematics</h3></div>
+                <p>Numbers, operations, and problem solving</p><div class="progress"><span data-progress="math"></span></div>
+            </div>
+            <div class="subject" onclick="startTest('science')">
+                <div class="subject-top"><div class="subject-icon">S</div><h3>Science</h3></div>
+                <p>Explore the world around you</p><div class="progress"><span data-progress="science"></span></div>
+            </div>
+            <div class="subject" onclick="startTest('english')">
+                <div class="subject-top"><div class="subject-icon">A</div><h3>English</h3></div>
+                <p>Grammar, vocabulary, and language</p><div class="progress"><span data-progress="english"></span></div>
+            </div>
+        </div>
+        <div id="publishedSubjects" class="subjects"></div>
+    </section>
+
+    <section class="role-page" id="studentCalendarPage">
+        <div class="dashboard-header calendar-header">
+            <div>
+                <p class="eyebrow">Plan your learning</p>
+                <h1>Calendar</h1>
+                <p class="welcome-copy">School dates and your private study reminders.</p>
+            </div>
+            <button type="button" class="secondary-button calendar-today" onclick="goToCalendarToday()">TODAY</button>
+        </div>
+
+        <div class="calendar-shell">
+            <div class="calendar-toolbar">
+                <div class="calendar-date-navigation">
+                    <button type="button" class="calendar-arrow" aria-label="Previous period" onclick="moveCalendar(-1)">&#8249;</button>
+                    <h2 id="calendarHeading"></h2>
+                    <button type="button" class="calendar-arrow" aria-label="Next period" onclick="moveCalendar(1)">&#8250;</button>
+                </div>
+                <div class="calendar-view-switcher" role="group" aria-label="Calendar view">
+                    <button type="button" data-calendar-view="month" onclick="setCalendarView('month')">Month</button>
+                    <button type="button" data-calendar-view="week" onclick="setCalendarView('week')">Week</button>
+                    <button type="button" data-calendar-view="day" onclick="setCalendarView('day')">Day</button>
+                    <button type="button" data-calendar-view="agenda" onclick="setCalendarView('agenda')">Agenda</button>
+                </div>
+            </div>
+            <div class="calendar-legend">
+                <span><i class="calendar-dot school"></i>School events</span>
+                <span><i class="calendar-dot personal"></i>My reminders</span>
+            </div>
+            <div id="calendarViewContainer" class="calendar-view-container"></div>
+        </div>
+
+        <div class="calendar-personal-editor">
+            <div class="calendar-editor-heading">
+                <div>
+                    <p class="eyebrow">Private to your account</p>
+                    <h2 id="personalEventFormHeading">Add a study reminder</h2>
+                </div>
+            </div>
+            <div class="calendar-form">
+                <input id="personalEventTitle" type="text" maxlength="80" placeholder="What do you need to do?">
+                <input id="personalEventDate" type="date">
+                <input id="personalEventTime" type="time">
+                <textarea id="personalEventNotes" rows="2" maxlength="240" placeholder="Notes (optional)"></textarea>
+                <div class="calendar-form-actions">
+                    <button type="button" onclick="savePersonalEvent()">SAVE REMINDER</button>
+                    <button class="secondary-button" id="personalEventCancel" type="button" onclick="cancelPersonalEventEdit()" hidden>CANCEL EDIT</button>
+                </div>
+                <p class="activity" id="personalEventStatus" role="status"></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="role-page" id="studentProgressPage">
+        <div class="section-heading"><h2>Your progress</h2></div>
+        <div class="stats">
+            <div class="stat"><strong id="availableCount">4</strong><span>Available subjects</span></div>
+            <div class="stat"><strong id="questionCount">20</strong><span>Total questions</span></div>
+            <div class="stat"><strong id="completedCount">0</strong><span>Tests completed</span></div>
+        </div>
+        <div class="section-heading" id="recentActivitySection"><h2>Recent activity</h2></div>
+        <div class="activity" id="activity">No tests completed yet. Choose a subject to get started.</div>
+    </section>
 
 </div>
 
@@ -521,6 +1181,53 @@ button:hover{
 
 </div>
 
+</div>
+
+<div id="settingsContainer" class="container" style="display:none">
+<section id="settingsPage" class="card settings-page" aria-labelledby="settingsHeading">
+    <p class="eyebrow">Accessibility and account</p>
+    <h1 id="settingsHeading">Settings</h1>
+    <p class="settings-intro">Dark mode is enabled. Customize your accent color, text size, and accessibility preferences.</p>
+
+    <div class="settings-group">
+        <h2>Accent color</h2>
+        <p>Change the highlight color used for buttons and active navigation.</p>
+        <div class="settings-choice-row settings-accent" role="group" aria-label="Accent color">
+            <button type="button" class="settings-swatch" style="background:#3969c6" data-setting-accent="blue" aria-label="Blue accent" onclick="updateUserSetting('accent','blue')"></button>
+            <button type="button" class="settings-swatch" style="background:#16856f" data-setting-accent="green" aria-label="Green accent" onclick="updateUserSetting('accent','green')"></button>
+            <button type="button" class="settings-swatch" style="background:#8755bd" data-setting-accent="purple" aria-label="Purple accent" onclick="updateUserSetting('accent','purple')"></button>
+            <button type="button" class="settings-swatch" style="background:#c45867" data-setting-accent="rose" aria-label="Rose accent" onclick="updateUserSetting('accent','rose')"></button>
+            <button type="button" class="settings-swatch" style="background:#c27725" data-setting-accent="amber" aria-label="Amber accent" onclick="updateUserSetting('accent','amber')"></button>
+        </div>
+    </div>
+
+    <div class="settings-group">
+        <h2>Text size</h2>
+        <p>Make labels and text easier to read.</p>
+        <select id="settingsFontSize" class="settings-font-select" aria-label="Text size" onchange="updateUserSetting('fontSize',this.value)">
+            <option value="standard">Standard</option>
+            <option value="large">Large</option>
+        </select>
+    </div>
+
+    <div class="settings-group">
+        <div class="settings-toggle-row">
+            <div>
+                <h2>Reduce motion</h2>
+                <p>Reduce animated transitions and movement.</p>
+            </div>
+            <input id="settingsReduceMotion" type="checkbox" aria-label="Reduce motion" onchange="updateUserSetting('reduceMotion',this.checked)">
+        </div>
+    </div>
+
+    <div class="settings-group settings-account-action">
+        <div>
+            <h2>Account</h2>
+            <p>Sign out of this account on this device.</p>
+        </div>
+        <button type="button" onclick="backToLogin()">LOG OUT</button>
+    </div>
+</section>
 </div>
 
 
@@ -778,6 +1485,191 @@ let currentUser = "";
 let currentTestTitle = "";
 let editingTestId = "";
 let currentTeacher = "";
+let currentRole = "";
+
+const userSettingDefaults = {accent:"blue",fontSize:"standard",reduceMotion:false};
+const accentPalettes = {
+    blue:{primary:"#3969c6",dark:"#2853a4"},
+    green:{primary:"#16856f",dark:"#106352"},
+    purple:{primary:"#8755bd",dark:"#6c3e9e"},
+    rose:{primary:"#c45867",dark:"#a33d50"},
+    amber:{primary:"#c27725",dark:"#9e5e18"}
+};
+
+function getUserSettings(){
+    try{
+        let stored = JSON.parse(localStorage.getItem("classroomPreferences") || "{}");
+        if(!stored || typeof stored !== "object"){stored = {};}
+        return {
+            accent:accentPalettes[stored.accent] ? stored.accent : userSettingDefaults.accent,
+            fontSize:stored.fontSize === "large" ? "large" : userSettingDefaults.fontSize,
+            reduceMotion:Boolean(stored.reduceMotion)
+        };
+    }catch(error){
+        return Object.assign({},userSettingDefaults);
+    }
+}
+
+function applyUserSettings(){
+    let settings = getUserSettings();
+    let palette = accentPalettes[settings.accent];
+    document.body.dataset.theme = "dark";
+    document.body.dataset.fontSize = settings.fontSize;
+    document.body.dataset.reduceMotion = settings.reduceMotion ? "true" : "false";
+    document.documentElement.style.setProperty("--blue",palette.primary);
+    document.documentElement.style.setProperty("--blue-dark",palette.dark);
+    renderUserSettings();
+}
+
+function renderUserSettings(){
+    let settings = getUserSettings();
+    document.querySelectorAll("[data-setting-accent]").forEach(function(button){
+        button.setAttribute("aria-pressed",button.dataset.settingAccent === settings.accent ? "true" : "false");
+    });
+    let fontSize = document.getElementById("settingsFontSize");
+    let reduceMotion = document.getElementById("settingsReduceMotion");
+    if(fontSize){fontSize.value = settings.fontSize;}
+    if(reduceMotion){reduceMotion.checked = settings.reduceMotion;}
+}
+
+function updateUserSetting(key,value){
+    let settings = getUserSettings();
+    if(key === "accent" && accentPalettes[value]){settings.accent = value;}
+    else if(key === "fontSize" && (value === "standard" || value === "large")){settings.fontSize = value;}
+    else if(key === "reduceMotion"){settings.reduceMotion = Boolean(value);}
+    else{return;}
+    localStorage.setItem("classroomPreferences",JSON.stringify(settings));
+    applyUserSettings();
+}
+
+const appNavigationOptions = {
+    student: [
+        {id:"home",label:"Home",icon:'<path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/>'},
+        {id:"subjects",label:"Subjects",icon:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/>'},
+        {id:"calendar",label:"Calendar",icon:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="m8 15 2 2 5-5"/>'},
+        {id:"progress",label:"Progress",icon:'<path d="M4 19V5"/><path d="M4 19h17"/><path d="m7 15 4-4 3 2 5-6"/>'},
+        {id:"settings",label:"Settings",icon:'<path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.5.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.5-.9l-1.7.7-1.4-2.4 1.4-1.1a7 7 0 0 1 0-1.8l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.5-.9l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.5.9l1.7-.7 1.4 2.4-1.4 1.1a7 7 0 0 1-.1 1.7Z"/>'}
+    ],
+    teacher: [
+        {id:"students",label:"Students",icon:'<path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'},
+        {id:"tests",label:"Tests",icon:'<path d="M8 4h10a2 2 0 0 1 2 2v14H8a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3Z"/><path d="M8 4v13a3 3 0 0 0 3 3M11 8h6M11 12h6"/>'},
+        {id:"calendar",label:"Calendar",icon:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="m8 15 2 2 5-5"/>'},
+        {id:"lessons",label:"Lessons",icon:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="M8 7h8M8 11h7"/>'},
+        {id:"create",label:"Create",icon:'<path d="M12 5v14M5 12h14"/><circle cx="12" cy="12" r="9"/>'},
+        {id:"settings",label:"Settings",icon:'<path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.5.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.5-.9l-1.7.7-1.4-2.4 1.4-1.1a7 7 0 0 1 0-1.8l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.5-.9l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.5.9l1.7-.7 1.4 2.4-1.4 1.1a7 7 0 0 1-.1 1.7Z"/>'}
+    ],
+    admin: [
+        {id:"dashboard",label:"Dashboard",icon:'<rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/>'},
+        {id:"open-test",label:"Tests",icon:'<path d="M8 4h10a2 2 0 0 1 2 2v14H8a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3Z"/><path d="M8 4v13a3 3 0 0 0 3 3M11 8h6M11 12h6"/>'},
+        {id:"calendar",label:"Calendar",icon:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="m8 15 2 2 5-5"/>'},
+        {id:"student-status",label:"Status",icon:'<path d="M4 19V5"/><path d="M4 19h17"/><path d="m7 15 4-4 3 2 5-6"/>'},
+        {id:"admin-notes",label:"Notes",icon:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/>'},
+        {id:"settings",label:"Settings",icon:'<path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.5.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.5-.9l-1.7.7-1.4-2.4 1.4-1.1a7 7 0 0 1 0-1.8l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.5-.9l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.5.9l1.7-.7 1.4 2.4-1.4 1.1a7 7 0 0 1-.1 1.7Z"/>'}
+    ]
+};
+
+function configureAppNavigation(role,activeItem){
+    currentRole = role;
+    let navigation = document.getElementById("appNavigation");
+    let items = document.getElementById("appNavigationItems");
+    items.innerHTML = appNavigationOptions[role].map(function(item){
+        return "<button class=\"app-nav-item" + (item.id === activeItem ? " active" : "") +
+            "\" type=\"button\" data-nav=\"" + item.id + "\" aria-label=\"" + item.label +
+            "\" aria-current=\"" + (item.id === activeItem ? "page" : "false") + "\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\">" +
+            item.icon + "</svg><span>" + item.label + "</span></button>";
+    }).join("");
+    navigation.classList.add("visible");
+    document.body.classList.add("app-nav-active");
+    setActiveNavigationItem(activeItem);
+    if(role === "student" || role === "teacher"){
+        showRolePage(role,activeItem);
+    }
+}
+
+function showRolePage(role,activeItem){
+    let pages = role === "student"
+        ? {home:"studentHomePage",subjects:"studentSubjectsPage",calendar:"studentCalendarPage",progress:"studentProgressPage"}
+        : {students:"teacherStudentsPage",tests:"teacherTestsPage",calendar:"teacherCalendarPage",lessons:"teacherLessonsPage",create:"teacherCreatePage"};
+    Object.keys(pages).forEach(function(key){
+        let page = document.getElementById(pages[key]);
+        if(page){page.classList.toggle("active",key === activeItem);}
+    });
+    if(role === "student" && activeItem === "calendar"){renderStudentCalendar();}
+    if(role === "teacher" && activeItem === "calendar"){renderSchoolEventManager("teacher");}
+    if(role === "teacher" && activeItem === "lessons"){renderTeacherLessonPlan();}
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function setActiveNavigationItem(activeItem){
+    document.querySelectorAll("#appNavigation [data-nav]").forEach(function(item){
+        let isActive = item.dataset.nav === activeItem;
+        item.classList.toggle("active",isActive);
+        item.setAttribute("aria-current",isActive ? "page" : "false");
+    });
+}
+
+function navigateApp(destination){
+    let settingsPage = document.getElementById("settingsPage");
+    if(destination === "settings"){
+        ["teacher","admin","home","test","result"].forEach(function(id){
+            document.getElementById(id).style.display = "none";
+        });
+        document.getElementById("settingsContainer").style.display = "block";
+        settingsPage.style.display = "block";
+        setActiveNavigationItem("settings");
+        renderUserSettings();
+        window.scrollTo({top:0,behavior:"smooth"});
+        return;
+    }
+    document.getElementById("settingsContainer").style.display = "none";
+    settingsPage.style.display = "none";
+
+    if(currentRole === "admin"){
+        document.getElementById("admin").style.display = "block";
+        showAdminSection(destination);
+        return;
+    }
+
+    if(currentRole === "teacher"){
+        document.getElementById("teacher").style.display = "block";
+        showRolePage("teacher",destination);
+        setActiveNavigationItem(destination);
+        return;
+    }
+
+    if(currentRole === "student"){
+        document.getElementById("home").style.display = "block";
+        document.getElementById("test").style.display = "none";
+        document.getElementById("result").style.display = "none";
+        document.getElementById("home").style.display = "block";
+        showRolePage("student",destination);
+        setActiveNavigationItem(destination);
+    }
+}
+
+document.getElementById("appNavigation").addEventListener("click",function(event){
+    let button = event.target.closest("[data-nav]");
+    if(button){navigateApp(button.dataset.nav);}
+});
+
+let appNavigation = document.getElementById("appNavigation");
+let appNavigationEdge = document.getElementById("appNavigationEdge");
+appNavigationEdge.addEventListener("pointerenter",function(){
+    appNavigation.classList.add("app-nav-revealed");
+});
+appNavigationEdge.addEventListener("pointerleave",function(event){
+    if(!appNavigation.contains(event.relatedTarget)){
+        appNavigation.classList.remove("app-nav-revealed");
+    }
+});
+appNavigation.addEventListener("pointerenter",function(){
+    appNavigation.classList.add("app-nav-revealed");
+});
+appNavigation.addEventListener("pointerleave",function(event){
+    if(!appNavigationEdge.contains(event.relatedTarget)){
+        appNavigation.classList.remove("app-nav-revealed");
+    }
+});
 
 function getTeacherAccounts(){
     try{
@@ -835,6 +1727,397 @@ function saveAccounts(accounts){
     localStorage.setItem("learningAccounts",data);
 }
 
+function getSchoolEvents(){
+    try{
+        let request = new XMLHttpRequest();
+        request.open("GET","/api/calendar-events",false);
+        request.send();
+        if(request.status === 200){return JSON.parse(request.responseText || "[]");}
+    }catch(error){}
+    return JSON.parse(localStorage.getItem("schoolCalendarEvents") || "[]");
+}
+
+function saveSchoolEvents(events){
+    let data = JSON.stringify(events);
+    try{
+        let request = new XMLHttpRequest();
+        request.open("POST","/api/calendar-events",false);
+        request.setRequestHeader("Content-Type","application/json");
+        request.send(data);
+        if(request.status === 200){return true;}
+    }catch(error){}
+    localStorage.setItem("schoolCalendarEvents",data);
+    return false;
+}
+
+function getLessonPlan(){
+    try{
+        let request = new XMLHttpRequest();
+        request.open("GET","/api/lesson-plan",false);
+        request.send();
+        if(request.status === 200){return JSON.parse(request.responseText || "[]");}
+    }catch(error){}
+    return JSON.parse(localStorage.getItem("schoolLessonPlan") || "[]");
+}
+
+function saveLessonPlan(items){
+    let data = JSON.stringify(items);
+    try{
+        let request = new XMLHttpRequest();
+        request.open("POST","/api/lesson-plan",false);
+        request.setRequestHeader("Content-Type","application/json");
+        request.send(data);
+        if(request.status === 200){return true;}
+    }catch(error){}
+    localStorage.setItem("schoolLessonPlan",data);
+    return false;
+}
+
+let editingLessonPlanId = "";
+
+function sortLessonPlan(items){
+    let termOrder = {"Quarter 1":1,"Quarter 2":2,"Quarter 3":3,"Quarter 4":4,"Year-round":5};
+    return items.slice().sort(function(a,b){
+        return (a.year || "").localeCompare(b.year || "") ||
+            (termOrder[a.term] || 6) - (termOrder[b.term] || 6) ||
+            (a.date || "9999-99-99").localeCompare(b.date || "9999-99-99") ||
+            (a.subject || "").localeCompare(b.subject || "");
+    });
+}
+
+function lessonPlanCard(item,editable){
+    let date = item.date ? formatCalendarDate(item.date) : "Date not set";
+    let notes = item.notes ? "<p class=\"lesson-plan-item-notes\">" + escapeHTML(item.notes) + "</p>" : "";
+    let teacher = item.teacher ? " · " + escapeHTML(item.teacher) : "";
+    let controls = editable ? "<div class=\"lesson-plan-actions\"><button class=\"secondary-button\" onclick=\"editLessonPlanItem('" + encodeURIComponent(item.id) + "')\">EDIT</button><button class=\"secondary-button\" onclick=\"deleteLessonPlanItem('" + encodeURIComponent(item.id) + "')\">DELETE</button></div>" : "";
+    return "<article class=\"lesson-plan-item\"><div class=\"lesson-plan-item-header\"><div><h3>" + escapeHTML(item.topic) +
+        "</h3><div class=\"lesson-plan-meta\">" + escapeHTML(item.subject) + " · " + escapeHTML(item.year) + " · " +
+        escapeHTML(item.term) + " · " + date + teacher + "</div></div>" + controls +
+        "</div><div class=\"lesson-plan-assessment\"><strong>Planned assessment:</strong> " + escapeHTML(item.assessment) +
+        "</div>" + notes + "</article>";
+}
+
+function renderTeacherLessonPlan(){
+    let list = document.getElementById("teacherLessonPlanList");
+    if(!list){return;}
+    let items = sortLessonPlan(getLessonPlan().filter(function(item){return !item.teacher || item.teacher === currentTeacher;}));
+    list.innerHTML = items.length ? "<div class=\"lesson-plan-list\">" + items.map(function(item){return lessonPlanCard(item,true);}).join("") + "</div>"
+        : "<div class=\"lesson-plan-empty\">No lessons planned yet. Add the topics and assessments for the school year.</div>";
+}
+
+function renderAdminLessonPlan(){
+    let list = document.getElementById("adminLessonPlanList");
+    if(!list){return;}
+    let items = sortLessonPlan(getLessonPlan());
+    list.innerHTML = items.length ? "<div class=\"lesson-plan-list\">" + items.map(function(item){return lessonPlanCard(item,false);}).join("") + "</div>"
+        : "<div class=\"lesson-plan-empty\">The teacher has not added a yearly lesson plan yet.</div>";
+}
+
+function saveLessonPlanItem(){
+    let values = {
+        year:document.getElementById("lessonPlanYear").value.trim(),
+        term:document.getElementById("lessonPlanTerm").value,
+        subject:document.getElementById("lessonPlanSubject").value.trim(),
+        date:document.getElementById("lessonPlanDate").value,
+        topic:document.getElementById("lessonPlanTopic").value.trim(),
+        assessment:document.getElementById("lessonPlanAssessment").value.trim(),
+        notes:document.getElementById("lessonPlanNotes").value.trim()
+    };
+    let status = document.getElementById("lessonPlanStatus");
+    if(!values.year || !values.subject || !values.topic || !values.assessment){
+        status.innerText = "Enter the school year, subject, lesson topic, and planned assessment.";
+        return;
+    }
+
+    let items = getLessonPlan();
+    let existing = items.find(function(item){return item.id === editingLessonPlanId;});
+    let entry = Object.assign({id:editingLessonPlanId || "lesson-" + Date.now(),teacher:currentTeacher},values);
+    if(existing){Object.assign(existing,entry);}else{items.push(entry);}
+    let shared = saveLessonPlan(items);
+    cancelLessonPlanEdit();
+    status.innerText = shared
+        ? "Lesson plan saved and shared with the administrator."
+        : "Lesson plan saved on this device only; the shared lesson-plan API is unavailable.";
+    renderTeacherLessonPlan();
+}
+
+function editLessonPlanItem(encodedId){
+    let item = getLessonPlan().find(function(entry){return entry.id === decodeURIComponent(encodedId);});
+    if(!item){return;}
+    editingLessonPlanId = item.id;
+    document.getElementById("lessonPlanYear").value = item.year || "";
+    document.getElementById("lessonPlanTerm").value = item.term || "Quarter 1";
+    document.getElementById("lessonPlanSubject").value = item.subject || "";
+    document.getElementById("lessonPlanDate").value = item.date || "";
+    document.getElementById("lessonPlanTopic").value = item.topic || "";
+    document.getElementById("lessonPlanAssessment").value = item.assessment || "";
+    document.getElementById("lessonPlanNotes").value = item.notes || "";
+    document.getElementById("lessonPlanFormHeading").innerText = "Edit lesson plan";
+    document.getElementById("lessonPlanCancel").hidden = false;
+    document.getElementById("lessonPlanTopic").focus();
+}
+
+function cancelLessonPlanEdit(){
+    editingLessonPlanId = "";
+    ["Year","Subject","Date","Topic","Assessment","Notes"].forEach(function(field){
+        document.getElementById("lessonPlan" + field).value = "";
+    });
+    document.getElementById("lessonPlanTerm").value = "Quarter 1";
+    document.getElementById("lessonPlanFormHeading").innerText = "Add a lesson plan";
+    document.getElementById("lessonPlanCancel").hidden = true;
+}
+
+function deleteLessonPlanItem(encodedId){
+    let id = decodeURIComponent(encodedId);
+    let saved = saveLessonPlan(getLessonPlan().filter(function(item){return item.id !== id;}));
+    if(editingLessonPlanId === id){cancelLessonPlanEdit();}
+    document.getElementById("lessonPlanStatus").innerText = saved
+        ? "Lesson plan removed."
+        : "Lesson plan was removed on this device only; the shared API is unavailable.";
+    renderTeacherLessonPlan();
+}
+
+let calendarDate = new Date();
+let calendarView = "month";
+let editingPersonalEventId = "";
+let editingSchoolEventIds = {teacher:"",admin:""};
+
+function dateToCalendarKey(date){
+    return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2,"0") + "-" + String(date.getDate()).padStart(2,"0");
+}
+
+function calendarDateFromKey(key){
+    let parts = key.split("-").map(Number);
+    return new Date(parts[0],parts[1] - 1,parts[2]);
+}
+
+function calendarItemsForStudent(){
+    let accounts = getAccounts();
+    return accounts[currentUser] && Array.isArray(accounts[currentUser].calendarItems)
+        ? accounts[currentUser].calendarItems : [];
+}
+
+function setCalendarView(view){
+    calendarView = view;
+    renderStudentCalendar();
+}
+
+function goToCalendarToday(){
+    calendarDate = new Date();
+    renderStudentCalendar();
+}
+
+function moveCalendar(amount){
+    if(calendarView === "month"){
+        calendarDate = new Date(calendarDate.getFullYear(),calendarDate.getMonth() + amount,1);
+    }else{
+        let days = calendarView === "week" ? 7 : calendarView === "agenda" ? 30 : 1;
+        calendarDate.setDate(calendarDate.getDate() + amount * days);
+    }
+    renderStudentCalendar();
+}
+
+function selectCalendarDate(key){
+    calendarDate = calendarDateFromKey(key);
+    calendarView = "day";
+    renderStudentCalendar();
+}
+
+function studentCalendarEvents(){
+    return getSchoolEvents().map(function(item){return Object.assign({calendarKind:"school"},item);})
+        .concat(calendarItemsForStudent().map(function(item){return Object.assign({calendarKind:"personal"},item);}));
+}
+
+function formatCalendarDate(key,options){
+    return calendarDateFromKey(key).toLocaleDateString(undefined,options || {month:"short",day:"numeric",year:"numeric"});
+}
+
+function calendarEventMarkup(item,withDate){
+    let time = item.time ? item.time : "Any time";
+    let dateLabel = withDate ? formatCalendarDate(item.date,{weekday:"short",month:"short",day:"numeric"}) + " · " : "";
+    let meta = dateLabel + time + (item.type ? " · " + escapeHTML(item.type) : "");
+    let notes = item.notes ? "<div class=\"calendar-event-notes\">" + escapeHTML(item.notes) + "</div>" : "";
+    let personalActions = item.calendarKind === "personal"
+        ? "<div class=\"calendar-event-actions\"><button class=\"secondary-button\" onclick=\"editPersonalEvent('" + encodeURIComponent(item.id) + "')\">EDIT</button><button class=\"secondary-button\" onclick=\"deletePersonalEvent('" + encodeURIComponent(item.id) + "')\">DELETE</button></div>" : "";
+    return "<div class=\"calendar-event-row\"><div class=\"calendar-event-main\"><i class=\"calendar-dot " + (item.calendarKind === "personal" ? "personal" : "school") + "\"></i><div><div class=\"calendar-event-title\">" + escapeHTML(item.title) + "</div><div class=\"calendar-event-meta\">" + meta + "</div>" + notes + "</div></div>" + personalActions + "</div>";
+}
+
+function eventsForDate(key,items){
+    return items.filter(function(item){return item.date === key;})
+        .sort(function(a,b){return (a.time || "99:99").localeCompare(b.time || "99:99");});
+}
+
+function renderCalendarList(events,withDate){
+    return events.length ? "<div class=\"calendar-list\">" + events.map(function(item){return calendarEventMarkup(item,withDate);}).join("") + "</div>"
+        : "<div class=\"calendar-empty\">Nothing scheduled here.</div>";
+}
+
+function renderStudentCalendar(){
+    let heading = document.getElementById("calendarHeading");
+    let container = document.getElementById("calendarViewContainer");
+    if(!heading || !container){return;}
+    let allEvents = studentCalendarEvents();
+
+    document.querySelectorAll("[data-calendar-view]").forEach(function(button){
+        let active = button.dataset.calendarView === calendarView;
+        button.classList.toggle("active",active);
+        button.setAttribute("aria-pressed",active ? "true" : "false");
+    });
+
+    if(calendarView === "month"){
+        heading.innerText = calendarDate.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+        let start = new Date(calendarDate.getFullYear(),calendarDate.getMonth(),1);
+        start.setDate(start.getDate() - start.getDay());
+        let todayKey = dateToCalendarKey(new Date());
+        let days = Array.from({length:42},function(_,index){
+            let date = new Date(start);
+            date.setDate(start.getDate() + index);
+            let key = dateToCalendarKey(date);
+            let events = eventsForDate(key,allEvents);
+            let eventMarkup = events.slice(0,3).map(function(item){
+                return "<span class=\"month-event " + (item.calendarKind === "personal" ? "personal" : "") + "\" title=\"" + escapeHTML(item.title) + "\" aria-label=\"" + escapeHTML(item.title) + "\">" + escapeHTML(item.title) + "</span>";
+            }).join("") + (events.length > 3 ? "<span class=\"month-event month-event-more\">+" + (events.length - 3) + "</span>" : "");
+            return "<div class=\"month-day " + (date.getMonth() !== calendarDate.getMonth() ? "outside-month " : "") +
+                (key === dateToCalendarKey(calendarDate) ? "selected-day " : "") + (key === todayKey ? "today-day" : "") +
+                "\" role=\"button\" tabindex=\"0\" onclick=\"selectCalendarDate('" + key + "')\"><span class=\"month-day-number\">" +
+                date.getDate() + "</span>" + eventMarkup + "</div>";
+        }).join("");
+        container.innerHTML = "<div class=\"month-calendar\">" + ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(function(day){return "<div class=\"month-weekday\">" + day + "</div>";}).join("") + days + "</div>";
+    }else if(calendarView === "week"){
+        let start = new Date(calendarDate);
+        start.setDate(start.getDate() - start.getDay());
+        let end = new Date(start);
+        end.setDate(start.getDate() + 6);
+        heading.innerText = start.toLocaleDateString(undefined,{month:"short",day:"numeric"}) + " – " + end.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+        container.innerHTML = "<div class=\"calendar-week\">" + Array.from({length:7},function(_,index){
+            let date = new Date(start);
+            date.setDate(start.getDate() + index);
+            let key = dateToCalendarKey(date);
+            return "<div class=\"calendar-week-column " + (key === dateToCalendarKey(calendarDate) ? "selected-day" : "") + "\"><div class=\"calendar-week-heading\" role=\"button\" tabindex=\"0\" onclick=\"selectCalendarDate('" + key + "')\">" +
+                date.toLocaleDateString(undefined,{weekday:"short",month:"numeric",day:"numeric"}) + "</div>" + renderCalendarList(eventsForDate(key,allEvents),false) + "</div>";
+        }).join("") + "</div>";
+    }else if(calendarView === "day"){
+        let key = dateToCalendarKey(calendarDate);
+        heading.innerText = calendarDate.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+        container.innerHTML = renderCalendarList(eventsForDate(key,allEvents),false);
+    }else{
+        let end = new Date(calendarDate);
+        end.setDate(end.getDate() + 30);
+        heading.innerText = "Next 30 days";
+        let events = allEvents.filter(function(item){
+            let date = calendarDateFromKey(item.date);
+            return date >= new Date(calendarDate.getFullYear(),calendarDate.getMonth(),calendarDate.getDate()) && date <= end;
+        }).sort(function(a,b){return (a.date + (a.time || "99:99")).localeCompare(b.date + (b.time || "99:99"));});
+        container.innerHTML = renderCalendarList(events,true);
+    }
+}
+
+function savePersonalEvent(){
+    let title = document.getElementById("personalEventTitle").value.trim();
+    let date = document.getElementById("personalEventDate").value;
+    let status = document.getElementById("personalEventStatus");
+    if(!title || !date){status.innerText = "Enter a reminder title and date.";return;}
+    let accounts = getAccounts();
+    if(!accounts[currentUser]){status.innerText = "Could not find your student account.";return;}
+    let items = Array.isArray(accounts[currentUser].calendarItems) ? accounts[currentUser].calendarItems : [];
+    let existing = items.find(function(item){return item.id === editingPersonalEventId;});
+    let entry = {id:editingPersonalEventId || "personal-" + Date.now(),title:title,date:date,time:document.getElementById("personalEventTime").value,notes:document.getElementById("personalEventNotes").value.trim()};
+    if(existing){Object.assign(existing,entry);}else{items.push(entry);}
+    accounts[currentUser].calendarItems = items;
+    saveAccounts(accounts);
+    cancelPersonalEventEdit();
+    status.innerText = "Your private reminder was saved.";
+    renderStudentCalendar();
+}
+
+function editPersonalEvent(encodedId){
+    let item = calendarItemsForStudent().find(function(entry){return entry.id === decodeURIComponent(encodedId);});
+    if(!item){return;}
+    editingPersonalEventId = item.id;
+    document.getElementById("personalEventTitle").value = item.title;
+    document.getElementById("personalEventDate").value = item.date;
+    document.getElementById("personalEventTime").value = item.time || "";
+    document.getElementById("personalEventNotes").value = item.notes || "";
+    document.getElementById("personalEventFormHeading").innerText = "Edit study reminder";
+    document.getElementById("personalEventCancel").hidden = false;
+    document.getElementById("personalEventTitle").focus();
+}
+
+function cancelPersonalEventEdit(){
+    editingPersonalEventId = "";
+    document.getElementById("personalEventTitle").value = "";
+    document.getElementById("personalEventDate").value = "";
+    document.getElementById("personalEventTime").value = "";
+    document.getElementById("personalEventNotes").value = "";
+    document.getElementById("personalEventFormHeading").innerText = "Add a study reminder";
+    document.getElementById("personalEventCancel").hidden = true;
+}
+
+function deletePersonalEvent(encodedId){
+    let accounts = getAccounts();
+    if(!accounts[currentUser]){return;}
+    accounts[currentUser].calendarItems = (accounts[currentUser].calendarItems || []).filter(function(item){return item.id !== decodeURIComponent(encodedId);});
+    saveAccounts(accounts);
+    renderStudentCalendar();
+}
+
+function renderSchoolEventManager(role){
+    let events = getSchoolEvents().slice().sort(function(a,b){return (a.date + (a.time || "99:99")).localeCompare(b.date + (b.time || "99:99"));});
+    let list = document.getElementById(role + "CalendarEventList");
+    if(!list){return;}
+    list.innerHTML = events.length ? "<div class=\"calendar-list\">" + events.map(function(item){
+        return "<div class=\"calendar-event-row\"><div class=\"calendar-event-main\"><i class=\"calendar-dot school\"></i><div><div class=\"calendar-event-title\">" +
+            escapeHTML(item.title) + "</div><div class=\"calendar-event-meta\">" + formatCalendarDate(item.date) + " · " + escapeHTML(item.time || "Any time") + " · " + escapeHTML(item.type || "School event") +
+            "</div>" + (item.notes ? "<div class=\"calendar-event-notes\">" + escapeHTML(item.notes) + "</div>" : "") + "</div></div><div class=\"calendar-event-actions\">" +
+            "<button class=\"secondary-button\" onclick=\"editSchoolEvent('" + role + "','" + encodeURIComponent(item.id) + "')\">EDIT</button><button class=\"secondary-button\" onclick=\"deleteSchoolEvent('" + role + "','" + encodeURIComponent(item.id) + "')\">DELETE</button></div></div>";
+    }).join("") + "</div>" : "<div class=\"calendar-empty\">No school events published yet.</div>";
+}
+
+function saveSchoolEvent(role){
+    let prefix = role === "teacher" ? "teacher" : "admin";
+    let title = document.getElementById(prefix + "EventTitle").value.trim();
+    let date = document.getElementById(prefix + "EventDate").value;
+    let status = document.getElementById(prefix + "CalendarStatus");
+    if(!title || !date){status.innerText = "Enter an event title and date.";return;}
+    let events = getSchoolEvents();
+    let existing = events.find(function(item){return item.id === editingSchoolEventIds[role];});
+    let event = {id:editingSchoolEventIds[role] || "school-" + Date.now(),title:title,type:document.getElementById(prefix + "EventType").value,date:date,time:document.getElementById(prefix + "EventTime").value,notes:document.getElementById(prefix + "EventNotes").value.trim()};
+    if(existing){Object.assign(existing,event);}else{events.push(event);}
+    let shared = saveSchoolEvents(events);
+    cancelSchoolEventEdit(role);
+    status.innerText = shared ? "School event published for everyone." : "Event saved on this device only; the shared calendar API is unavailable.";
+    renderSchoolEventManager(role);
+}
+
+function editSchoolEvent(role,encodedId){
+    let prefix = role === "teacher" ? "teacher" : "admin";
+    let event = getSchoolEvents().find(function(item){return item.id === decodeURIComponent(encodedId);});
+    if(!event){return;}
+    editingSchoolEventIds[role] = event.id;
+    document.getElementById(prefix + "EventTitle").value = event.title;
+    document.getElementById(prefix + "EventType").value = event.type || "School event";
+    document.getElementById(prefix + "EventDate").value = event.date;
+    document.getElementById(prefix + "EventTime").value = event.time || "";
+    document.getElementById(prefix + "EventNotes").value = event.notes || "";
+    document.getElementById(prefix + "EventCancel").hidden = false;
+    document.getElementById(prefix + "CalendarStatus").innerText = "Editing event.";
+}
+
+function cancelSchoolEventEdit(role){
+    let prefix = role === "teacher" ? "teacher" : "admin";
+    editingSchoolEventIds[role] = "";
+    ["Title","Date","Time","Notes"].forEach(function(field){document.getElementById(prefix + "Event" + field).value = "";});
+    document.getElementById(prefix + "EventType").value = "School event";
+    document.getElementById(prefix + "EventCancel").hidden = true;
+}
+
+function deleteSchoolEvent(role,encodedId){
+    let id = decodeURIComponent(encodedId);
+    saveSchoolEvents(getSchoolEvents().filter(function(item){return item.id !== id;}));
+    if(editingSchoolEventIds[role] === id){cancelSchoolEventEdit(role);}
+    renderSchoolEventManager(role);
+}
+
 function showError(message){
     document.getElementById("error").innerText = message;
     document.getElementById("error").style.display = "block";
@@ -862,11 +2145,10 @@ function escapeHTML(value){
 function loginTeacher(){
     let username = document.getElementById("teacherUser").value.trim();
     let password = document.getElementById("teacherPass").value;
-    let teacherCode = document.getElementById("teacherCode").value.trim();
     let teachers = getTeacherAccounts();
     let teacher = teachers[username];
 
-    if(!teacher || teacher.password !== password || teacherCode !== "AUJRCteacher"){
+    if(!teacher || teacher.password !== password){
         showError("Teacher login is incorrect.");
         return;
     }
@@ -875,19 +2157,20 @@ function loginTeacher(){
 
     document.getElementById("login").style.display = "none";
     document.getElementById("teacher").style.display = "block";
+    configureAppNavigation("teacher","students");
     renderTeacherReports();
     renderPublishedTests();
     renderTestManagement();
     renderRemoteQueue();
+    renderSchoolEventManager("teacher");
 }
 
 function createTeacherAccount(){
     let username = document.getElementById("teacherUser").value.trim();
     let password = document.getElementById("teacherPass").value;
-    let teacherCode = document.getElementById("teacherCode").value.trim();
 
-    if(username === "" || password.length < 4 || teacherCode !== "AUJRCteacher"){
-        showError("Use a teacher username, a password with at least 4 characters, and the correct teacher code.");
+    if(username === "" || password.length < 4){
+        showError("Use a teacher username and a password with at least 4 characters.");
         return;
     }
 
@@ -914,8 +2197,10 @@ function loginAdmin(){
 
     document.getElementById("login").style.display = "none";
     document.getElementById("admin").style.display = "block";
+    configureAppNavigation("admin","dashboard");
     showAdminSection("dashboard");
     renderAdminDashboard();
+    renderSchoolEventManager("admin");
 }
 
 function getPublishedTests(){
@@ -1028,29 +2313,49 @@ function uploadRemoteTest(){
 
 function convertLessonToTest(){
     let file = document.getElementById("aiLessonFile").files[0];
+    let prompt = document.getElementById("aiTestPrompt").value.trim();
     let status = document.getElementById("aiStatus");
-    if(!file){
-        status.innerText = "Choose a PDF, DOCX, or PPTX lesson first.";
+    if(!file && !prompt){
+        status.innerText = "Enter a prompt or choose a PDF, DOCX, or PPTX lesson.";
         return;
     }
-    status.innerText = "Reading the lesson and preparing questions...";
-    let reader = new FileReader();
-    reader.onload = function(){
-        let encoded = reader.result.split(",")[1];
+    status.innerText = "Preparing questions...";
+    let generate = function(encodedFile){
         fetch("/api/generate-test",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-            fileName:file.name,
-            data:encoded,
+            fileName:file ? file.name : "",
+            data:encodedFile || "",
+            prompt:prompt,
             title:document.getElementById("aiTestTitle").value.trim(),
             subject:document.getElementById("aiTestSubject").value
         })}).then(function(response){
-            return response.json().then(function(payload){return {ok:response.ok,payload:payload};});
+            return response.text().then(function(body){
+                let payload;
+                try{
+                    payload = JSON.parse(body);
+                }catch(error){
+                    let detail = body.trim().slice(0,200);
+                    throw new Error("The test-generation endpoint returned a non-JSON response (HTTP " + response.status + (detail ? ": " + detail : "") + "). Check that the latest server version is deployed and /api/generate-test is accessible.");
+                }
+                return {ok:response.ok,payload:payload};
+            });
         }).then(function(result){
             if(!result.ok){throw new Error(result.payload.error || "Conversion failed.");}
-            if(!result.payload.questions || !result.payload.questions.length){throw new Error("No questions could be created from this lesson.");}
-            autoPublishGeneratedTest(result.payload.questions, result.payload.title || document.getElementById("aiTestTitle").value.trim() || file.name.replace(/\.[^.]+$/,""));
+            if(!result.payload.questions || !result.payload.questions.length){throw new Error("No questions could be created. Try a more detailed prompt or a lesson with readable text.");}
+            let fallbackTitle = document.getElementById("aiTestTitle").value.trim() || (file ? file.name.replace(/\.[^.]+$/,"") : "AI generated test");
+            autoPublishGeneratedTest(result.payload.questions, result.payload.title || fallbackTitle);
             status.innerText = result.payload.message + " The test was automatically published for students.";
         }).catch(function(error){status.innerText = error.message;});
     };
+    if(!file){
+        generate("");
+        return;
+    }
+    let reader = new FileReader();
+    reader.onload = function(){
+        let result = String(reader.result || "");
+        generate(result.split(",")[1] || "");
+    };
+    reader.onerror = function(){status.innerText = "Could not read the selected lesson file.";};
     reader.readAsDataURL(file);
 }
 
@@ -1089,6 +2394,7 @@ function showAdminSection(section){
     let sections = {
         "dashboard": document.getElementById("admin-dashboard-panel"),
         "open-test": document.getElementById("admin-open-test-panel"),
+        "calendar": document.getElementById("admin-calendar-panel"),
         "student-status": document.getElementById("admin-student-status-panel"),
         "admin-notes": document.getElementById("admin-notes-panel")
     };
@@ -1098,10 +2404,13 @@ function showAdminSection(section){
             sections[key].style.display = key === section ? "block" : "none";
         }
     });
+    if(section === "calendar"){renderSchoolEventManager("admin");}
+    if(section === "dashboard"){renderAdminLessonPlan();}
 
     document.querySelectorAll(".sidebar-item").forEach(function(item){
         item.classList.toggle("active", item.dataset.section === section);
     });
+    setActiveNavigationItem(section);
 }
 
 function renderAdminDashboard(){
@@ -1119,6 +2428,7 @@ function renderAdminDashboard(){
     document.getElementById("classroomAlerts").innerText = openCount > 0 ? "1" : "0";
     document.getElementById("classroomConnected").innerText = Object.keys(accounts).length ? String(Math.min(18, Object.keys(accounts).length * 3 + 6)) : "0";
     document.getElementById("classroomNetwork").innerText = openCount > 0 ? "Active" : "Standby";
+    renderAdminLessonPlan();
 
     let list = document.getElementById("adminTestList");
     if(!publishedTests.length){
@@ -1180,7 +2490,8 @@ function editPublishedTest(testId){
     editingTestId = testId;
     renderDraftTest(test.questions,test.title);
     document.getElementById("builderStatus").innerText = "Editing this published test. Save it when finished.";
-    document.getElementById("draftTest").scrollIntoView({behavior:"smooth",block:"start"});
+    showRolePage("teacher","create");
+    setActiveNavigationItem("create");
 }
 
 function parseQuestions(text){
@@ -1393,7 +2704,13 @@ function backToLogin(){
     document.getElementById("home").style.display = "none";
     document.getElementById("test").style.display = "none";
     document.getElementById("result").style.display = "none";
+    document.getElementById("settingsPage").style.display = "none";
+    document.getElementById("settingsContainer").style.display = "none";
     document.getElementById("login").style.display = "block";
+    document.getElementById("appNavigation").classList.remove("visible");
+    document.body.classList.remove("app-nav-active");
+    currentRole = "";
+    window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function loadProgress(account){
@@ -1452,6 +2769,7 @@ function loginUser(){
 
         document.getElementById("home").style.display =
             "block";
+        configureAppNavigation("student","home");
 
         document.getElementById("name").innerText =
             username;
@@ -1502,6 +2820,7 @@ function startTest(subject){
 
     document.getElementById("test").style.display =
         "block";
+    setActiveNavigationItem("subjects");
 
 
     document.getElementById("subjectTitle").innerText =
@@ -1639,6 +2958,7 @@ function submitTest(){
 
     document.getElementById("result").style.display =
         "block";
+    setActiveNavigationItem("progress");
 
 
     document.getElementById("resultName").innerText =
@@ -1698,8 +3018,23 @@ function goHome(){
 
     document.getElementById("home").style.display =
         "block";
+    showRolePage("student","home");
+
+    setActiveNavigationItem("home");
 
 }
+
+applyUserSettings();
+
+fetch("/api/config").then(function(response){
+    if(!response.ok){return null;}
+    return response.json();
+}).then(function(config){
+    if(config && config.aiEnabled === false){
+        let aiPanel = document.querySelector(".ai-panel");
+        if(aiPanel){aiPanel.style.display = "none";}
+    }
+}).catch(function(){});
 
 </script>
 
