@@ -3,10 +3,11 @@
     "Luis": {
       "password": "123456",
       "strand": "STEM",
-      "completed": 1,
-      "activity": "<strong>GenPhysics</strong> completed with a score of 2 / 5.",
+      "completed": 2,
+      "activity": "<strong>AI generated test</strong> completed with a score of 0 / 10.",
       "progress": {
-        "custom-1789701966999": 40
+        "custom-1789701966999": 40,
+        "ai-1793038199465": 0
       },
       "attempts": [
         {
@@ -39,6 +40,64 @@
               "question": "How many hours will it take John to read 200 pages if he can read 15 pages every 45 minutes?",
               "answer": "1 page",
               "correct": "1 min"
+            }
+          ]
+        },
+        {
+          "subject": "AI generated test",
+          "date": "10/27/2026, 2:13:47 AM",
+          "score": 0,
+          "total": 10,
+          "questions": [
+            {
+              "question": "What is the SI unit of mass?",
+              "answer": "milligram",
+              "correct": "kilogram"
+            },
+            {
+              "question": "What is the force that opposes motion between two surfaces in contact?",
+              "answer": "electromagnetism",
+              "correct": "friction"
+            },
+            {
+              "question": "What is the unit of energy?",
+              "answer": "newton",
+              "correct": "joule"
+            },
+            {
+              "question": "What is the acceleration due to gravity on Earth?",
+              "answer": "11 m/s^2",
+              "correct": "9.8 m/s^2"
+            },
+            {
+              "question": "What is the SI unit of velocity?",
+              "answer": "inches per second",
+              "correct": "meters per second"
+            },
+            {
+              "question": "What is the force that causes an object to change its direction?",
+              "answer": "torque",
+              "correct": "friction"
+            },
+            {
+              "question": "What is the unit of power?",
+              "answer": "newton",
+              "correct": "watt"
+            },
+            {
+              "question": "What is the SI unit of length?",
+              "answer": "millimeter",
+              "correct": "meter"
+            },
+            {
+              "question": "What is the force that acts between two objects with mass?",
+              "answer": "air resistance",
+              "correct": "friction"
+            },
+            {
+              "question": "What is the unit of angular velocity?",
+              "answer": "inches per second",
+              "correct": "radians per second"
             }
           ]
         }
@@ -101,6 +160,155 @@
           "a": 2
         }
       ]
+    },
+    {
+      "id": "ai-1793038199465",
+      "title": "AI generated test",
+      "questions": [
+        {
+          "q": "What is the SI unit of mass?",
+          "c": [
+            "kilogram",
+            "gram",
+            "milligram",
+            "ton"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the force that opposes motion between two surfaces in contact?",
+          "c": [
+            "friction",
+            "gravity",
+            "electromagnetism",
+            "buoyancy"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the unit of energy?",
+          "c": [
+            "joule",
+            "watt",
+            "newton",
+            "ampere"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the acceleration due to gravity on Earth?",
+          "c": [
+            "9.8 m/s^2",
+            "10 m/s^2",
+            "11 m/s^2",
+            "12 m/s^2"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the SI unit of velocity?",
+          "c": [
+            "meters per second",
+            "kilometers per hour",
+            "miles per hour",
+            "inches per second"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the force that causes an object to change its direction?",
+          "c": [
+            "friction",
+            "gravity",
+            "electromagnetism",
+            "torque"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the unit of power?",
+          "c": [
+            "watt",
+            "joule",
+            "newton",
+            "ampere"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the SI unit of length?",
+          "c": [
+            "meter",
+            "kilometer",
+            "millimeter",
+            "inch"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the force that acts between two objects with mass?",
+          "c": [
+            "friction",
+            "gravity",
+            "electromagnetism",
+            "air resistance"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the unit of angular velocity?",
+          "c": [
+            "radians per second",
+            "degrees per second",
+            "meters per second",
+            "inches per second"
+          ],
+          "a": 0
+        }
+      ]
+    },
+    {
+      "id": "ai-1793042244469",
+      "title": "AI generated test",
+      "questions": [
+        {
+          "question": "What is the value of x in the equation 2x + 5 = 11?",
+          "a": 2,
+          "b": 3,
+          "c": 4,
+          "d": 5
+        },
+        {
+          "question": "Which of the following is a prime number?",
+          "a": 2,
+          "b": 5,
+          "c": 11,
+          "d": 15
+        },
+        {
+          "question": "What is the sum of 2 + 2 + 2?",
+          "a": 3,
+          "b": 5,
+          "c": 4,
+          "d": 6
+        },
+        {
+          "question": "What is the value of x in the equation x - 3 = 7?",
+          "a": 1,
+          "b": 2,
+          "c": 10,
+          "d": 12
+        },
+        {
+          "question": "What is the result of dividing 12 by 4?",
+          "a": 2,
+          "b": 3,
+          "c": 4,
+          "d": 6
+        }
+      ]
     }
-  ]
+  ],
+  "calendarEvents": [],
+  "lessonPlan": []
 }
