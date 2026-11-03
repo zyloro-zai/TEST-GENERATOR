@@ -10,8 +10,9 @@ This project combines student login, teacher access, admin controls, and AI-gene
 
 - Teacher login and teacher account creation are working
 - Teacher dashboard shows student progress and class data
+- Teachers can maintain a year-long lesson and assessment plan visible to administrators
 - Admin dashboard can activate or close tests
-- AI test generator reads lesson files and creates questions automatically
+- AI test generator creates questions from teacher prompts and lesson files
 - Generated tests can be published immediately for students
 - Student data is grouped by strand in a folder-style layout
 - Deployment configuration is already prepared for Render
@@ -19,12 +20,16 @@ This project combines student login, teacher access, admin controls, and AI-gene
 ## Features
 
 - Student account creation and login
-- Teacher login with teacher code validation
+- Teacher login with password validation
 - Shared teacher dashboard for monitoring performance
+- Shared yearly teaching plan so administrators can identify planned assessments during teacher absences
 - Admin controls for classroom operations
-- AI lesson-to-test generation from PDF, DOCX, and PPTX
+- AI test generation from a teacher prompt, lesson file, or both
 - Auto-publish option for generated tests
 - Student records grouped by strand
+- Student calendar with month, week, day, and agenda views
+- Teacher/admin-managed school events and student-specific study reminders
+- Dark mode across the app, including student sign-up, with per-device accent color, text size, and reduced-motion settings
 - Simple local server and public hosting support
 
 ## Demo credentials
@@ -33,7 +38,6 @@ This project combines student login, teacher access, admin controls, and AI-gene
 
 - Username: `teacher`
 - Password: `teacher123`
-- Code: `AUJRCteacher`
 
 ## Quick start
 
@@ -50,13 +54,13 @@ http://localhost:3000
 
 ## AI test maker
 
-The app accepts lesson files in the following formats:
+The app accepts a teacher's prompt, a lesson file, or both together. Lesson files may use:
 
 - `.pdf`
 - `.docx`
 - `.pptx`
 
-The generator extracts text and turns it into multiple-choice questions. If no AI key is configured, it falls back to a demo generator.
+The generator follows the teacher's requested topic, audience, difficulty, and question count when using an AI provider. It extracts lesson text from uploaded files and turns the source material into multiple-choice questions. Lesson-file-only generation falls back to a demo generator if no AI is available; prompt-based generation requires Ollama or an API key.
 
 To use an API key:
 
@@ -87,3 +91,5 @@ This project is configured for Render deployment.
 ## Notes
 
 This is a prototype for classroom demonstration and internal educational use. It is focused on showing the complete flow from student access to teacher review and admin activation without requiring a full production backend.
+
+Student study reminders are associated with the student's account and are not shown in teacher/admin calendar screens. The prototype's existing account API exposes shared account data, so this is not server-enforced privacy; do not store sensitive information.
