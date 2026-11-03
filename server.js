@@ -15,9 +15,10 @@
 
     function readData(){
         try{
-            return JSON.parse(fs.readFileSync(dataFile, "utf8"));
+            let data = JSON.parse(fs.readFileSync(dataFile, "utf8"));
+            return {accounts:data.accounts || {},tests:data.tests || [],calendarEvents:data.calendarEvents || [],lessonPlan:data.lessonPlan || []};
         }catch(error){
-            return {accounts:{},tests:[]};
+            return {accounts:{},tests:[],calendarEvents:[],lessonPlan:[]};
         }
     }
 
@@ -29,22 +30,24 @@
         if(!database){return;}
         await database.query("CREATE TABLE IF NOT EXISTS app_state (key TEXT PRIMARY KEY, value JSONB NOT NULL)");
         let seed = readData();
-        for(let key of ["accounts","tests"]){
+        seed.calendarEvents = seed.calendarEvents || [];
+        seed.lessonPlan = seed.lessonPlan || [];
+        for(let key of ["accounts","tests","calendarEvents","lessonPlan"]){
             await database.query("INSERT INTO app_state (key,value) VALUES ($1,$2) ON CONFLICT (key) DO NOTHING",[key,JSON.stringify(seed[key])]);
         }
     }
 
     async function getData(){
         if(!database){return readData();}
-        let result = await database.query("SELECT key,value FROM app_state WHERE key IN ('accounts','tests')");
-        let data = {accounts:{},tests:[]};
+        let result = await database.query("SELECT key,value FROM app_state WHERE key IN ('accounts','tests','calendarEvents','lessonPlan')");
+        let data = {accounts:{},tests:[],calendarEvents:[],lessonPlan:[]};
         for(let row of result.rows){data[row.key] = row.value;}
         return data;
     }
 
     async function saveData(data){
         if(!database){writeData(data);return;}
-        await database.query("INSERT INTO app_state (key,value) VALUES ('accounts',$1),('tests',$2) ON CONFLICT (key) DO UPDATE SET value=EXCLUDED.value",[JSON.stringify(data.accounts),JSON.stringify(data.tests)]);
+        await database.query("INSERT INTO app_state (key,value) VALUES ('accounts',$1),('tests',$2),('calendarEvents',$3),('lessonPlan',$4) ON CONFLICT (key) DO UPDATE SET value=EXCLUDED.value",[JSON.stringify(data.accounts),JSON.stringify(data.tests),JSON.stringify(data.calendarEvents || []),JSON.stringify(data.lessonPlan || [])]);
     }
 
     function sendJson(response,status,data){
@@ -96,13 +99,14 @@
         });
     }
 
-    async function generateQuestions(text,title){
+    async function generateQuestions(text,title,subject,hasTeacherPrompt){
+        let instructions = "Create multiple-choice assessment questions. Follow the teacher's request below, including its requested number of questions, audience, difficulty, topic, and format. If no number is requested, create 5. Return only questions with q (string), c (array of exactly 4 strings), and a (number 0-3). Title: " + title + "\nSubject: " + subject + "\nTeacher prompt and/or lesson material:\n" + text;
         if(!process.env.OPENAI_API_KEY){
             try{
                 let result = await fetch("http://127.0.0.1:11434/api/generate",{
                     method:"POST",
                     headers:{"Content-Type":"application/json"},
-                    body:JSON.stringify({model:process.env.OLLAMA_MODEL || "llama3.2",stream:false,format:"json",prompt:"Create 5 accurate multiple-choice questions from this lesson. Return ONLY a JSON object with a questions array. Each item must have q (string), c (array of exactly 4 strings), and a (number 0-3). Title: " + title + "\nLesson: " + text})
+                    body:JSON.stringify({model:process.env.OLLAMA_MODEL || "llama3.2",stream:false,format:"json",prompt:instructions + "\nReturn a JSON object with a questions array."})
                 });
                 if(result.ok){
                     let response = await result.json();
@@ -112,13 +116,13 @@
                     }
                 }
             }catch(error){}
+            if(hasTeacherPrompt){throw new Error("AI generation is unavailable. Start Ollama or configure OPENAI_API_KEY, then try again.");}
             return {questions:fallbackQuestions(text),mode:"demo",message:"Demo generation used. Start Ollama with a model for local AI questions."};
         }
-        let prompt = "Create 5 multiple-choice questions from this lesson. Return ONLY valid JSON as an array. Each item must have q (string), c (array of exactly 4 strings), and a (number 0-3). Title: " + title + "\nLesson: " + text;
         let result = await fetch("https://api.openai.com/v1/chat/completions",{
             method:"POST",
             headers:{"Content-Type":"application/json","Authorization":"Bearer " + process.env.OPENAI_API_KEY},
-            body:JSON.stringify({model:process.env.OPENAI_MODEL || "gpt-4o-mini",temperature:0.2,messages:[{role:"system",content:"You create accurate classroom quizzes."},{role:"user",content:prompt}]})
+            body:JSON.stringify({model:process.env.OPENAI_MODEL || "gpt-4o-mini",temperature:0.2,messages:[{role:"system",content:"You create accurate classroom quizzes and follow the teacher's requested topic, audience, difficulty, and number of questions."},{role:"user",content:instructions + "\nReturn only a valid JSON array."}]})
         });
         if(!result.ok){throw new Error("AI service returned " + result.status + ".");}
         let response = await result.json();
@@ -164,13 +168,49 @@
                 return;
             }
         }
+        if(pathname === "/api/calendar-events"){
+            let data = await getData();
+            if(request.method === "GET"){sendJson(response,200,data.calendarEvents || []);return;}
+            if(request.method === "POST"){
+                try{
+                    let events = JSON.parse(await readBody(request));
+                    if(!Array.isArray(events)){throw new Error("Calendar events must be an array.");}
+                    data.calendarEvents = events;
+                    await saveData(data);
+                    sendJson(response,200,{saved:true});
+                }catch(error){sendJson(response,400,{error:error.message || "Invalid calendar events."});}
+                return;
+            }
+        }
+        if(pathname === "/api/lesson-plan"){
+            let data = await getData();
+            if(request.method === "GET"){sendJson(response,200,data.lessonPlan || []);return;}
+            if(request.method === "POST"){
+                try{
+                    let lessonPlan = JSON.parse(await readBody(request));
+                    if(!Array.isArray(lessonPlan)){throw new Error("Lesson plan must be an array.");}
+                    data.lessonPlan = lessonPlan;
+                    await saveData(data);
+                    sendJson(response,200,{saved:true});
+                }catch(error){sendJson(response,400,{error:error.message || "Invalid lesson plan."});}
+                return;
+            }
+        }
         if(pathname === "/api/generate-test" && request.method === "POST"){
             try{
                 let payload = JSON.parse(await readBody(request));
-                let text = await extractDocumentText(payload.fileName,Buffer.from(payload.data,"base64"));
-                if(!text){sendJson(response,400,{error:"No readable text was found in the document."});return;}
-                let generated = await generateQuestions(text,payload.title || payload.fileName);
-                sendJson(response,200,{title:payload.title || path.basename(payload.fileName,path.extname(payload.fileName)),subject:payload.subject || "General",questions:generated.questions,mode:generated.mode,message:generated.message,sourceText:text.slice(0,500)});
+                let prompt = cleanText(payload.prompt);
+                let text = prompt;
+                if(payload.data && payload.fileName){
+                    let lessonText = await extractDocumentText(payload.fileName,Buffer.from(payload.data,"base64"));
+                    if(!lessonText && !prompt){sendJson(response,400,{error:"No readable text was found in the document."});return;}
+                    text = prompt ? "Teacher instructions: " + prompt + (lessonText ? "\n\nLesson material: " + lessonText : "") : lessonText;
+                }
+                if(!text){sendJson(response,400,{error:"Enter a prompt or upload a lesson file."});return;}
+                let title = cleanText(payload.title) || (payload.fileName ? path.basename(payload.fileName,path.extname(payload.fileName)) : "AI generated test");
+                let subject = cleanText(payload.subject) || "General";
+                let generated = await generateQuestions(text,title,subject,Boolean(prompt));
+                sendJson(response,200,{title:title,subject:subject,questions:generated.questions,mode:generated.mode,message:generated.message,sourceText:text.slice(0,500)});
             }catch(error){sendJson(response,400,{error:error.message || "Could not convert the document."});}
             return;
         }
