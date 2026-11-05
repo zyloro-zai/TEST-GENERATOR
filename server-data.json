@@ -3,11 +3,12 @@
     "Luis": {
       "password": "123456",
       "strand": "STEM",
-      "completed": 2,
-      "activity": "<strong>AI generated test</strong> completed with a score of 0 / 10.",
+      "completed": 3,
+      "activity": "<strong>Practical Research II</strong> completed with a score of 2 / 5.",
       "progress": {
         "custom-1789701966999": 40,
-        "ai-1793038199465": 0
+        "ai-1793038199465": 0,
+        "research": 40
       },
       "attempts": [
         {
@@ -100,215 +101,459 @@
               "correct": "radians per second"
             }
           ]
+        },
+        {
+          "subject": "Practical Research II",
+          "date": "11/6/2026, 1:48:54 AM",
+          "score": 2,
+          "total": 5,
+          "questions": [
+            {
+              "question": "Copying another author's ideas or words without giving credit is called what?",
+              "answer": "Plagiarism",
+              "correct": "Plagiarism"
+            },
+            {
+              "question": "What is used to properly credit a source?",
+              "answer": "Sampling",
+              "correct": "Citation"
+            },
+            {
+              "question": "Reporting facts and findings without bias demonstrates what?",
+              "answer": "Fabrication",
+              "correct": "Objectivity"
+            },
+            {
+              "question": "Rewriting another person's idea using your own words is called what?",
+              "answer": "Acknowledgment",
+              "correct": "Paraphrasing"
+            },
+            {
+              "question": "Giving credit to authors or researchers is called what?",
+              "answer": "Acknowledgment",
+              "correct": "Acknowledgment"
+            }
+          ]
         }
       ]
     }
   },
   "tests": [
     {
-      "id": "custom-1789701966999",
-      "title": "GenPhysics",
+      "id": "ai-1793896210173",
+      "title": "Lesson and Activity week 2 pr2 - characteristics of quantitative research",
       "questions": [
         {
-          "q": "What is the conversion factor between feet and inches in the British System?",
+          "q": "Which characteristic of quantitative research is described by the statement \"Research about population growth in Catmon, Malabon establishes the level of significance, i.e., at 1%, 3% or 5% level of significance.\"",
           "c": [
-            "12 inches",
-            "1 foot",
-            "1 yard",
-            "1 mile"
+            "Replicable",
+            "Critical",
+            "Logical",
+            "Analytical"
           ],
           "a": 1
         },
         {
-          "q": "How many seconds are in a year?",
+          "q": "Which characteristic of quantitative research is described by the statement \"How good a researcher is in research concepts, but, he does not yet experience conducting research by himself, he cannot be expert in research.\"",
           "c": [
-            "1 year",
-            "1 day",
-            "1 hour",
-            "1 minute"
+            "Critical",
+            "Empirical",
+            "Logical",
+            "Analytical"
+          ],
+          "a": 0
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"Scientific investigation in Arellano, Malabon is done in an orderly manner, so that a researcher has the confidence in the results.\"",
+          "c": [
+            "Logical",
+            "Analytical",
+            "Critical",
+            "Replicable"
+          ],
+          "a": 2
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"The research design and procedures are replicated to enable the researcher to arrive at valid and conclusive results.\"",
+          "c": [
+            "Replicable",
+            "Critical",
+            "Logical",
+            "Analytical"
           ],
           "a": 3
         },
         {
-          "q": "What is the conversion factor between miles and meters?",
+          "q": "Which characteristic of quantitative research is described by the statement \"Results of the research are based on correct and valid information taken from the respondents.\"",
           "c": [
-            "1.609 km",
-            "1 km",
-            "1 mi",
-            "1 hr"
+            "Analytical",
+            "Critical",
+            "Empirical",
+            "Logical"
+          ],
+          "a": 0
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"Research about population growth in Catmon, Malabon establishes the level of significance, i.e., at 1%, 3% or 5% level of significance.\"",
+          "c": [
+            "Logical",
+            "Critical",
+            "Analytical",
+            "Replicable"
           ],
           "a": 1
         },
         {
-          "q": "What is the conversion factor between kilograms and grams?",
+          "q": "Which characteristic of quantitative research is described by the statement \"How good a researcher is in research concepts, but, he does not yet experience conducting research by himself, he cannot be expert in research.\"",
           "c": [
-            "1 kg",
-            "1,000 g",
-            "1 m^3",
-            "1 cm^3"
-          ],
-          "a": 1
-        },
-        {
-          "q": "How many hours will it take John to read 200 pages if he can read 15 pages every 45 minutes?",
-          "c": [
-            "1 hr",
-            "1 page",
-            "1 min",
-            "1 page"
+            "Empirical",
+            "Logical",
+            "Critical",
+            "Analytical"
           ],
           "a": 2
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"Scientific investigation in Arellano, Malabon is done in an orderly manner, so that a researcher has the confidence in the results.\"",
+          "c": [
+            "Logical",
+            "Analytical",
+            "Critical",
+            "Replicable"
+          ],
+          "a": 1
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"The research design and procedures are replicated to enable the researcher to arrive at valid and conclusive results.\"",
+          "c": [
+            "Replicable",
+            "Critical",
+            "Logical",
+            "Analytical"
+          ],
+          "a": 3
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"Results of the research are based on correct and valid information taken from the respondents.\"",
+          "c": [
+            "Analytical",
+            "Critical",
+            "Empirical",
+            "Logical"
+          ],
+          "a": 0
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"Research about population growth in Catmon, Malabon establishes the level of significance, i.e., at 1%, 3% or 5% level of significance.\"",
+          "c": [
+            "Critical",
+            "Logical",
+            "Analytical",
+            "Replicable"
+          ],
+          "a": 2
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"How good a researcher is in research concepts, but, he does not yet experience conducting research by himself, he cannot be expert in research.\"",
+          "c": [
+            "Empirical",
+            "Logical",
+            "Critical",
+            "Analytical"
+          ],
+          "a": 2
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"Scientific investigation in Arellano, Malabon is done in an orderly manner, so that a researcher has the confidence in the results.\"",
+          "c": [
+            "Logical",
+            "Analytical",
+            "Critical",
+            "Replicable"
+          ],
+          "a": 2
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"The research design and procedures are replicated to enable the researcher to arrive at valid and conclusive results.\"",
+          "c": [
+            "Replicable",
+            "Critical",
+            "Logical",
+            "Analytical"
+          ],
+          "a": 3
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"Results of the research are based on correct and valid information taken from the respondents.\"",
+          "c": [
+            "Analytical",
+            "Critical",
+            "Empirical",
+            "Logical"
+          ],
+          "a": 0
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"Research about population growth in Catmon, Malabon establishes the level of significance, i.e., at 1%, 3% or 5% level of significance.\"",
+          "c": [
+            "Critical",
+            "Logical",
+            "Analytical",
+            "Replicable"
+          ],
+          "a": 2
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"How good a researcher is in research concepts, but, he does not yet experience conducting research by himself, he cannot be expert in research.\"",
+          "c": [
+            "Empirical",
+            "Logical",
+            "Critical",
+            "Analytical"
+          ],
+          "a": 2
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"Scientific investigation in Arellano, Malabon is done in an orderly manner, so that a researcher has the confidence in the results.\"",
+          "c": [
+            "Logical",
+            "Analytical",
+            "Critical",
+            "Replicable"
+          ],
+          "a": 2
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"The research design and procedures are replicated to enable the researcher to arrive at valid and conclusive results.\"",
+          "c": [
+            "Replicable",
+            "Critical",
+            "Logical",
+            "Analytical"
+          ],
+          "a": 3
+        },
+        {
+          "q": "Which characteristic of quantitative research is described by the statement \"Results of the research are based on correct and valid information taken from the respondents.\"",
+          "c": [
+            "Analytical",
+            "Critical",
+            "Empirical",
+            "Logical"
+          ],
+          "a": 0
         }
       ]
     },
     {
-      "id": "ai-1793038199465",
-      "title": "AI generated test",
+      "id": "ai-1793896315387",
+      "title": "Practical Research 2 (1)",
       "questions": [
         {
-          "q": "What is the SI unit of mass?",
+          "q": "What is the nature of variables and its major types?",
           "c": [
-            "kilogram",
-            "gram",
-            "milligram",
-            "ton"
+            "continuous",
+            "discrete",
+            "ratio",
+            "interval"
           ],
-          "a": 0
-        },
-        {
-          "q": "What is the force that opposes motion between two surfaces in contact?",
-          "c": [
-            "friction",
-            "gravity",
-            "electromagnetism",
-            "buoyancy"
-          ],
-          "a": 0
-        },
-        {
-          "q": "What is the unit of energy?",
-          "c": [
-            "joule",
-            "watt",
-            "newton",
-            "ampere"
-          ],
-          "a": 0
-        },
-        {
-          "q": "What is the acceleration due to gravity on Earth?",
-          "c": [
-            "9.8 m/s^2",
-            "10 m/s^2",
-            "11 m/s^2",
-            "12 m/s^2"
-          ],
-          "a": 0
-        },
-        {
-          "q": "What is the SI unit of velocity?",
-          "c": [
-            "meters per second",
-            "kilometers per hour",
-            "miles per hour",
-            "inches per second"
-          ],
-          "a": 0
-        },
-        {
-          "q": "What is the force that causes an object to change its direction?",
-          "c": [
-            "friction",
-            "gravity",
-            "electromagnetism",
-            "torque"
-          ],
-          "a": 0
-        },
-        {
-          "q": "What is the unit of power?",
-          "c": [
-            "watt",
-            "joule",
-            "newton",
-            "ampere"
-          ],
-          "a": 0
-        },
-        {
-          "q": "What is the SI unit of length?",
-          "c": [
-            "meter",
-            "kilometer",
-            "millimeter",
-            "inch"
-          ],
-          "a": 0
-        },
-        {
-          "q": "What is the force that acts between two objects with mass?",
-          "c": [
-            "friction",
-            "gravity",
-            "electromagnetism",
-            "air resistance"
-          ],
-          "a": 0
-        },
-        {
-          "q": "What is the unit of angular velocity?",
-          "c": [
-            "radians per second",
-            "degrees per second",
-            "meters per second",
-            "inches per second"
-          ],
-          "a": 0
+          "a": 3
         }
       ]
     },
     {
-      "id": "ai-1793042244469",
-      "title": "AI generated test",
+      "id": "ai-1793896471467",
+      "title": "Lesson and Activity week 3 pr2 Imporance of QNR in different field",
       "questions": [
         {
-          "question": "What is the value of x in the equation 2x + 5 = 11?",
-          "a": 2,
-          "b": 3,
-          "c": 4,
-          "d": 5
+          "q": "What is the main purpose of quantitative research?",
+          "c": [
+            "To test hypotheses",
+            "To provide empirical evidence",
+            "To support decision-making and policy formulation",
+            "To analyze data"
+          ],
+          "a": 0
         },
         {
-          "question": "Which of the following is a prime number?",
-          "a": 2,
-          "b": 5,
-          "c": 11,
-          "d": 15
+          "q": "What is the strength of quantitative research in generalizing research findings?",
+          "c": [
+            "It can be replicated on many different populations and sub-populations",
+            "It provides precise, quantitative, numerical data",
+            "It involves data analysis which is relatively less time consuming",
+            "It can be used to obtain data that allow quantitative predictions"
+          ],
+          "a": 2
         },
         {
-          "question": "What is the sum of 2 + 2 + 2?",
-          "a": 3,
-          "b": 5,
-          "c": 4,
-          "d": 6
+          "q": "What is the weakness of quantitative research in terms of data analysis?",
+          "c": [
+            "It provides precise, quantitative, numerical data",
+            "It is relatively less time consuming",
+            "It involves data analysis which is relatively less time consuming",
+            "It requires extra resources to analyze the findings/results"
+          ],
+          "a": 3
         },
         {
-          "question": "What is the value of x in the equation x - 3 = 7?",
-          "a": 1,
-          "b": 2,
-          "c": 10,
-          "d": 12
+          "q": "What is the benefit of quantitative research in psychology?",
+          "c": [
+            "It validates psychological theories",
+            "It evaluates therapy effectiveness",
+            "It provides behavioral metrics",
+            "It measures anxiety and depression"
+          ],
+          "a": 3
         },
         {
-          "question": "What is the result of dividing 12 by 4?",
-          "a": 2,
-          "b": 3,
-          "c": 4,
-          "d": 6
+          "q": "What is the purpose of standardized testing in education?",
+          "c": [
+            "To analyze student performance trends",
+            "To evaluate teacher effectiveness",
+            "To guide curriculum development",
+            "To provide a standardized measure of student achievement"
+          ],
+          "a": 3
+        }
+      ]
+    },
+    {
+      "id": "ai-1793898050582",
+      "title": "Lesson and Activity week 4 pr2 Types of Research Variables",
+      "questions": [
+        {
+          "q": "Which of the following is an example of a research variable?",
+          "c": [
+            "A teacher's attitude towards a subject",
+            "A student's height",
+            "A researcher's hypothesis",
+            "A book's price"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the role of the intervening variable in an experiment?",
+          "c": [
+            "To measure the dependent variable",
+            "To control the independent variable",
+            "To explain causal links between variables",
+            "To observe the outcome of the experiment"
+          ],
+          "a": 2
+        },
+        {
+          "q": "What is the dependent variable in an experiment?",
+          "c": [
+            "The variable being tested and measured",
+            "The variable that is stable and unaffected",
+            "The variable that is the cause of the effect",
+            "The variable that is the outcome of the experiment"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the independent variable in an experiment?",
+          "c": [
+            "The variable the researcher/experimenter changes or controls",
+            "The variable that is stable and unaffected",
+            "The variable that is the cause of the effect",
+            "The variable that is the outcome of the experiment"
+          ],
+          "a": 1
+        },
+        {
+          "q": "Which of the following is NOT a type of independent variable?",
+          "c": [
+            "Age",
+            "Gender",
+            "Income",
+            "Academic achievement"
+          ],
+          "a": 3
+        },
+        {
+          "q": "What is the purpose of using a control group in an experiment?",
+          "c": [
+            "To test the effect of the independent variable",
+            "To control the independent variable",
+            "To observe the outcome of the experiment",
+            "To measure the dependent variable"
+          ],
+          "a": 2
+        },
+        {
+          "q": "Which of the following is an example of a dependent variable?",
+          "c": [
+            "A student's grade",
+            "A researcher's hypothesis",
+            "A book's price",
+            "A teacher's attitude towards a subject"
+          ],
+          "a": 1
+        }
+      ]
+    },
+    {
+      "id": "ai-1793898997968",
+      "title": "Lesson and Activity week 5 Traditional Vs IMRAD format",
+      "questions": [
+        {
+          "q": "What are the different types of Quantitative Research?",
+          "c": [
+            "Experimental Design",
+            "Survey Research",
+            "Content Analysis",
+            "Statistical Analysis"
+          ],
+          "a": 0
+        },
+        {
+          "q": "How are Quantitative Research and Qualitative Research different?",
+          "c": [
+            "Quantitative Research uses numerical data and statistical methods",
+            "Qualitative Research uses non-numerical data and qualitative methods",
+            "Both types of research use a combination of data types",
+            "The difference is irrelevant to the research process"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the purpose of the Introduction in a research paper?",
+          "c": [
+            "To state the research problem and objectives",
+            "To provide an overview of the study's scope and significance",
+            "To present the theoretical framework and conceptual framework",
+            "To provide a general framework for the research paper"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the main difference between the Traditional format and IMRAD format?",
+          "c": [
+            "The Traditional format has a more rigid structure",
+            "The IMRAD format is more flexible and adaptable",
+            "The Traditional format is easier to replicate and compare",
+            "The IMRAD format is more effective for communicating complex research"
+          ],
+          "a": 0
+        },
+        {
+          "q": "What is the purpose of the Literature Review in a research paper?",
+          "c": [
+            "To provide an overview of the study's scope and significance",
+            "To present the theoretical framework and conceptual framework",
+            "To review and synthesize relevant literature on the topic",
+            "To provide a general framework for the research paper"
+          ],
+          "a": 0
         }
       ]
     }
   ],
   "calendarEvents": [],
-  "lessonPlan": []
+  "lessonPlan": [],
+  "testActivation": {
+    "ai-1793898050582": false,
+    "ai-1793898997968": false
+  }
 }
