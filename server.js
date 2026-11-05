@@ -16,9 +16,9 @@
     function readData(){
         try{
             let data = JSON.parse(fs.readFileSync(dataFile, "utf8"));
-            return {accounts:data.accounts || {},tests:data.tests || [],calendarEvents:data.calendarEvents || [],lessonPlan:data.lessonPlan || []};
+            return {accounts:data.accounts || {},tests:data.tests || [],calendarEvents:data.calendarEvents || [],lessonPlan:data.lessonPlan || [],testActivation:data.testActivation || {}};
         }catch(error){
-            return {accounts:{},tests:[],calendarEvents:[],lessonPlan:[]};
+            return {accounts:{},tests:[],calendarEvents:[],lessonPlan:[],testActivation:{}};
         }
     }
 
@@ -32,22 +32,23 @@
         let seed = readData();
         seed.calendarEvents = seed.calendarEvents || [];
         seed.lessonPlan = seed.lessonPlan || [];
-        for(let key of ["accounts","tests","calendarEvents","lessonPlan"]){
+        seed.testActivation = seed.testActivation || {};
+        for(let key of ["accounts","tests","calendarEvents","lessonPlan","testActivation"]){
             await database.query("INSERT INTO app_state (key,value) VALUES ($1,$2) ON CONFLICT (key) DO NOTHING",[key,JSON.stringify(seed[key])]);
         }
     }
 
     async function getData(){
         if(!database){return readData();}
-        let result = await database.query("SELECT key,value FROM app_state WHERE key IN ('accounts','tests','calendarEvents','lessonPlan')");
-        let data = {accounts:{},tests:[],calendarEvents:[],lessonPlan:[]};
+        let result = await database.query("SELECT key,value FROM app_state WHERE key IN ('accounts','tests','calendarEvents','lessonPlan','testActivation')");
+        let data = {accounts:{},tests:[],calendarEvents:[],lessonPlan:[],testActivation:{}};
         for(let row of result.rows){data[row.key] = row.value;}
         return data;
     }
 
     async function saveData(data){
         if(!database){writeData(data);return;}
-        await database.query("INSERT INTO app_state (key,value) VALUES ('accounts',$1),('tests',$2),('calendarEvents',$3),('lessonPlan',$4) ON CONFLICT (key) DO UPDATE SET value=EXCLUDED.value",[JSON.stringify(data.accounts),JSON.stringify(data.tests),JSON.stringify(data.calendarEvents || []),JSON.stringify(data.lessonPlan || [])]);
+        await database.query("INSERT INTO app_state (key,value) VALUES ('accounts',$1),('tests',$2),('calendarEvents',$3),('lessonPlan',$4),('testActivation',$5) ON CONFLICT (key) DO UPDATE SET value=EXCLUDED.value",[JSON.stringify(data.accounts),JSON.stringify(data.tests),JSON.stringify(data.calendarEvents || []),JSON.stringify(data.lessonPlan || []),JSON.stringify(data.testActivation || {})]);
     }
 
     function sendJson(response,status,data){
@@ -89,35 +90,99 @@
         throw new Error("Only PDF, DOCX, and PPTX files are supported.");
     }
 
-    function fallbackQuestions(text){
-        let sentences = text.split(/[.!?]+/).map(function(value){return value.trim();}).filter(function(value){return value.length > 35;}).slice(0,5);
-        return sentences.map(function(sentence,index){
-            let words = sentence.split(/\s+/);
-            let answer = words[Math.min(3,words.length - 1)];
-            let prompt = sentence.replace(answer,"_____ ");
-            return {q:"According to the uploaded material, complete this statement: " + prompt,c:[answer,"The opposite idea","A different topic","The material does not say"],a:0};
+    function normalizeQuestions(value){
+        let questions = Array.isArray(value) ? value : value && value.questions;
+        if(!Array.isArray(questions)){return [];}
+        let normalized = questions.map(function(item){
+            if(!item || typeof item !== "object"){return null;}
+            let question = item.q || item.question || item.questionText || item.question_text || item.text;
+            let choices = item.c || item.choices || item.options || item.answerChoices || item.answer_choices;
+            if(Array.isArray(choices)){
+                choices = choices.map(function(choice){
+                    return choice && typeof choice === "object" ? (choice.text || choice.value || "") : choice;
+                });
+            }
+            if(typeof question !== "string" || !question.trim() || !Array.isArray(choices) || choices.length !== 4 ||
+                choices.some(function(choice){return typeof choice !== "string" || !choice.trim();})){
+                return null;
+            }
+            let answer = item.a !== undefined ? item.a :
+                (item.answer !== undefined ? item.answer :
+                    (item.correctAnswer !== undefined ? item.correctAnswer :
+                        (item.correct_answer !== undefined ? item.correct_answer : item.correct)));
+            if(typeof answer === "string" && /^\d+$/.test(answer.trim())){
+                answer = Number(answer.trim());
+            }
+            if(typeof answer === "string"){
+                let letter = answer.trim().toUpperCase().replace(/[).:]$/, "");
+                if(/^[A-D]$/.test(letter)){
+                    answer = letter.charCodeAt(0) - 65;
+                }else{
+                    answer = choices.findIndex(function(choice){return choice.toLowerCase() === answer.trim().toLowerCase();});
+                }
+            }else if(typeof answer === "number" && Number.isInteger(answer) && answer >= 1 && answer <= 4 && item.a === undefined){
+                answer -= 1;
+            }
+            if(!Number.isInteger(answer) || answer < 0 || answer > 3){return null;}
+            return {q:question.trim(),c:choices.map(function(choice){return choice.trim();}),a:answer};
         });
+        return normalized.length === questions.length && normalized.every(Boolean) ? normalized : [];
     }
 
     async function generateQuestions(text,title,subject,hasTeacherPrompt){
-        let instructions = "Create multiple-choice assessment questions. Follow the teacher's request below, including its requested number of questions, audience, difficulty, topic, and format. If no number is requested, create 5. Return only questions with q (string), c (array of exactly 4 strings), and a (number 0-3). Title: " + title + "\nSubject: " + subject + "\nTeacher prompt and/or lesson material:\n" + text;
+        let instructions = "Create a classroom assessment, not a reading-comprehension exercise about incidental wording. Follow the teacher's request, including requested number, grade level, difficulty, topic, and format. Write questions that assess important subject concepts and learning objectives from the lesson. Ignore administrative directions, classroom etiquette, greetings, and unrelated filler unless the teacher explicitly asks about them. Do not make fill-in-the-blank questions by deleting arbitrary words from source sentences. Do not invent facts not supported by the lesson. If no number is requested, create 5. Return a JSON object with a questions array. Every item must have q (question text), c (exactly four answer-choice strings), and a (zero-based integer: 0 for the first choice, through 3 for the fourth). Example: {\"questions\":[{\"q\":\"Which process converts light energy into chemical energy?\",\"c\":[\"Photosynthesis\",\"Respiration\",\"Digestion\",\"Fermentation\"],\"a\":0}]}. Title: " + title + "\nSubject: " + subject + "\nTeacher prompt and/or lesson material:\n" + text;
         if(!process.env.OPENAI_API_KEY){
+            let ollamaError = "";
             try{
+                let questionSchema = {
+                    type:"object",
+                    properties:{
+                        questions:{
+                            type:"array",
+                            items:{
+                                type:"object",
+                                properties:{
+                                    q:{type:"string"},
+                                    c:{type:"array",items:{type:"string"},minItems:4,maxItems:4},
+                                    a:{type:"integer",minimum:0,maximum:3}
+                                },
+                                required:["q","c","a"],
+                                additionalProperties:false
+                            }
+                        }
+                    },
+                    required:["questions"],
+                    additionalProperties:false
+                };
                 let result = await fetch("http://127.0.0.1:11434/api/generate",{
                     method:"POST",
                     headers:{"Content-Type":"application/json"},
-                    body:JSON.stringify({model:process.env.OLLAMA_MODEL || "llama3.2",stream:false,format:"json",prompt:instructions + "\nReturn a JSON object with a questions array."})
+                    body:JSON.stringify({model:process.env.OLLAMA_MODEL || "llama3.2",stream:false,format:questionSchema,prompt:instructions})
                 });
                 if(result.ok){
                     let response = await result.json();
-                    let parsed = JSON.parse(response.response);
-                    if(Array.isArray(parsed.questions) && parsed.questions.length){
-                        return {questions:parsed.questions,mode:"ollama",message:"Questions generated locally with Ollama. Review them before publishing."};
+                    let output = String(response.response || "").trim().replace(/^```(?:json)?\s*|\s*```$/gi,"");
+                    let parsed = JSON.parse(output);
+                    let questions = normalizeQuestions(parsed);
+                    if(questions.length){
+                        return {questions:questions,mode:"ollama",message:"Questions generated locally with Ollama. Review them before publishing."};
                     }
+                    ollamaError = "Ollama responded, but its output did not contain valid questions.";
                 }
-            }catch(error){}
-            if(hasTeacherPrompt){throw new Error("AI generation is unavailable. Start Ollama or configure OPENAI_API_KEY, then try again.");}
-            return {questions:fallbackQuestions(text),mode:"demo",message:"Demo generation used. Start Ollama with a model for local AI questions."};
+                else{
+                    ollamaError = "Ollama returned HTTP " + result.status + ".";
+                }
+            }catch(error){
+                ollamaError = error.message;
+            }
+            if(hasTeacherPrompt){
+                throw new Error(ollamaError
+                    ? "Could not generate valid questions with Ollama: " + ollamaError + " Check that the selected model is running, then try again."
+                    : "AI generation is unavailable. Start Ollama or configure OPENAI_API_KEY, then try again.");
+            }
+            throw new Error(ollamaError
+                ? "Could not generate an assessment with Ollama: " + ollamaError + " Check that the selected model is running, then try again. No sample assessment was generated."
+                : "AI generation is unavailable. Start Ollama or configure OPENAI_API_KEY. No sample assessment was generated.");
         }
         let result = await fetch("https://api.openai.com/v1/chat/completions",{
             method:"POST",
@@ -127,8 +192,8 @@
         if(!result.ok){throw new Error("AI service returned " + result.status + ".");}
         let response = await result.json();
         let content = response.choices[0].message.content.replace(/^```json\s*|\s*```$/g,"").trim();
-        let questions = JSON.parse(content);
-        if(!Array.isArray(questions) || !questions.length){throw new Error("AI returned no questions.");}
+        let questions = normalizeQuestions(JSON.parse(content));
+        if(!questions.length){throw new Error("AI did not return usable questions. Each question needs text, four choices, and a valid correct answer.");}
         return {questions:questions,mode:"ai",message:"AI-generated questions are ready for review."};
     }
 
@@ -193,6 +258,23 @@
                     await saveData(data);
                     sendJson(response,200,{saved:true});
                 }catch(error){sendJson(response,400,{error:error.message || "Invalid lesson plan."});}
+                return;
+            }
+        }
+        if(pathname === "/api/test-activation"){
+            let data = await getData();
+            if(request.method === "GET"){sendJson(response,200,data.testActivation || {});return;}
+            if(request.method === "POST"){
+                try{
+                    let activation = JSON.parse(await readBody(request));
+                    if(!activation || typeof activation !== "object" || Array.isArray(activation) ||
+                        Object.values(activation).some(function(value){return typeof value !== "boolean";})){
+                        throw new Error("Test activation must be an object of boolean values.");
+                    }
+                    data.testActivation = activation;
+                    await saveData(data);
+                    sendJson(response,200,{saved:true});
+                }catch(error){sendJson(response,400,{error:error.message || "Invalid test activation data."});}
                 return;
             }
         }
