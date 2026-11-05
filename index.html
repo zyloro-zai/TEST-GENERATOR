@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Automated Learning System</title>
+<title>Project ATLAS</title>
 
 <style>
 *{box-sizing:border-box}
@@ -147,8 +147,12 @@ button:focus-visible,.sidebar-item:focus-visible,.subject:focus-visible{
 .admin-stat{padding:16px;border-radius:12px;background:white;border:1px solid #e2eaf5;box-shadow:0 4px 12px rgba(36,64,105,.035)}
 .admin-stat strong{display:block;font-size:28px;letter-spacing:-.03em}
 .admin-stat span{color:#728097;font-size:13px}
-.test-activation{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border:1px solid #e1e7f1;border-radius:10px;background:white;margin:8px 0}
-.test-activation button{width:auto;padding:9px 12px;margin:0}
+.test-activation{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 16px;border:1px solid #e1e7f1;border-radius:12px;background:white;margin:10px 0}
+.test-activation-info{display:flex;min-width:0;flex-direction:column;gap:5px}
+.test-activation-info strong{overflow-wrap:anywhere;line-height:1.35}
+.test-activation-info small{color:#728097;font-size:12px}
+.test-activation-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-shrink:0}
+.test-activation button{width:auto;min-width:116px;padding:9px 14px;margin:0}
 .test-activation .open-tag{padding:6px 10px;border-radius:999px;background:#e9f8ee;color:#2d7a4b;font-size:12px;font-weight:bold}
 .test-activation .closed-tag{padding:6px 10px;border-radius:999px;background:#fff4f2;color:#b34138;font-size:12px;font-weight:bold}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding:12px 14px;border-radius:12px;background:#edf4ff;border:1px solid #dfe9fb}
@@ -370,6 +374,12 @@ button:focus-visible,.sidebar-item:focus-visible,.subject:focus-visible{
 .calendar-event-main>div{min-width:0;overflow-wrap:anywhere}
 .calendar-event-main .calendar-dot{flex:none;margin-top:7px}
 .calendar-event-title{font-weight:700;color:#273852}
+.calendar-event-row.completed .calendar-event-title{text-decoration:line-through;color:#8290a5}
+.teacher-task-check{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:var(--blue);cursor:pointer}
+.private-task-main{display:flex;align-items:flex-start;gap:10px;min-width:0}
+.private-task-main>div{min-width:0;overflow-wrap:anywhere}
+.private-task-main .calendar-dot{flex:none;margin-top:7px}
+.month-event.completed{text-decoration:line-through;opacity:.7}
 .calendar-event-meta,.calendar-event-notes{color:#718097;font-size:12px}
 .calendar-event-actions{display:flex;gap:6px;flex:none}
 .calendar-event-actions button{width:auto;min-height:32px;margin:0;padding:5px 9px;font-size:11px}
@@ -455,7 +465,9 @@ body[data-theme="dark"] h2,
 body[data-theme="dark"] h3,
 body[data-theme="dark"] .calendar-event-title,
 body[data-theme="dark"] .lesson-plan-item h3,
+body[data-theme="dark"] .stat strong,
 body[data-theme="dark"] .student-report .report-line strong{color:#e7edf7}
+body[data-theme="dark"] .stat span{color:#a2aec2}
 body[data-theme="dark"] p,
 body[data-theme="dark"] .activity,
 body[data-theme="dark"] .calendar-event-meta,
@@ -532,6 +544,44 @@ body[data-theme="dark"] .calendar-event-row{background:#131e30}
 .test-management-item,.test-activation{border-radius:12px}
 .strand-heading{transition:background .18s}
 .strand-heading:hover{background:#e2edff}
+.daily-challenge-panel{margin-top:18px;padding:22px;border:1px solid #dfe9f8;border-radius:18px;background:linear-gradient(145deg,#fff,#f2f7ff)}
+.daily-challenge-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.daily-challenge-heading h2{margin:0 0 6px;text-align:left;font-size:21px}
+.daily-challenge-heading p{margin:0;color:var(--muted);font-size:13px}
+.daily-challenge-pill{flex:none;padding:6px 10px;border-radius:999px;background:#e8f1ff;color:#315b9d;font-size:12px;font-weight:700}
+.daily-challenge-panel>button,.daily-challenge-result button{width:auto;min-width:180px;margin-top:16px}
+.daily-challenge-question{margin-top:16px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.daily-challenge-question h3{margin:0 0 14px;font-size:17px}
+.daily-challenge-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.daily-challenge-choices button{margin:0;min-height:44px;background:var(--soft);color:var(--ink);border-color:var(--line);box-shadow:none}
+.daily-challenge-choices button:hover:not(:disabled){background:#e5edf9}
+.daily-challenge-choices button:disabled{cursor:default;opacity:1}
+.daily-challenge-feedback{margin:14px 0 0;padding:12px 14px;border-radius:10px;background:#edf8f1;color:#246642;font-size:14px;line-height:1.5}
+.daily-challenge-feedback.incorrect{background:#fff3ee;color:#8e4431}
+.daily-challenge-result{margin-top:16px;padding:16px;border:1px solid #d7ecdf;border-radius:14px;background:#f0faf3}
+.daily-challenge-result h3{margin:0 0 6px;color:#246642}
+.daily-challenge-result p{margin:0;color:var(--muted)}
+.daily-challenge-badge{display:inline-block;margin-top:12px;padding:6px 10px;border-radius:999px;background:#e2f5e8;color:#246642;font-size:12px;font-weight:700}
+.earned-badges{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:24px}
+.earned-badge{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid #d7ecdf;border-radius:14px;background:#f0faf3}
+.earned-badge-icon{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:13px;background:#e2f5e8;font-size:21px}
+.earned-badge strong{display:block;color:#246642}
+.earned-badge small{display:block;color:var(--muted);font-size:12px;line-height:1.4}
+.badges-empty{padding:14px 16px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:14px}
+body[data-theme="dark"] .daily-challenge-panel,
+body[data-theme="dark"] .daily-challenge-question{background:#182335;border-color:#334157}
+body[data-theme="dark"] .daily-challenge-pill{background:#263850;color:#d5e0f2}
+body[data-theme="dark"] .daily-challenge-choices button{background:#25344b;color:#e7edf7;border-color:#3a4b64}
+body[data-theme="dark"] .daily-challenge-choices button:hover:not(:disabled){background:#344968}
+body[data-theme="dark"] .daily-challenge-result{background:#172d26;border-color:#315744}
+body[data-theme="dark"] .daily-challenge-result h3,
+body[data-theme="dark"] .daily-challenge-badge{color:#b9efca}
+body[data-theme="dark"] .daily-challenge-badge{background:#234633}
+body[data-theme="dark"] .daily-challenge-feedback{background:#203b2e;color:#b9efca}
+body[data-theme="dark"] .daily-challenge-feedback.incorrect{background:#432d27;color:#ffcfbd}
+body[data-theme="dark"] .earned-badge{background:#172d26;border-color:#315744}
+body[data-theme="dark"] .earned-badge-icon{background:#234633}
+body[data-theme="dark"] .earned-badge strong{color:#b9efca}
 .error,.status-pill{line-height:1.4}
 
 @media(max-width:650px){
@@ -551,8 +601,22 @@ body[data-theme="dark"] .calendar-event-row{background:#131e30}
     .admin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .admin-card{padding:14px}
     .section-heading{align-items:flex-start}
+    .daily-challenge-panel{padding:16px}
+    .daily-challenge-heading{flex-direction:column}
+    .daily-challenge-choices{grid-template-columns:1fr}
+    .daily-challenge-panel>button,.daily-challenge-result button{width:100%}
     .test-activation,.test-management-item{align-items:flex-start}
-    .test-activation button,.test-management-item button{flex-shrink:0}
+    .test-activation{box-sizing:border-box;min-width:0;flex-direction:column;gap:12px;padding:13px}
+    .test-activation-info{width:100%}
+    .test-activation-actions{width:100%;justify-content:space-between}
+    .test-activation button{box-sizing:border-box;flex:1;min-width:0;min-height:42px}
+    .test-management-item button{flex-shrink:0}
+    .test-management-item{box-sizing:border-box;min-width:0;flex-direction:column;gap:10px;padding:12px}
+    .test-management-item>strong{max-width:100%;overflow-wrap:anywhere}
+    .test-management-item .calendar-event-actions{display:flex;flex-wrap:wrap;align-self:stretch;width:100%;min-width:0;gap:8px}
+    .test-management-item .calendar-event-actions .open-tag,
+    .test-management-item .calendar-event-actions .closed-tag{flex:0 0 100%;box-sizing:border-box;width:max-content}
+    .test-management-item .calendar-event-actions button{box-sizing:border-box;flex:1 1 calc(50% - 4px);min-width:0;min-height:40px;padding:8px 6px;font-size:11px;white-space:normal;overflow-wrap:anywhere}
     .nav{gap:10px}
     .calendar-header{align-items:flex-start;flex-direction:row}
     .calendar-toolbar{align-items:flex-start;flex-direction:column}
@@ -733,7 +797,7 @@ body[data-theme="dark"] .app-nav-item.active{color:#fff;background:linear-gradie
 <div id="login" class="card">
 
     <p class="eyebrow login-eyebrow">Learn, practice, grow</p>
-    <h1>Automated Learning System</h1>
+    <h1>Project ATLAS</h1>
     <p class="login-copy">A simple place for students to learn and teachers to track progress.</p>
 
     <h2>Student Login</h2>
@@ -849,9 +913,30 @@ body[data-theme="dark"] .app-nav-item.active{color:#fff;background:linear-gradie
         <div class="dashboard-header">
             <div>
                 <p class="eyebrow">School calendar</p>
-                <h1>Schedule an event</h1>
-                <p class="welcome-copy">Publish important dates for students to see in their calendar.</p>
+                <h1>Calendar</h1>
+                <p class="welcome-copy">View school events and your private tasks together.</p>
             </div>
+            <button type="button" class="secondary-button calendar-today" onclick="goToTeacherCalendarToday()">TODAY</button>
+        </div>
+        <div class="calendar-shell">
+            <div class="calendar-toolbar">
+                <div class="calendar-date-navigation">
+                    <button type="button" class="calendar-arrow" aria-label="Previous period" onclick="moveTeacherCalendar(-1)">&#8249;</button>
+                    <h2 id="teacherCalendarHeading"></h2>
+                    <button type="button" class="calendar-arrow" aria-label="Next period" onclick="moveTeacherCalendar(1)">&#8250;</button>
+                </div>
+                <div class="calendar-view-switcher" role="group" aria-label="Teacher calendar view">
+                    <button type="button" data-teacher-calendar-view="month" onclick="setTeacherCalendarView('month')">Month</button>
+                    <button type="button" data-teacher-calendar-view="week" onclick="setTeacherCalendarView('week')">Week</button>
+                    <button type="button" data-teacher-calendar-view="day" onclick="setTeacherCalendarView('day')">Day</button>
+                    <button type="button" data-teacher-calendar-view="agenda" onclick="setTeacherCalendarView('agenda')">Agenda</button>
+                </div>
+            </div>
+            <div class="calendar-legend">
+                <span><i class="calendar-dot school"></i>School events</span>
+                <span><i class="calendar-dot personal"></i>Private tasks</span>
+            </div>
+            <div id="teacherCalendarViewContainer" class="calendar-view-container"></div>
         </div>
         <div class="calendar-editor">
             <div class="calendar-form">
@@ -873,6 +958,28 @@ body[data-theme="dark"] .app-nav-item.active{color:#fff;background:linear-gradie
             <h2>Published school dates</h2>
             <div id="teacherCalendarEventList"></div>
         </div>
+        <div class="calendar-personal-editor">
+            <div class="calendar-editor-heading">
+                <div>
+                    <p class="eyebrow">Private to your teacher account</p>
+                    <h2 id="teacherTaskFormHeading">Add a private task</h2>
+                </div>
+            </div>
+            <p class="builder-note">These tasks are saved with your teacher account and are not published to student calendars.</p>
+            <div class="calendar-form">
+                <input id="teacherTaskTitle" type="text" maxlength="80" placeholder="What do you need to do?">
+                <input id="teacherTaskDate" type="date" aria-label="Task date">
+                <input id="teacherTaskTime" type="time" aria-label="Task time">
+                <textarea id="teacherTaskNotes" rows="2" maxlength="240" placeholder="Notes (optional)"></textarea>
+                <div class="calendar-form-actions">
+                    <button type="button" onclick="saveTeacherTask()">SAVE PRIVATE TASK</button>
+                    <button class="secondary-button" id="teacherTaskCancel" type="button" onclick="cancelTeacherTaskEdit()" hidden>CANCEL EDIT</button>
+                </div>
+                <p class="activity" id="teacherTaskStatus" role="status"></p>
+            </div>
+            <h2>My private tasks</h2>
+            <div id="teacherPrivateTaskList"></div>
+        </div>
     </section>
 
     <section class="role-page" id="teacherCreatePage">
@@ -886,7 +993,7 @@ body[data-theme="dark"] .app-nav-item.active{color:#fff;background:linear-gradie
         <div class="ai-panel">
             <p class="eyebrow">AI test maker</p>
             <h2>Create a test with AI</h2>
-            <p>Upload a PDF, Word document, or PowerPoint lesson, enter a prompt, or use both. AI-generated questions will be published for students.</p>
+            <p>Upload a PDF, Word document, or PowerPoint lesson, enter a prompt, or use both. The AI focuses questions on the lesson's key concepts, then publishes them for students.</p>
             <input id="aiTestTitle" type="text" placeholder="Test title (optional)">
             <select id="aiTestSubject">
                 <option value="General">General subject</option>
@@ -895,7 +1002,7 @@ body[data-theme="dark"] .app-nav-item.active{color:#fff;background:linear-gradie
                 <option value="Science">Science</option>
                 <option value="English">English</option>
             </select>
-            <textarea id="aiTestPrompt" rows="4" placeholder="Or enter a prompt, such as: Create 10 multiple-choice questions about photosynthesis for Grade 10 students."></textarea>
+            <textarea id="aiTestPrompt" rows="4" placeholder="Or enter a prompt, such as: Create 10 Grade 10 multiple-choice questions that assess the key concepts of photosynthesis. Avoid questions about classroom directions."></textarea>
             <input id="aiLessonFile" type="file" accept=".pdf,.docx,.pptx">
             <button onclick="convertLessonToTest()">GENERATE TEST</button>
             <div id="aiStatus" class="activity"></div>
@@ -925,7 +1032,7 @@ body[data-theme="dark"] .app-nav-item.active{color:#fff;background:linear-gradie
     <div class="topbar">
         <div>
             <h3>School Control Center</h3>
-            <span>Today: <strong>September 23, 2026</strong></span>
+            <span>Today: <strong id="adminCurrentDate"></strong></span>
         </div>
         <span class="status-pill">System online</span>
     </div>
@@ -960,6 +1067,7 @@ body[data-theme="dark"] .app-nav-item.active{color:#fff;background:linear-gradie
 
             <div class="admin-card" id="admin-open-test-panel">
                 <div class="section-heading"><h2>Manual test activation</h2></div>
+                <p class="activity" id="adminTestActivationStatus" role="status"></p>
                 <div id="adminTestList"></div>
             </div>
 
@@ -1023,6 +1131,18 @@ body[data-theme="dark"] .app-nav-item.active{color:#fff;background:linear-gradie
             <p>Choose a subject, take a quiz, and keep track of your progress here.</p>
             <button type="button" onclick="navigateApp('subjects')">BROWSE SUBJECTS</button>
         </div>
+        <section class="daily-challenge-panel" aria-labelledby="dailyChallengeTitle">
+            <div class="daily-challenge-heading">
+                <div>
+                    <p class="eyebrow">Optional • about 2 minutes</p>
+                    <h2 id="dailyChallengeTitle">Today's 3-question challenge</h2>
+                    <p id="dailyChallengeTopic">Qualitative vs. quantitative research</p>
+                </div>
+                <span class="daily-challenge-pill">DAILY CHALLENGE</span>
+            </div>
+            <button type="button" id="dailyChallengeStart" onclick="startDailyChallenge()">START CHALLENGE</button>
+            <div id="dailyChallengeContent" aria-live="polite"></div>
+        </section>
     </section>
 
     <section class="role-page" id="studentSubjectsPage">
@@ -1111,6 +1231,8 @@ body[data-theme="dark"] .app-nav-item.active{color:#fff;background:linear-gradie
             <div class="stat"><strong id="questionCount">20</strong><span>Total questions</span></div>
             <div class="stat"><strong id="completedCount">0</strong><span>Tests completed</span></div>
         </div>
+        <div class="section-heading"><h2>Badges earned</h2></div>
+        <div class="earned-badges" id="studentBadges" aria-live="polite"></div>
         <div class="section-heading" id="recentActivitySection"><h2>Recent activity</h2></div>
         <div class="activity" id="activity">No tests completed yet. Choose a subject to get started.</div>
     </section>
@@ -1486,6 +1608,106 @@ let currentTestTitle = "";
 let editingTestId = "";
 let currentTeacher = "";
 let currentRole = "";
+let dailyChallengeIndex = 0;
+let dailyChallengeScore = 0;
+let dailyChallengeSelectedAnswer = null;
+let currentDailyChallenge = null;
+let renderedDailyChallengeDate = "";
+
+const dailyChallengeSets = [
+    {
+        title:"Qualitative vs. quantitative research",
+        questions:[
+            {
+                question:"A survey asks 100 students how many hours they study each week. What kind of data is collected?",
+                choices:["Qualitative","Quantitative"],
+                answer:1,
+                explanation:"The answers are numbers that can be counted, so the data is quantitative."
+            },
+            {
+                question:"A researcher interviews students about how they feel during group work. What kind of data is this?",
+                choices:["Qualitative","Quantitative"],
+                answer:0,
+                explanation:"The interviews describe students' experiences and opinions, so the data is qualitative."
+            },
+            {
+                question:"Which is an example of quantitative data?",
+                choices:["Students' favorite subjects","Reasons students enjoy reading","Number of books read by each student","Students' comments about a lesson"],
+                answer:2,
+                explanation:"A number of books can be counted and compared, so it is quantitative data."
+            }
+        ]
+    },
+    {
+        title:"Research variables",
+        questions:[
+            {
+                question:"A student investigates whether study time affects quiz scores. What is the independent variable?",
+                choices:["Quiz score","Study time","The students","The classroom"],
+                answer:1,
+                explanation:"Study time is the factor being changed or compared to see whether it affects the result."
+            },
+            {
+                question:"In an experiment about fertilizer and plant height, what is the dependent variable?",
+                choices:["Type of fertilizer","Amount of water","Plant height","The pot"],
+                answer:2,
+                explanation:"Plant height is the measured outcome that may change when the fertilizer changes."
+            },
+            {
+                question:"Why keep the amount of water the same when comparing fertilizers?",
+                choices:["To make the comparison fair","To increase the sample size","To change the independent variable","To avoid measuring plant height"],
+                answer:0,
+                explanation:"Keeping other conditions the same helps make the fertilizer comparison fair."
+            }
+        ]
+    },
+    {
+        title:"Fractions and percentages",
+        questions:[
+            {
+                question:"What is one half written as a percentage?",
+                choices:["5%","25%","50%","100%"],
+                answer:2,
+                explanation:"One half is 0.5, which is 50 percent."
+            },
+            {
+                question:"A class has 20 students. If 5 are absent, what fraction are absent?",
+                choices:["1/2","1/4","1/5","3/4"],
+                answer:1,
+                explanation:"Five out of 20 is 5/20, which simplifies to 1/4."
+            },
+            {
+                question:"What is 25% of 40?",
+                choices:["5","10","15","20"],
+                answer:1,
+                explanation:"25% is one quarter, and one quarter of 40 is 10."
+            }
+        ]
+    },
+    {
+        title:"Ecosystems and energy",
+        questions:[
+            {
+                question:"Which organism usually makes its own food using sunlight?",
+                choices:["Producer","Consumer","Decomposer","Predator"],
+                answer:0,
+                explanation:"Producers such as plants use sunlight to make food."
+            },
+            {
+                question:"What is one role of decomposers in an ecosystem?",
+                choices:["Make sunlight","Break down dead matter","Stop all energy flow","Produce rocks"],
+                answer:1,
+                explanation:"Decomposers break down dead organisms and return nutrients to the environment."
+            },
+            {
+                question:"In a simple food chain, where does most energy originally come from?",
+                choices:["The Moon","The soil","The Sun","The wind"],
+                answer:2,
+                explanation:"Most energy in a food chain starts as sunlight captured by producers."
+            }
+        ]
+    }
+];
 
 const userSettingDefaults = {accent:"blue",fontSize:"standard",reduceMotion:false};
 const accentPalettes = {
@@ -1594,8 +1816,17 @@ function showRolePage(role,activeItem){
         let page = document.getElementById(pages[key]);
         if(page){page.classList.toggle("active",key === activeItem);}
     });
+    if(role === "student" && activeItem === "home"){renderDailyChallengeForToday();}
+    if(role === "student" && activeItem === "progress"){
+        let accounts = getAccounts();
+        renderStudentBadges(accounts[currentUser]);
+    }
     if(role === "student" && activeItem === "calendar"){renderStudentCalendar();}
-    if(role === "teacher" && activeItem === "calendar"){renderSchoolEventManager("teacher");}
+    if(role === "teacher" && activeItem === "calendar"){
+        renderSchoolEventManager("teacher");
+        renderTeacherPrivateTasks();
+        renderTeacherCalendar();
+    }
     if(role === "teacher" && activeItem === "lessons"){renderTeacherLessonPlan();}
     window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -1879,7 +2110,10 @@ function deleteLessonPlanItem(encodedId){
 
 let calendarDate = new Date();
 let calendarView = "month";
+let teacherCalendarDate = new Date();
+let teacherCalendarView = "month";
 let editingPersonalEventId = "";
+let editingTeacherTaskId = "";
 let editingSchoolEventIds = {teacher:"",admin:""};
 
 function dateToCalendarKey(date){
@@ -1917,10 +2151,36 @@ function moveCalendar(amount){
     renderStudentCalendar();
 }
 
-function selectCalendarDate(key){
+function selectCalendarDate(key,switchToDay){
     calendarDate = calendarDateFromKey(key);
-    calendarView = "day";
+    if(switchToDay !== false){calendarView = "day";}
     renderStudentCalendar();
+}
+
+function setTeacherCalendarView(view){
+    teacherCalendarView = view;
+    renderTeacherCalendar();
+}
+
+function goToTeacherCalendarToday(){
+    teacherCalendarDate = new Date();
+    renderTeacherCalendar();
+}
+
+function moveTeacherCalendar(amount){
+    if(teacherCalendarView === "month"){
+        teacherCalendarDate = new Date(teacherCalendarDate.getFullYear(),teacherCalendarDate.getMonth() + amount,1);
+    }else{
+        let days = teacherCalendarView === "week" ? 7 : teacherCalendarView === "agenda" ? 30 : 1;
+        teacherCalendarDate.setDate(teacherCalendarDate.getDate() + amount * days);
+    }
+    renderTeacherCalendar();
+}
+
+function selectTeacherCalendarDate(key,switchToDay){
+    teacherCalendarDate = calendarDateFromKey(key);
+    if(switchToDay !== false){teacherCalendarView = "day";}
+    renderTeacherCalendar();
 }
 
 function studentCalendarEvents(){
@@ -1934,17 +2194,32 @@ function formatCalendarDate(key,options){
 
 function calendarEventMarkup(item,withDate){
     let time = item.time ? item.time : "Any time";
+    let isPrivateTask = item.calendarKind === "personal" || item.calendarKind === "teacher-personal";
+    let completed = isPrivateTask && Boolean(item.completed);
     let dateLabel = withDate ? formatCalendarDate(item.date,{weekday:"short",month:"short",day:"numeric"}) + " · " : "";
-    let meta = dateLabel + time + (item.type ? " · " + escapeHTML(item.type) : "");
+    let meta = dateLabel + time + (item.type ? " · " + escapeHTML(item.type) : "") + (completed ? " · Done" : "");
     let notes = item.notes ? "<div class=\"calendar-event-notes\">" + escapeHTML(item.notes) + "</div>" : "";
-    let personalActions = item.calendarKind === "personal"
-        ? "<div class=\"calendar-event-actions\"><button class=\"secondary-button\" onclick=\"editPersonalEvent('" + encodeURIComponent(item.id) + "')\">EDIT</button><button class=\"secondary-button\" onclick=\"deletePersonalEvent('" + encodeURIComponent(item.id) + "')\">DELETE</button></div>" : "";
-    return "<div class=\"calendar-event-row\"><div class=\"calendar-event-main\"><i class=\"calendar-dot " + (item.calendarKind === "personal" ? "personal" : "school") + "\"></i><div><div class=\"calendar-event-title\">" + escapeHTML(item.title) + "</div><div class=\"calendar-event-meta\">" + meta + "</div>" + notes + "</div></div>" + personalActions + "</div>";
+    let mainClass = isPrivateTask ? "private-task-main" : "calendar-event-main";
+    let toggleFunction = item.calendarKind === "teacher-personal" ? "toggleTeacherTask" : "togglePersonalEvent";
+    let taskCheckbox = isPrivateTask
+        ? "<input class=\"teacher-task-check\" type=\"checkbox\" " + (completed ? "checked " : "") +
+            "aria-label=\"" + (completed ? "Mark " + escapeHTML(item.title) + " as not done" : "Mark " + escapeHTML(item.title) + " as done") +
+            "\" onchange=\"" + toggleFunction + "('" + encodeURIComponent(item.id) + "',this.checked)\">" : "";
+    let editFunction = item.calendarKind === "teacher-personal" ? "editTeacherTask" : "editPersonalEvent";
+    let deleteFunction = item.calendarKind === "teacher-personal" ? "deleteTeacherTask" : "deletePersonalEvent";
+    let personalActions = isPrivateTask
+        ? "<div class=\"calendar-event-actions\"><button class=\"secondary-button\" onclick=\"" + editFunction + "('" + encodeURIComponent(item.id) + "')\">EDIT</button><button class=\"secondary-button\" onclick=\"" + deleteFunction + "('" + encodeURIComponent(item.id) + "')\">DELETE</button></div>" : "";
+    return "<div class=\"calendar-event-row" + (completed ? " completed" : "") + "\"><div class=\"" + mainClass + "\">" + taskCheckbox +
+        "<i class=\"calendar-dot " + (isPrivateTask ? "personal" : "school") + "\"></i><div><div class=\"calendar-event-title\">" +
+        escapeHTML(item.title) + "</div><div class=\"calendar-event-meta\">" + meta + "</div>" + notes + "</div></div>" + personalActions + "</div>";
 }
 
 function eventsForDate(key,items){
     return items.filter(function(item){return item.date === key;})
-        .sort(function(a,b){return (a.time || "99:99").localeCompare(b.time || "99:99");});
+        .sort(function(a,b){
+            return Number(Boolean(a.completed)) - Number(Boolean(b.completed)) ||
+                (a.time || "99:99").localeCompare(b.time || "99:99");
+        });
 }
 
 function renderCalendarList(events,withDate){
@@ -1953,20 +2228,54 @@ function renderCalendarList(events,withDate){
 }
 
 function renderStudentCalendar(){
-    let heading = document.getElementById("calendarHeading");
-    let container = document.getElementById("calendarViewContainer");
-    if(!heading || !container){return;}
-    let allEvents = studentCalendarEvents();
+    renderCalendarBoard({
+        headingId:"calendarHeading",
+        containerId:"calendarViewContainer",
+        controlsSelector:"#studentCalendarPage [data-calendar-view]",
+        date:calendarDate,
+        view:calendarView,
+        events:studentCalendarEvents(),
+        selectFunction:"selectCalendarDate"
+    });
+}
 
-    document.querySelectorAll("[data-calendar-view]").forEach(function(button){
-        let active = button.dataset.calendarView === calendarView;
+function teacherCalendarEvents(){
+    return getSchoolEvents().map(function(item){return Object.assign({calendarKind:"school"},item);})
+        .concat(teacherCalendarItems().map(function(item){
+            return Object.assign({calendarKind:"teacher-personal",type:"Private task"},item);
+        }));
+}
+
+function renderTeacherCalendar(){
+    renderCalendarBoard({
+        headingId:"teacherCalendarHeading",
+        containerId:"teacherCalendarViewContainer",
+        controlsSelector:"#teacherCalendarPage [data-teacher-calendar-view]",
+        date:teacherCalendarDate,
+        view:teacherCalendarView,
+        events:teacherCalendarEvents(),
+        selectFunction:"selectTeacherCalendarDate"
+    });
+}
+
+function renderCalendarBoard(config){
+    let heading = document.getElementById(config.headingId);
+    let container = document.getElementById(config.containerId);
+    if(!heading || !container){return;}
+    let view = config.view;
+    let date = config.date;
+    let allEvents = config.events;
+
+    document.querySelectorAll(config.controlsSelector).forEach(function(button){
+        let buttonView = button.dataset.calendarView || button.dataset.teacherCalendarView;
+        let active = buttonView === view;
         button.classList.toggle("active",active);
         button.setAttribute("aria-pressed",active ? "true" : "false");
     });
 
-    if(calendarView === "month"){
-        heading.innerText = calendarDate.toLocaleDateString(undefined,{month:"long",year:"numeric"});
-        let start = new Date(calendarDate.getFullYear(),calendarDate.getMonth(),1);
+    if(view === "month"){
+        heading.innerText = date.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+        let start = new Date(date.getFullYear(),date.getMonth(),1);
         start.setDate(start.getDate() - start.getDay());
         let todayKey = dateToCalendarKey(new Date());
         let days = Array.from({length:42},function(_,index){
@@ -1975,16 +2284,17 @@ function renderStudentCalendar(){
             let key = dateToCalendarKey(date);
             let events = eventsForDate(key,allEvents);
             let eventMarkup = events.slice(0,3).map(function(item){
-                return "<span class=\"month-event " + (item.calendarKind === "personal" ? "personal" : "") + "\" title=\"" + escapeHTML(item.title) + "\" aria-label=\"" + escapeHTML(item.title) + "\">" + escapeHTML(item.title) + "</span>";
+                let personal = item.calendarKind === "personal" || item.calendarKind === "teacher-personal";
+                return "<span class=\"month-event " + (personal ? "personal " : "") + (item.completed ? "completed" : "") + "\" title=\"" + escapeHTML(item.title) + "\" aria-label=\"" + escapeHTML(item.title) + "\">" + escapeHTML(item.title) + "</span>";
             }).join("") + (events.length > 3 ? "<span class=\"month-event month-event-more\">+" + (events.length - 3) + "</span>" : "");
-            return "<div class=\"month-day " + (date.getMonth() !== calendarDate.getMonth() ? "outside-month " : "") +
-                (key === dateToCalendarKey(calendarDate) ? "selected-day " : "") + (key === todayKey ? "today-day" : "") +
-                "\" role=\"button\" tabindex=\"0\" onclick=\"selectCalendarDate('" + key + "')\"><span class=\"month-day-number\">" +
+            return "<div class=\"month-day " + (date.getMonth() !== config.date.getMonth() ? "outside-month " : "") +
+                (key === dateToCalendarKey(config.date) ? "selected-day " : "") + (key === todayKey ? "today-day" : "") +
+                "\" role=\"button\" tabindex=\"0\" onclick=\"" + config.selectFunction + "('" + key + "',false)\"><span class=\"month-day-number\">" +
                 date.getDate() + "</span>" + eventMarkup + "</div>";
         }).join("");
         container.innerHTML = "<div class=\"month-calendar\">" + ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(function(day){return "<div class=\"month-weekday\">" + day + "</div>";}).join("") + days + "</div>";
-    }else if(calendarView === "week"){
-        let start = new Date(calendarDate);
+    }else if(view === "week"){
+        let start = new Date(date);
         start.setDate(start.getDate() - start.getDay());
         let end = new Date(start);
         end.setDate(start.getDate() + 6);
@@ -1993,21 +2303,24 @@ function renderStudentCalendar(){
             let date = new Date(start);
             date.setDate(start.getDate() + index);
             let key = dateToCalendarKey(date);
-            return "<div class=\"calendar-week-column " + (key === dateToCalendarKey(calendarDate) ? "selected-day" : "") + "\"><div class=\"calendar-week-heading\" role=\"button\" tabindex=\"0\" onclick=\"selectCalendarDate('" + key + "')\">" +
+            return "<div class=\"calendar-week-column " + (key === dateToCalendarKey(config.date) ? "selected-day" : "") + "\"><div class=\"calendar-week-heading\" role=\"button\" tabindex=\"0\" onclick=\"" + config.selectFunction + "('" + key + "')\">" +
                 date.toLocaleDateString(undefined,{weekday:"short",month:"numeric",day:"numeric"}) + "</div>" + renderCalendarList(eventsForDate(key,allEvents),false) + "</div>";
         }).join("") + "</div>";
-    }else if(calendarView === "day"){
-        let key = dateToCalendarKey(calendarDate);
-        heading.innerText = calendarDate.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+    }else if(view === "day"){
+        let key = dateToCalendarKey(date);
+        heading.innerText = date.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});
         container.innerHTML = renderCalendarList(eventsForDate(key,allEvents),false);
     }else{
-        let end = new Date(calendarDate);
+        let end = new Date(date);
         end.setDate(end.getDate() + 30);
         heading.innerText = "Next 30 days";
         let events = allEvents.filter(function(item){
             let date = calendarDateFromKey(item.date);
-            return date >= new Date(calendarDate.getFullYear(),calendarDate.getMonth(),calendarDate.getDate()) && date <= end;
-        }).sort(function(a,b){return (a.date + (a.time || "99:99")).localeCompare(b.date + (b.time || "99:99"));});
+            return date >= new Date(config.date.getFullYear(),config.date.getMonth(),config.date.getDate()) && date <= end;
+        }).sort(function(a,b){
+            return Number(Boolean(a.completed)) - Number(Boolean(b.completed)) ||
+                (a.date + (a.time || "99:99")).localeCompare(b.date + (b.time || "99:99"));
+        });
         container.innerHTML = renderCalendarList(events,true);
     }
 }
@@ -2021,7 +2334,14 @@ function savePersonalEvent(){
     if(!accounts[currentUser]){status.innerText = "Could not find your student account.";return;}
     let items = Array.isArray(accounts[currentUser].calendarItems) ? accounts[currentUser].calendarItems : [];
     let existing = items.find(function(item){return item.id === editingPersonalEventId;});
-    let entry = {id:editingPersonalEventId || "personal-" + Date.now(),title:title,date:date,time:document.getElementById("personalEventTime").value,notes:document.getElementById("personalEventNotes").value.trim()};
+    let entry = {
+        id:editingPersonalEventId || "personal-" + Date.now(),
+        title:title,
+        date:date,
+        time:document.getElementById("personalEventTime").value,
+        notes:document.getElementById("personalEventNotes").value.trim(),
+        completed:existing ? Boolean(existing.completed) : false
+    };
     if(existing){Object.assign(existing,entry);}else{items.push(entry);}
     accounts[currentUser].calendarItems = items;
     saveAccounts(accounts);
@@ -2061,6 +2381,17 @@ function deletePersonalEvent(encodedId){
     renderStudentCalendar();
 }
 
+function togglePersonalEvent(encodedId,completed){
+    let accounts = getAccounts();
+    if(!accounts[currentUser]){return;}
+    let id = decodeURIComponent(encodedId);
+    let item = (accounts[currentUser].calendarItems || []).find(function(entry){return entry.id === id;});
+    if(!item){return;}
+    item.completed = Boolean(completed);
+    saveAccounts(accounts);
+    renderStudentCalendar();
+}
+
 function renderSchoolEventManager(role){
     let events = getSchoolEvents().slice().sort(function(a,b){return (a.date + (a.time || "99:99")).localeCompare(b.date + (b.time || "99:99"));});
     let list = document.getElementById(role + "CalendarEventList");
@@ -2071,6 +2402,101 @@ function renderSchoolEventManager(role){
             "</div>" + (item.notes ? "<div class=\"calendar-event-notes\">" + escapeHTML(item.notes) + "</div>" : "") + "</div></div><div class=\"calendar-event-actions\">" +
             "<button class=\"secondary-button\" onclick=\"editSchoolEvent('" + role + "','" + encodeURIComponent(item.id) + "')\">EDIT</button><button class=\"secondary-button\" onclick=\"deleteSchoolEvent('" + role + "','" + encodeURIComponent(item.id) + "')\">DELETE</button></div></div>";
     }).join("") + "</div>" : "<div class=\"calendar-empty\">No school events published yet.</div>";
+    if(role === "teacher"){renderTeacherCalendar();}
+}
+
+function teacherCalendarItems(){
+    let teachers = getTeacherAccounts();
+    return teachers[currentTeacher] && Array.isArray(teachers[currentTeacher].calendarItems)
+        ? teachers[currentTeacher].calendarItems : [];
+}
+
+function renderTeacherPrivateTasks(){
+    let list = document.getElementById("teacherPrivateTaskList");
+    if(!list){return;}
+    let items = teacherCalendarItems().slice().sort(function(a,b){
+        return Number(Boolean(a.completed)) - Number(Boolean(b.completed)) ||
+            (a.date + (a.time || "99:99")).localeCompare(b.date + (b.time || "99:99"));
+    });
+    list.innerHTML = items.length ? "<div class=\"calendar-list\">" + items.map(function(item){
+        let completed = Boolean(item.completed);
+        return "<div class=\"calendar-event-row teacher-private-task" + (completed ? " completed" : "") + "\"><div class=\"teacher-private-task-main\"><input class=\"teacher-task-check\" type=\"checkbox\" " +
+            (completed ? "checked " : "") + "aria-label=\"" + (completed ? "Mark " + escapeHTML(item.title) + " as not done" : "Mark " + escapeHTML(item.title) + " as done") +
+            "\" onchange=\"toggleTeacherTask('" + encodeURIComponent(item.id) + "',this.checked)\"><div><div class=\"calendar-event-title\">" +
+            escapeHTML(item.title) + "</div><div class=\"calendar-event-meta\">" + formatCalendarDate(item.date) + " · " + escapeHTML(item.time || "Any time") +
+            (completed ? " · Done" : "") + "</div>" + (item.notes ? "<div class=\"calendar-event-notes\">" + escapeHTML(item.notes) + "</div>" : "") + "</div></div><div class=\"calendar-event-actions\">" +
+            "<button class=\"secondary-button\" type=\"button\" onclick=\"editTeacherTask('" + encodeURIComponent(item.id) + "')\">EDIT</button><button class=\"secondary-button\" type=\"button\" onclick=\"deleteTeacherTask('" + encodeURIComponent(item.id) + "')\">DELETE</button></div></div>";
+    }).join("") + "</div>" : "<div class=\"calendar-empty\">No private tasks yet.</div>";
+    renderTeacherCalendar();
+}
+
+function toggleTeacherTask(encodedId,completed){
+    let teachers = getTeacherAccounts();
+    if(!teachers[currentTeacher]){return;}
+    let id = decodeURIComponent(encodedId);
+    let task = (teachers[currentTeacher].calendarItems || []).find(function(item){return item.id === id;});
+    if(!task){return;}
+    task.completed = Boolean(completed);
+    saveTeacherAccounts(teachers);
+    renderTeacherPrivateTasks();
+}
+
+function saveTeacherTask(){
+    let title = document.getElementById("teacherTaskTitle").value.trim();
+    let date = document.getElementById("teacherTaskDate").value;
+    let status = document.getElementById("teacherTaskStatus");
+    if(!title || !date){status.innerText = "Enter a task title and date.";return;}
+    let teachers = getTeacherAccounts();
+    if(!teachers[currentTeacher]){status.innerText = "Could not find your teacher account.";return;}
+    let items = Array.isArray(teachers[currentTeacher].calendarItems) ? teachers[currentTeacher].calendarItems : [];
+    let existing = items.find(function(item){return item.id === editingTeacherTaskId;});
+    let task = {
+        id:editingTeacherTaskId || "teacher-task-" + Date.now(),
+        title:title,
+        date:date,
+        time:document.getElementById("teacherTaskTime").value,
+        notes:document.getElementById("teacherTaskNotes").value.trim(),
+        completed:existing ? Boolean(existing.completed) : false
+    };
+    if(existing){Object.assign(existing,task);}else{items.push(task);}
+    teachers[currentTeacher].calendarItems = items;
+    saveTeacherAccounts(teachers);
+    cancelTeacherTaskEdit();
+    status.innerText = "Private task saved to your teacher account.";
+    renderTeacherPrivateTasks();
+}
+
+function editTeacherTask(encodedId){
+    let task = teacherCalendarItems().find(function(item){return item.id === decodeURIComponent(encodedId);});
+    if(!task){return;}
+    editingTeacherTaskId = task.id;
+    document.getElementById("teacherTaskTitle").value = task.title;
+    document.getElementById("teacherTaskDate").value = task.date;
+    document.getElementById("teacherTaskTime").value = task.time || "";
+    document.getElementById("teacherTaskNotes").value = task.notes || "";
+    document.getElementById("teacherTaskFormHeading").innerText = "Edit a private task";
+    document.getElementById("teacherTaskCancel").hidden = false;
+    document.getElementById("teacherTaskTitle").focus();
+}
+
+function cancelTeacherTaskEdit(){
+    editingTeacherTaskId = "";
+    document.getElementById("teacherTaskTitle").value = "";
+    document.getElementById("teacherTaskDate").value = "";
+    document.getElementById("teacherTaskTime").value = "";
+    document.getElementById("teacherTaskNotes").value = "";
+    document.getElementById("teacherTaskFormHeading").innerText = "Add a private task";
+    document.getElementById("teacherTaskCancel").hidden = true;
+}
+
+function deleteTeacherTask(encodedId){
+    let teachers = getTeacherAccounts();
+    if(!teachers[currentTeacher]){return;}
+    let id = decodeURIComponent(encodedId);
+    teachers[currentTeacher].calendarItems = (teachers[currentTeacher].calendarItems || []).filter(function(task){return task.id !== id;});
+    saveTeacherAccounts(teachers);
+    if(editingTeacherTaskId === id){cancelTeacherTaskEdit();}
+    renderTeacherPrivateTasks();
 }
 
 function saveSchoolEvent(role){
@@ -2340,7 +2766,15 @@ function convertLessonToTest(){
             });
         }).then(function(result){
             if(!result.ok){throw new Error(result.payload.error || "Conversion failed.");}
-            if(!result.payload.questions || !result.payload.questions.length){throw new Error("No questions could be created. Try a more detailed prompt or a lesson with readable text.");}
+            if(!Array.isArray(result.payload.questions) || !result.payload.questions.length ||
+                result.payload.questions.some(function(question){
+                    return !question || typeof question.q !== "string" || !question.q.trim() ||
+                        !Array.isArray(question.c) || question.c.length !== 4 ||
+                        question.c.some(function(choice){return typeof choice !== "string" || !choice.trim();}) ||
+                        !Number.isInteger(question.a) || question.a < 0 || question.a > 3;
+                })){
+                throw new Error("The AI response did not contain usable questions. Each needs question text, four choices, and a correct answer. Try again with a clearer prompt.");
+            }
             let fallbackTitle = document.getElementById("aiTestTitle").value.trim() || (file ? file.name.replace(/\.[^.]+$/,"") : "AI generated test");
             autoPublishGeneratedTest(result.payload.questions, result.payload.title || fallbackTitle);
             status.innerText = result.payload.message + " The test was automatically published for students.";
@@ -2380,6 +2814,20 @@ function autoPublishGeneratedTest(questions, title){
 
 function getActivationState(){
     try{
+        let request = new XMLHttpRequest();
+        request.open("GET","/api/test-activation",false);
+        request.send();
+        if(request.status === 200){
+            let state = JSON.parse(request.responseText || "{}");
+            window.testActivationShared = true;
+            localStorage.setItem("schoolTestActivation",JSON.stringify(state));
+            return state;
+        }
+        window.testActivationShared = false;
+    }catch(error){
+        window.testActivationShared = false;
+    }
+    try{
         return JSON.parse(localStorage.getItem("schoolTestActivation") || "{}");
     }catch(error){
         return {};
@@ -2387,7 +2835,35 @@ function getActivationState(){
 }
 
 function setActivationState(state){
-    localStorage.setItem("schoolTestActivation", JSON.stringify(state));
+    let data = JSON.stringify(state);
+    if(window.testActivationShared === false){
+        localStorage.setItem("schoolTestActivation",data);
+        return true;
+    }
+    try{
+        let request = new XMLHttpRequest();
+        request.open("POST","/api/test-activation",false);
+        request.setRequestHeader("Content-Type","application/json");
+        request.send(data);
+        if(request.status === 200){
+            window.testActivationShared = true;
+            window.testActivationWriteError = false;
+            localStorage.setItem("schoolTestActivation",data);
+            return true;
+        }
+    }catch(error){}
+    window.testActivationWriteError = true;
+    return false;
+}
+
+function getTestActivationStatus(){
+    if(window.testActivationWriteError === true){
+        return "Could not save test availability to the shared server. Please try again.";
+    }
+    if(window.testActivationShared === false){
+        return "Shared test controls are unavailable; changes are saved only in this browser.";
+    }
+    return "";
 }
 
 function showAdminSection(section){
@@ -2413,7 +2889,18 @@ function showAdminSection(section){
     setActiveNavigationItem(section);
 }
 
+function updateAdminDate(){
+    let dateElement = document.getElementById("adminCurrentDate");
+    if(dateElement){
+        dateElement.innerText = new Date().toLocaleDateString(undefined,{month:"long",day:"numeric",year:"numeric"});
+    }
+}
+
+updateAdminDate();
+window.setInterval(updateAdminDate,60000);
+
 function renderAdminDashboard(){
+    updateAdminDate();
     let accounts = getAccounts();
     let publishedTests = getPublishedTests();
     let state = getActivationState();
@@ -2431,6 +2918,8 @@ function renderAdminDashboard(){
     renderAdminLessonPlan();
 
     let list = document.getElementById("adminTestList");
+    let activationStatus = document.getElementById("adminTestActivationStatus");
+    if(activationStatus){activationStatus.innerText = getTestActivationStatus();}
     if(!publishedTests.length){
         list.innerHTML = "<p class=\"activity\">No tests are available yet.</p>";
         return;
@@ -2438,17 +2927,23 @@ function renderAdminDashboard(){
 
     list.innerHTML = publishedTests.map(function(test){
         let isOpen = state[test.id] === true;
-        return "<div class=\"test-activation\"><div><strong>" + escapeHTML(test.title) + "</strong><br><small>" + test.questions.length + " questions</small></div><div>" +
-            (isOpen ? "<span class=\"open-tag\">OPEN</span>" : "<span class=\"closed-tag\">CLOSED</span>") + "</div><button class=\"secondary-button\" onclick=\"toggleTestActivation('" + test.id + "')\">" +
-            (isOpen ? "CLOSE TEST" : "OPEN TEST") + "</button></div>";
+        return "<div class=\"test-activation\"><div class=\"test-activation-info\"><strong>" + escapeHTML(test.title) +
+            "</strong><small>" + test.questions.length + (test.questions.length === 1 ? " question" : " questions") + "</small></div><div class=\"test-activation-actions\">" +
+            (isOpen ? "<span class=\"open-tag\">OPEN</span>" : "<span class=\"closed-tag\">CLOSED</span>") + "<button class=\"secondary-button\" type=\"button\" onclick=\"toggleTestActivation('" + encodeURIComponent(test.id) + "')\">" +
+            (isOpen ? "CLOSE TEST" : "OPEN TEST") + "</button></div></div>";
     }).join("");
 }
 
 function toggleTestActivation(testId){
+    testId = decodeURIComponent(testId);
     let state = getActivationState();
     state[testId] = !(state[testId] === true);
-    setActivationState(state);
+    let saved = setActivationState(state);
+    if(!saved && window.testActivationShared !== false){
+        window.testActivationWriteError = true;
+    }
     renderAdminDashboard();
+    renderTestManagement();
     renderPublishedTests();
 }
 
@@ -2465,7 +2960,7 @@ function renderPublishedTests(){
 
     container.innerHTML = publishedTests.map(function(test){
         let isOpen = state[test.id] === true;
-        let label = isOpen ? "Available now" : "Closed by admin";
+        let label = isOpen ? "Available now" : "Currently closed";
         return "<div class=\"subject published-test\" onclick=\"if(window.__testOpenForStudent===true) startTest('" + test.id + "');\"><div class=\"subject-top\"><div class=\"subject-icon\">T</div><h3>" +
             escapeHTML(test.title) + "</h3></div><p>" + label + " - " + test.questions.length + " questions</p><div class=\"progress\"><span style=\"width:" + (progress[test.id] || 0) + "%\"></span></div></div>";
     }).join("");
@@ -2478,13 +2973,38 @@ function renderPublishedTests(){
 function renderTestManagement(){
     let container = document.getElementById("testManagement");
     let publishedTests = getPublishedTests();
-    container.innerHTML = publishedTests.length ? publishedTests.map(function(test){
+    let state = getActivationState();
+    container.innerHTML = "<p class=\"activity\" role=\"status\">" + escapeHTML(getTestActivationStatus()) + "</p>" + (publishedTests.length ? publishedTests.map(function(test){
+        let isOpen = state[test.id] === true;
         return "<div class=\"test-management-item\"><strong>" + escapeHTML(test.title) +
-            "</strong><button class=\"secondary-button\" onclick=\"editPublishedTest('" + test.id + "')\">EDIT TEST</button></div>";
-    }).join("") : "<p class=\"activity\">No teacher-created tests published yet.</p>";
+            "</strong><div class=\"calendar-event-actions\"><span class=\"" + (isOpen ? "open-tag" : "closed-tag") + "\">" + (isOpen ? "OPEN" : "CLOSED") + "</span>" +
+            "<button class=\"secondary-button\" type=\"button\" onclick=\"toggleTestActivation('" + encodeURIComponent(test.id) + "')\">" + (isOpen ? "CLOSE TEST" : "OPEN TEST") + "</button>" +
+            "<button class=\"secondary-button\" type=\"button\" onclick=\"editPublishedTest('" + encodeURIComponent(test.id) + "')\">EDIT TEST</button>" +
+            "<button class=\"secondary-button\" type=\"button\" onclick=\"deletePublishedTest('" + encodeURIComponent(test.id) + "')\">DELETE TEST</button></div></div>";
+    }).join("") : "<p class=\"activity\">No teacher-created tests published yet.</p>");
 }
 
-function editPublishedTest(testId){
+function deletePublishedTest(encodedTestId){
+    let testId = decodeURIComponent(encodedTestId);
+    let publishedTests = getPublishedTests();
+    let test = publishedTests.find(function(item){return item.id === testId;});
+    if(!test){return;}
+    if(!window.confirm("Delete \"" + test.title + "\"? Students will no longer be able to access it.")){return;}
+    savePublishedTests(publishedTests.filter(function(item){return item.id !== testId;}));
+    let state = getActivationState();
+    delete state[testId];
+    setActivationState(state);
+    if(editingTestId === testId){
+        editingTestId = "";
+        document.getElementById("draftTest").innerHTML = "";
+    }
+    renderTestManagement();
+    renderPublishedTests();
+    renderAdminDashboard();
+}
+
+function editPublishedTest(encodedTestId){
+    let testId = decodeURIComponent(encodedTestId);
     let test = getPublishedTests().find(function(item){return item.id === testId;});
     if(!test){return;}
     editingTestId = testId;
@@ -2622,7 +3142,7 @@ function renderTeacherReports(){
                     "</span><strong>" + score + "%</strong></div><div class=\"report-progress\"><span style=\"width:" + score + "%\"></span></div>";
             }).join("");
 
-            return "<div class=\"student-folder\"><div class=\"student-folder-header\"><div class=\"student-label\"><span class=\"folder-icon\">📁</span><span>" + escapeHTML(username) + "</span></div><span class=\"toggle-indicator\">▾</span></div><div class=\"student-folder-content\"><div class=\"student-report\"><h3>" + escapeHTML(username) + "</h3>" +
+            return "<div class=\"student-folder collapsed\"><div class=\"student-folder-header\"><div class=\"student-label\"><span class=\"folder-icon\">📁</span><span>" + escapeHTML(username) + "</span></div><span class=\"toggle-indicator\">▸</span></div><div class=\"student-folder-content\"><div class=\"student-report\"><h3>" + escapeHTML(username) + "</h3>" +
                 "<select class=\"strand-select\" onchange=\"changeStudentStrand('" + encodeURIComponent(username) + "',this.value)\"><option value=\"\">Select strand</option>" +
                 strandOrder.slice(0,6).map(function(option){return "<option value=\"" + option + "\" " + (account.strand === option ? "selected" : "") + ">" + option + "</option>";}).join("") +
                 "</select><div class=\"report-line\"><span>Tests completed</span><strong>" +
@@ -2632,9 +3152,9 @@ function renderTeacherReports(){
                 "</p></div></div></div>";
         }).join("");
 
-        return "<section class=\"strand-group\"><div class=\"strand-heading\"><div class=\"strand-label\"><span class=\"folder-icon\">📁</span><h3>" + strand +
+        return "<section class=\"strand-group collapsed\"><div class=\"strand-heading\"><div class=\"strand-label\"><span class=\"folder-icon\">📁</span><h3>" + strand +
             "</h3></div><span>" + strandUsers.length + (strandUsers.length === 1 ? " student" : " students") +
-            "</span><span class=\"toggle-indicator\">▾</span></div><div class=\"student-folder-stack\">" + studentCards + "</div></section>";
+            "</span><span class=\"toggle-indicator\">▸</span></div><div class=\"student-folder-stack\">" + studentCards + "</div></section>";
     }).join("");
 
     reports.innerHTML = grouped;
@@ -2713,7 +3233,129 @@ function backToLogin(){
     window.scrollTo({top:0,behavior:"smooth"});
 }
 
+function getLocalDateKey(date){
+    return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2,"0") + "-" + String(date.getDate()).padStart(2,"0");
+}
+
+function getDailyChallengeForDate(date){
+    let dayNumber = Math.floor(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()) / 86400000);
+    let index = ((dayNumber % dailyChallengeSets.length) + dailyChallengeSets.length) % dailyChallengeSets.length;
+    return dailyChallengeSets[index];
+}
+
+function renderDailyChallengeForToday(){
+    let dateKey = getLocalDateKey(new Date());
+    renderedDailyChallengeDate = dateKey;
+    currentDailyChallenge = getDailyChallengeForDate(new Date());
+    document.getElementById("dailyChallengeTopic").innerText = currentDailyChallenge.title;
+    let accounts = getAccounts();
+    let completion = currentUser && accounts[currentUser] ? accounts[currentUser].dailyChallenge : null;
+    if(completion && completion.date === dateKey){
+        document.getElementById("dailyChallengeStart").hidden = true;
+        dailyChallengeScore = Number(completion.score) || 0;
+        showDailyChallengeResult(false);
+        return;
+    }
+
+    dailyChallengeIndex = 0;
+    dailyChallengeScore = 0;
+    dailyChallengeSelectedAnswer = null;
+    document.getElementById("dailyChallengeStart").hidden = false;
+    document.getElementById("dailyChallengeStart").innerText = "START CHALLENGE";
+    document.getElementById("dailyChallengeContent").innerHTML = "";
+}
+
+window.setInterval(function(){
+    let isStudentHome = currentRole === "student" && document.getElementById("studentHomePage").classList.contains("active");
+    if(isStudentHome && renderedDailyChallengeDate !== getLocalDateKey(new Date())){
+        renderDailyChallengeForToday();
+    }
+},60000);
+
+function startDailyChallenge(){
+    let accounts = getAccounts();
+    let completion = currentUser && accounts[currentUser] ? accounts[currentUser].dailyChallenge : null;
+    if(completion && completion.date === getLocalDateKey(new Date())){
+        renderDailyChallengeForToday();
+        return;
+    }
+    currentDailyChallenge = getDailyChallengeForDate(new Date());
+    dailyChallengeIndex = 0;
+    dailyChallengeScore = 0;
+    dailyChallengeSelectedAnswer = null;
+    document.getElementById("dailyChallengeStart").hidden = true;
+    renderDailyChallengeQuestion();
+}
+
+function renderDailyChallengeQuestion(){
+    let question = currentDailyChallenge.questions[dailyChallengeIndex];
+    let container = document.getElementById("dailyChallengeContent");
+    let feedback = "";
+    if(dailyChallengeSelectedAnswer !== null){
+        let isCorrect = dailyChallengeSelectedAnswer === question.answer;
+        feedback = "<p class=\"daily-challenge-feedback " + (isCorrect ? "correct" : "incorrect") + "\" role=\"status\"><strong>" +
+            (isCorrect ? "Correct!" : "Not quite.") + "</strong> " + escapeHTML(question.explanation) + "</p>" +
+            "<button type=\"button\" onclick=\"advanceDailyChallenge()\">" +
+            (dailyChallengeIndex === currentDailyChallenge.questions.length - 1 ? "SEE MY RESULT" : "NEXT QUESTION") + "</button>";
+    }
+
+    container.innerHTML = "<div class=\"daily-challenge-question\"><p class=\"eyebrow\">Question " + (dailyChallengeIndex + 1) + " of " + currentDailyChallenge.questions.length +
+        "</p><h3>" + escapeHTML(question.question) + "</h3><div class=\"daily-challenge-choices\" role=\"group\" aria-label=\"Answer choices\">" +
+        question.choices.map(function(choice,index){
+            return "<button type=\"button\" " + (dailyChallengeSelectedAnswer !== null ? "disabled" : "") +
+                " onclick=\"answerDailyChallenge(" + index + ")\">" + escapeHTML(choice) + "</button>";
+        }).join("") + "</div>" + feedback + "</div>";
+}
+
+function answerDailyChallenge(answerIndex){
+    if(dailyChallengeSelectedAnswer !== null){return;}
+    let question = currentDailyChallenge.questions[dailyChallengeIndex];
+    if(!question || !Number.isInteger(answerIndex) || answerIndex < 0 || answerIndex >= question.choices.length){return;}
+    dailyChallengeSelectedAnswer = answerIndex;
+    if(answerIndex === question.answer){dailyChallengeScore += 1;}
+    renderDailyChallengeQuestion();
+}
+
+function advanceDailyChallenge(){
+    if(dailyChallengeSelectedAnswer === null){return;}
+    if(dailyChallengeIndex === currentDailyChallenge.questions.length - 1){
+        showDailyChallengeResult();
+        return;
+    }
+    dailyChallengeIndex += 1;
+    dailyChallengeSelectedAnswer = null;
+    renderDailyChallengeQuestion();
+}
+
+function showDailyChallengeResult(saveCompletion){
+    let earnedToday = getLocalDateKey(new Date());
+    if(saveCompletion !== false && currentUser){
+        let accounts = getAccounts();
+        let account = accounts[currentUser];
+        if(account){
+            account.dailyChallenge = {
+                date:earnedToday,
+                topic:currentDailyChallenge.title,
+                score:dailyChallengeScore
+            };
+            awardStudentBadge(account,"daily-learner",earnedToday);
+            saveAccounts(accounts);
+            renderStudentBadges(account);
+        }
+    }
+    document.getElementById("dailyChallengeContent").innerHTML =
+        "<div class=\"daily-challenge-result\" role=\"status\"><h3>Challenge complete!</h3><p>You got " +
+        dailyChallengeScore + " out of " + currentDailyChallenge.questions.length + ". A new challenge will be available tomorrow.</p>" +
+        "<span class=\"daily-challenge-badge\">DAILY LEARNER</span></div>";
+    document.getElementById("dailyChallengeStart").hidden = true;
+}
+
 function loadProgress(account){
+    if(synchronizeTestBadges(account)){
+        let accounts = getAccounts();
+        accounts[currentUser] = account;
+        saveAccounts(accounts);
+    }
     document.getElementById("completedCount").innerText = account.completed || 0;
     document.getElementById("activity").innerHTML = account.activity ||
         "No tests completed yet. Choose a subject to get started.";
@@ -2724,6 +3366,74 @@ function loadProgress(account){
     });
 
     renderPublishedTests();
+    renderStudentBadges(account);
+}
+
+function renderStudentBadges(account){
+    let container = document.getElementById("studentBadges");
+    if(!container){return;}
+    let badges = account && Array.isArray(account.badges) ? account.badges : [];
+    if(!badges.length){
+        container.innerHTML = "<p class=\"badges-empty\">Complete a test or daily challenge to earn your first badge.</p>";
+        return;
+    }
+    let badgeDetails = {
+        "first-test":{title:"First Steps",icon:"✓",description:"Completed your first test."},
+        "subject-explorer":{title:"Curious Learner",icon:"⌕",description:"Completed three different assessments."},
+        "score-improvement":{title:"Improving Star",icon:"↗",description:"Improved your score on a test or subject."},
+        "daily-learner":{title:"Daily Learner",icon:"★",description:"Completed a daily challenge."}
+    };
+    container.innerHTML = badges.map(function(badge){
+        let details = badgeDetails[badge.id];
+        if(!details){return "";}
+        let earnedLabel = badge.earnedAt
+            ? "Earned " + new Date(badge.earnedAt + "T00:00:00").toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})
+            : details.description;
+        return "<div class=\"earned-badge\"><span class=\"earned-badge-icon\" aria-hidden=\"true\">" + details.icon +
+            "</span><span><strong>" + details.title + "</strong><small>" + details.description + " " + earnedLabel + "</small></span></div>";
+    }).join("") || "<p class=\"badges-empty\">Complete a test or daily challenge to earn your first badge.</p>";
+}
+
+function awardStudentBadge(account,badgeId,earnedAt){
+    account.badges = Array.isArray(account.badges) ? account.badges : [];
+    if(account.badges.some(function(badge){return badge.id === badgeId;})){return false;}
+    account.badges.push({id:badgeId,earnedAt:earnedAt || getLocalDateKey(new Date())});
+    return true;
+}
+
+function getAttemptAssessmentKey(attempt){
+    return String(attempt.subjectId || attempt.subject || "");
+}
+
+function synchronizeTestBadges(account){
+    let attempts = Array.isArray(account.attempts) ? account.attempts : [];
+    let changed = false;
+    if(Number(account.completed) > 0 || attempts.length > 0){
+        changed = awardStudentBadge(account,"first-test") || changed;
+    }
+
+    let assessmentKeys = [];
+    attempts.forEach(function(attempt){
+        let key = getAttemptAssessmentKey(attempt);
+        if(key && assessmentKeys.indexOf(key) === -1){assessmentKeys.push(key);}
+    });
+    if(assessmentKeys.length >= 3){
+        changed = awardStudentBadge(account,"subject-explorer") || changed;
+    }
+
+    let previousScores = {};
+    attempts.forEach(function(attempt){
+        let key = getAttemptAssessmentKey(attempt);
+        let score = Number(attempt.score);
+        let total = Number(attempt.total);
+        if(!key || !Number.isFinite(score) || !Number.isFinite(total) || total <= 0){return;}
+        let percent = score / total;
+        if(previousScores[key] !== undefined && percent > previousScores[key]){
+            changed = awardStudentBadge(account,"score-improvement") || changed;
+        }
+        previousScores[key] = percent;
+    });
+    return changed;
 }
 
 function createAccount(){
@@ -2795,7 +3505,7 @@ function startTest(subject){
     let publishedTest = getPublishedTests().find(function(test){return test.id === subject;});
 
     if(publishedTest && state[subject] !== true){
-        showError("This test is currently closed by the administrator.");
+        showError("This test is currently closed.");
         return;
     }
 
@@ -2989,11 +3699,13 @@ function submitTest(){
         score + " / " + currentTest.length + ".";
 
     let accounts = getAccounts();
+    accounts[currentUser].progress = accounts[currentUser].progress || {};
     accounts[currentUser].completed = Number(document.getElementById("completedCount").innerText);
     accounts[currentUser].activity = document.getElementById("activity").innerHTML;
     accounts[currentUser].progress[currentSubject] = percent;
     accounts[currentUser].attempts = accounts[currentUser].attempts || [];
     accounts[currentUser].attempts.push({
+        subjectId:currentSubject,
         subject:currentTestTitle,
         date:new Date().toLocaleString(),
         score:score,
@@ -3006,7 +3718,9 @@ function submitTest(){
             };
         })
     });
+    synchronizeTestBadges(accounts[currentUser]);
     saveAccounts(accounts);
+    renderStudentBadges(accounts[currentUser]);
 
 }
 
